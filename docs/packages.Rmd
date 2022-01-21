@@ -1,0 +1,86 @@
+---
+title: "Course packages"
+author: "Jeffrey R. Stevens"
+date: "`r Sys.Date()`"
+urlcolor: blue
+output:
+  pdf_document: 
+    includes:
+      in_header: columns.tex
+
+---
+
+:::::: {.cols data-latex=""}
+
+::: {.col data-latex="{0.55\textwidth}"}
+
+## Getting started
+* [{devtools}](https://devtools.r-lib.org)
+* [{here}](https://here.r-lib.org/)
+* [{tidyverse}](https://www.tidyverse.org/)
+
+## Coding
+* [{lintr}](https://github.com/jimhester/lintr)
+* [{palmerpenguins}](https://allisonhorst.github.io/palmerpenguins/)
+* [{styler}](https://styler.r-lib.org/)
+
+## Version control
+* [{gitcreds}](https://r-lib.github.io/gitcreds/)
+
+## Literate programming
+* [{knitr}](https://yihui.org/knitr/)
+* [{papaja}](https://github.com/crsh/papaja)
+* [{rmarkdown}](https://rmarkdown.rstudio.com/docs/)
+* [{tinytex}](https://yihui.org/tinytex/)
+
+:::
+
+::: {.col data-latex="{0.05\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.4\textwidth}"}
+
+## Importing and exporting data
+* [{dataReporter}](https://github.com/ekstroem/dataReporter)
+* [{qualtRics}](https://docs.ropensci.org/qualtRics/)
+* [{readxl}](https://readxl.tidyverse.org/)
+
+## Data wrangling
+* [{nycflights13}](https://github.com/tidyverse/nycflights13)
+
+## Dates
+* [{lubridate}](https://lubridate.tidyverse.org/)
+
+## Plotting data
+* [{cowplot}](https://wilkelab.org/cowplot/)
+* [{ggthemes}](https://github.com/jrnold/ggthemes)
+* [{patchwork}](https://patchwork.data-imaginist.com/)
+
+## Tables
+* [{gt}](https://gt.rstudio.com/)
+
+:::
+::::::
+
+# Installing packages
+
+If you are using Windows, install [RTools](https://cran.r-project.org/bin/windows/Rtools/) before proceeding.
+
+Then copy and paste the following line to install all (hopefully!) packages needed in the course. **Warning: it may take a while for these to install, so don't start this if you need access to your R session (or open another R session to do this).**
+
+
+```{r packages, tidy=TRUE, tidy.opts=list(width.cutoff=80), eval = FALSE}
+install.packages(c("tidyverse", "devtools", "here", "lintr", "palmerpenguins", "styler", "gitcreds", "tinytex", "knitr", "rmarkdown", "dataReporter", "qualtRics", "readxl", "nycflights13", "lubridate", "cowplot", "ggthemes", "patchwork", "gt"))
+```
+
+If you experience errors installing any, try installing them individually.
+
+
+Installing {papaja} requires (1) already having {tinytex} installed and (2) using `install_github()`:
+
+```{r papaja, eval = FALSE}
+devtools::install_github("crsh/papaja")
+```
