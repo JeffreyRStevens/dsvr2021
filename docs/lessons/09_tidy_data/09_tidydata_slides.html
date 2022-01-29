@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Tidy data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Tidy data
+## Data science and visualization in R
+### Jeff Stevens
+### 2022-01-29
+
+---
+
+
+
+
+# Review
+
+.pull-left[
+### Selecting, moving, and renaming columns
+* `select()` and helpers
+* `relocate()`
+* `rename()`
+
+### Changing and creating columns
+* `mutate()`
+* `across()`
+]
+
+.pull-right[
+### Filtering and sorting rows
+* `filter()`
+* `arrange()`
+
+### Summarizing data
+* `summarise()`
+* `group_by()`
+]
+
+---
+# Today
+
+### Pivoting data between long and wide
+
+### Separating, uniting, and coalescing data
+
+### Dealing with incomplete data sets
+
+---
+
+# Tidying data with {tidyr} and {dplyr}
+
+
+```r
+library(tidyr)
+library(dplyr)
+```
+
+&lt;img src="../images/tidyr_spread_gather_allisonhorst.png", width = 45%, style = "position:absolute; top: 18%; left: 55%"&gt;&lt;/img&gt;
+
+&lt;img src="../images/tidyr_hex.png", width = 10%, style = "position:absolute; top:2%; left: 85%"&gt;&lt;/img&gt;
+
+&lt;img src="../images/tidy_data.png", width = 35%, style = "position:absolute; top: 40%; left: 15%"&gt;&lt;/img&gt;
+
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 97%; left: 78%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+
+---
+
+# What is tidy data?
+
+
+1. Each variable has its own column
+
+1. Each observation has its own row
+
+1. Each value has its own cell
+
+&lt;img src="../images/tidy_data2.png", width = 80%, style = "position:absolute; top: 50%; left: 10%"&gt;&lt;/img&gt;
+
+---
+
+# Tidy data
+
+#### Every variable is a column, every observation is a row, and every value is a cell
+
+.pull-left[
+
+```r
+library(tidyr)
+table1
+```
+
+```
+## # A tibble: 6 × 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+]
+
+--
+
+.pull-right[
+
+```r
+table2
+```
+
+```
+## # A tibble: 12 × 4
+##    country      year type            count
+##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;           &lt;int&gt;
+##  1 Afghanistan  1999 cases             745
+##  2 Afghanistan  1999 population   19987071
+##  3 Afghanistan  2000 cases            2666
+##  4 Afghanistan  2000 population   20595360
+##  5 Brazil       1999 cases           37737
+##  6 Brazil       1999 population  172006362
+##  7 Brazil       2000 cases           80488
+##  8 Brazil       2000 population  174504898
+##  9 China        1999 cases          212258
+## 10 China        1999 population 1272915272
+## 11 China        2000 cases          213766
+## 12 China        2000 population 1280428583
+```
+]
+
+---
+
+# Tidy data
+
+#### Every variable is a column, every observation is a row, and every value is a cell
+
+
+```r
+table3
+```
+
+```
+## # A tibble: 6 × 3
+##   country      year rate             
+## * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583
+```
+
+---
+
+# Tidy data
+
+#### Every variable is a column, every observation is a row, and every value is a cell
+
+.pull-left[
+
+```r
+table4a
+```
+
+```
+## # A tibble: 3 × 3
+##   country     `1999` `2000`
+## * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
+## 1 Afghanistan    745   2666
+## 2 Brazil       37737  80488
+## 3 China       212258 213766
+```
+]
+
+.pull-right[
+
+```r
+table4b
+```
+
+```
+## # A tibble: 3 × 3
+##   country         `1999`     `2000`
+## * &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan   19987071   20595360
+## 2 Brazil       172006362  174504898
+## 3 China       1272915272 1280428583
+```
+]
+
+---
+
+# Tidy data
+
+* Think about tidy from a model perspective
+
+* Tidyverse assumes tidy data
+
+* Easier to analyze and plot tidy data
+
+
+---
+
+# Tidy data
+
+* But sometimes easier to store non-tidy data
+
+.pull-left[
+
+
+```r
+hai_data1
+```
+
+```
+## # A tibble: 10 × 4
+##       id   age pre_post nback
+##    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+##  1     1    20 Pre       0.37
+##  2     1    20 Post     -0.28
+##  3     2    21 Pre       0.61
+##  4     2    21 Post     -1.64
+##  5     3    18 Pre      -0.01
+##  6     3    18 Post     -0.38
+##  7     4    19 Pre       0.62
+##  8     4    19 Post     -0.74
+##  9     5    20 Pre       0.8 
+## 10     5    20 Post      1.22
+```
+]
+
+--
+
+.pull-right[
+
+
+```r
+hai_data2
+```
+
+```
+## # A tibble: 10 × 6
+##       id   age pre_post nback panas  span
+##    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1   100    20 Pre      -1.82  2.64     7
+##  2   100    20 Post      0.32  1.82     7
+##  3   101    19 Pre      -0.06  3.59     7
+##  4   101    19 Post      1.67  3.41     6
+##  5   102    21 Pre       0.61  2.82     7
+##  6   102    21 Post     -1.15  2.57     5
+##  7   103    17 Pre      -0.26  2.96     5
+##  8   103    17 Post      0.02  3.75     2
+##  9   104    17 Pre      -1.11  3.11     7
+## 10   104    17 Post     -0.63  2.54     7
+```
+]
+
+---
+
+# Tidy data
+
+.pull-left[
+
+
+```r
+hai_data_combined
+```
+
+```
+## # A tibble: 20 × 6
+##       id   age pre_post nback panas  span
+##    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     1    20 Pre       0.37 NA       NA
+##  2     1    20 Post     -0.28 NA       NA
+##  3     2    21 Pre       0.61 NA       NA
+##  4     2    21 Post     -1.64 NA       NA
+##  5     3    18 Pre      -0.01 NA       NA
+##  6     3    18 Post     -0.38 NA       NA
+##  7     4    19 Pre       0.62 NA       NA
+##  8     4    19 Post     -0.74 NA       NA
+##  9     5    20 Pre       0.8  NA       NA
+## 10     5    20 Post      1.22 NA       NA
+## 11   100    20 Pre      -1.82  2.64     7
+## 12   100    20 Post      0.32  1.82     7
+## 13   101    19 Pre      -0.06  3.59     7
+## 14   101    19 Post      1.67  3.41     6
+## 15   102    21 Pre       0.61  2.82     7
+## 16   102    21 Post     -1.15  2.57     5
+## 17   103    17 Pre      -0.26  2.96     5
+## 18   103    17 Post      0.02  3.75     2
+## 19   104    17 Pre      -1.11  3.11     7
+## 20   104    17 Post     -0.63  2.54     7
+```
+]
+
+--
+
+.pull-right[
+
+
+```r
+head(hai_data_combined_long, 20)
+```
+
+```
+## # A tibble: 20 × 5
+##       id   age pre_post measure response
+##    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;
+##  1     1    20 Pre      nback       0.37
+##  2     1    20 Post     nback      -0.28
+##  3     2    21 Pre      nback       0.61
+##  4     2    21 Post     nback      -1.64
+##  5     3    18 Pre      nback      -0.01
+##  6     3    18 Post     nback      -0.38
+##  7     4    19 Pre      nback       0.62
+##  8     4    19 Post     nback      -0.74
+##  9     5    20 Pre      nback       0.8 
+## 10     5    20 Post     nback       1.22
+## 11   100    20 Pre      nback      -1.82
+## 12   100    20 Pre      panas       2.64
+## 13   100    20 Pre      span        7   
+## 14   100    20 Post     nback       0.32
+## 15   100    20 Post     panas       1.82
+## 16   100    20 Post     span        7   
+## 17   101    19 Pre      nback      -0.06
+## 18   101    19 Pre      panas       3.59
+## 19   101    19 Pre      span        7   
+## 20   101    19 Post     nback       1.67
+```
+]
+
+
+---
+
+# Pivoting data
+
+&lt;img src="../images/tidy_data.png", width = 50%, style = "position:absolute; top: 25%; left: 25%"&gt;&lt;/img&gt;
+
+---
+
+# Pivoting data
+
+&lt;img src="../images/tidyr-spread-gather.gif", width = 50%, style = "position:absolute; top: 15%; left: 25%"&gt;&lt;/img&gt;
+
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 97%; left: 78%"&gt;Source: &lt;a href = "https://github.com/gadenbuie/tidyexplain"&gt;Garrick Aden-Buie&lt;/a&gt;&lt;/figcaption&gt;
+
+---
+
+# Pivot longer
+
+.pull-left[
+
+```r
+table4a
+```
+
+```
+## # A tibble: 3 × 3
+##   country     `1999` `2000`
+## * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
+## 1 Afghanistan    745   2666
+## 2 Brazil       37737  80488
+## 3 China       212258 213766
+```
+]
+
+.pull-right[
+#### Why is `table4a` not tidy?
+]
+
+--
+
+&lt;img src="../images/tidyr_pivot_longer.png", width = 70%, style = "position:absolute; top: 55%; left: 15%"&gt;&lt;/img&gt;
+
+---
+
+# Pivot longer
+
+#### Use `pivot_longer()`
+
+
+```r
+pivot_longer(table4a, cols = c(`1999`, `2000`), names_to = "year", values_to = "cases")
+```
+
+```
+## # A tibble: 6 × 3
+##   country     year   cases
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
+## 1 Afghanistan 1999     745
+## 2 Afghanistan 2000    2666
+## 3 Brazil      1999   37737
+## 4 Brazil      2000   80488
+## 5 China       1999  212258
+## 6 China       2000  213766
+```
+
+&lt;img src="../images/tidyr_pivot_longer.png", width = 50%, style = "position:absolute; top: 0%; left: 45%"&gt;&lt;/img&gt;
+
+
+---
+
+# Pivot wider
+
+.pull-left[
+
+```r
+table2
+```
+
+```
+## # A tibble: 12 × 4
+##    country      year type            count
+##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;           &lt;int&gt;
+##  1 Afghanistan  1999 cases             745
+##  2 Afghanistan  1999 population   19987071
+##  3 Afghanistan  2000 cases            2666
+##  4 Afghanistan  2000 population   20595360
+##  5 Brazil       1999 cases           37737
+##  6 Brazil       1999 population  172006362
+##  7 Brazil       2000 cases           80488
+##  8 Brazil       2000 population  174504898
+##  9 China        1999 cases          212258
+## 10 China        1999 population 1272915272
+## 11 China        2000 cases          213766
+## 12 China        2000 population 1280428583
+```
+]
+
+.pull-right[
+#### Why is `table2` not tidy?
+
+]
+
+--
+
+&lt;img src="../images/tidyr_pivot_wider.png", width = 50%, style = "position:absolute; top: 40%; left: 48%"&gt;&lt;/img&gt;
+
+---
+
+# Pivot wider
+
+#### Use `pivot_wider()`
+
+
+```r
+pivot_wider(table2, names_from = type, values_from = count)
+```
+
+```
+## # A tibble: 6 × 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+&lt;img src="../images/tidyr_pivot_wider.png", width = 50%, style = "position:absolute; top: 45%; left: 45%"&gt;&lt;/img&gt;
+
+
+---
+
+# Separating data
+
+.pull-left[
+
+```r
+table3
+```
+
+```
+## # A tibble: 6 × 3
+##   country      year rate             
+## * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583
+```
+]
+
+.pull-right[
+#### Why is `table3` not tidy?
+]
+
+--
+
+&lt;img src="../images/tidyr_separate.png", width = 50%, style = "position:absolute; top: 45%; left: 45%"&gt;&lt;/img&gt;
+
+---
+
+# Separating data
+
+
+```r
+separate(table3, rate, into = c("cases", "population"))
+```
+
+```
+## # A tibble: 6 × 4
+##   country      year cases  population
+##   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+## 1 Afghanistan  1999 745    19987071  
+## 2 Afghanistan  2000 2666   20595360  
+## 3 Brazil       1999 37737  172006362 
+## 4 Brazil       2000 80488  174504898 
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+--
+
+
+```r
+separate(table3, rate, into = c("cases", "population"), convert = TRUE)
+```
+
+```
+## # A tibble: 6 × 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+---
+
+# Separating data
+
+
+```r
+separate(table3, year, into = c("century", "year"), sep = 2)
+```
+
+```
+## # A tibble: 6 × 4
+##   country     century year  rate             
+##   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            
+## 1 Afghanistan 19      99    745/19987071     
+## 2 Afghanistan 20      00    2666/20595360    
+## 3 Brazil      19      99    37737/172006362  
+## 4 Brazil      20      00    80488/174504898  
+## 5 China       19      99    212258/1272915272
+## 6 China       20      00    213766/1280428583
+```
+
+---
+
+# Uniting data
+
+.pull-left[
+
+```r
+table5
+```
+
+```
+## # A tibble: 6 × 4
+##   country     century year  rate             
+## * &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            
+## 1 Afghanistan 19      99    745/19987071     
+## 2 Afghanistan 20      00    2666/20595360    
+## 3 Brazil      19      99    37737/172006362  
+## 4 Brazil      20      00    80488/174504898  
+## 5 China       19      99    212258/1272915272
+## 6 China       20      00    213766/1280428583
+```
+]
+
+.pull-right[
+#### Why is `table5` not tidy?
+]
+
+--
+
+&lt;img src="../images/tidyr_unite.png", width = 60%, style = "position:absolute; top: 55%; left: 35%"&gt;&lt;/img&gt;
+
+---
+
+# Uniting data
+
+
+```r
+unite(table5, new, century, year)
+```
+
+```
+## # A tibble: 6 × 3
+##   country     new   rate             
+##   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;            
+## 1 Afghanistan 19_99 745/19987071     
+## 2 Afghanistan 20_00 2666/20595360    
+## 3 Brazil      19_99 37737/172006362  
+## 4 Brazil      20_00 80488/174504898  
+## 5 China       19_99 212258/1272915272
+## 6 China       20_00 213766/1280428583
+```
+
+--
+
+
+```r
+unite(table5, new, century, year, sep = "")
+```
+
+```
+## # A tibble: 6 × 3
+##   country     new   rate             
+##   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;            
+## 1 Afghanistan 1999  745/19987071     
+## 2 Afghanistan 2000  2666/20595360    
+## 3 Brazil      1999  37737/172006362  
+## 4 Brazil      2000  80488/174504898  
+## 5 China       1999  212258/1272915272
+## 6 China       2000  213766/1280428583
+```
+
+---
+
+# Coalescing data
+
+
+
+```r
+coal_data
+```
+
+```
+## # A tibble: 4 × 3
+##     a_1   a_2   a_3
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1    NA    NA
+## 2    NA     4    NA
+## 3    NA    NA     7
+## 4    NA    NA    NA
+```
+
+--
+
+
+```r
+coal_data %&gt;% 
+  mutate(a_all = coalesce(!!! select(., contains("a_"))))
+```
+
+```
+## # A tibble: 4 × 4
+##     a_1   a_2   a_3 a_all
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1    NA    NA     1
+## 2    NA     4    NA     4
+## 3    NA    NA     7     7
+## 4    NA    NA    NA    NA
+```
+
+---
+
+# Incomplete data sets
+
+## Missing data
+
+
+
+.pull-left[
+
+```r
+stocks
+```
+
+```
+## # A tibble: 7 × 3
+##    year   qtr return
+##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1  2015     1   1.88
+## 2  2015     2   0.59
+## 3  2015     3   0.35
+## 4  2015     4  NA   
+## 5  2016     2   0.92
+## 6  2016     3   0.17
+## 7  2016     4   2.66
+```
+
+* Explicitly missing (Q4 2015 is NA)
+* Implicitly missing (Q1 2016 absent)
+]
+
+--
+
+.pull-right[
+
+```r
+stocks %&gt;% 
+  complete(year, qtr)
+```
+
+```
+## # A tibble: 8 × 3
+##    year   qtr return
+##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1  2015     1   1.88
+## 2  2015     2   0.59
+## 3  2015     3   0.35
+## 4  2015     4  NA   
+## 5  2016     1  NA   
+## 6  2016     2   0.92
+## 7  2016     3   0.17
+## 8  2016     4   2.66
+```
+]
+
+#### Important for factorial designs and for data validation
+
+---
+
+# Incomplete data sets
+
+## Combinations of factors
+
+
+
+.pull-left[
+
+```r
+fruits
+```
+
+```
+## # A tibble: 6 × 4
+##   type    year size  weights
+##   &lt;chr&gt;  &lt;dbl&gt; &lt;fct&gt;   &lt;dbl&gt;
+## 1 apple   2010 XS       1.96
+## 2 orange  2010 S        5.03
+## 3 apple   2012 M        6.16
+## 4 orange  2010 S        2.94
+## 5 orange  2010 S        2.76
+## 6 orange  2012 M        4.90
+```
+]
+
+--
+
+.pull-right[
+
+```r
+fruits %&gt;% expand(type, size)
+```
+
+```
+## # A tibble: 8 × 2
+##   type   size 
+##   &lt;chr&gt;  &lt;fct&gt;
+## 1 apple  XS   
+## 2 apple  S    
+## 3 apple  M    
+## 4 apple  L    
+## 5 orange XS   
+## 6 orange S    
+## 7 orange M    
+## 8 orange L
+```
+]
+
+---
+
+# Incomplete data sets
+
+## Combinations of factors
+
+.pull-left[
+
+```r
+fruits %&gt;% expand(type, size, year)
+```
+
+```
+## # A tibble: 16 × 3
+##    type   size   year
+##    &lt;chr&gt;  &lt;fct&gt; &lt;dbl&gt;
+##  1 apple  XS     2010
+##  2 apple  XS     2012
+##  3 apple  S      2010
+##  4 apple  S      2012
+##  5 apple  M      2010
+##  6 apple  M      2012
+##  7 apple  L      2010
+##  8 apple  L      2012
+##  9 orange XS     2010
+## 10 orange XS     2012
+## 11 orange S      2010
+## 12 orange S      2012
+## 13 orange M      2010
+## 14 orange M      2012
+## 15 orange L      2010
+## 16 orange L      2012
+```
+]
+
+--
+
+.pull-right[
+
+```r
+fruits %&gt;% expand(nesting(type, size))
+```
+
+```
+## # A tibble: 4 × 2
+##   type   size 
+##   &lt;chr&gt;  &lt;fct&gt;
+## 1 apple  XS   
+## 2 apple  M    
+## 3 orange S    
+## 4 orange M
+```
+]
+
+---
+
+# Incomplete data sets
+
+## Filling data
+
+
+
+.pull-left[
+
+```r
+treatment
+```
+
+```
+## # A tibble: 4 × 3
+##   person           treatment response
+##   &lt;chr&gt;                &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Derrick Whitmore         1        7
+## 2 &lt;NA&gt;                     2       10
+## 3 &lt;NA&gt;                     3        9
+## 4 Katherine Burke          1        4
+```
+]
+
+--
+
+.pull-right[
+
+```r
+treatment %&gt;% 
+  fill(person)
+```
+
+```
+## # A tibble: 4 × 3
+##   person           treatment response
+##   &lt;chr&gt;                &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Derrick Whitmore         1        7
+## 2 Derrick Whitmore         2       10
+## 3 Derrick Whitmore         3        9
+## 4 Katherine Burke          1        4
+```
+]
+
+---
+
+# Summary
+
+### Pivoting data
+* `pivot_longer()`
+
+* `pivot_wider()`
+
+### Separating, uniting, and coalescing
+
+### Incomplete data sets
+* Factorial combinations
+
+* Filling in data
+
+---
+
+# Resources
+
+* [Software Carpentry Dataframe Manipulation with tidyr](https://ucsbcarpentry.github.io/2020-10-09-ReprodR-online/14-tidyr/index.html)
+
+* [PsyTeachR Reshaping Data](https://psyteachr.github.io/ug1-practical/reshaping-data.html)
+
+* [Non-tidy data](https://simplystatistics.org/2016/02/17/non-tidy-data/)
+
+
+---
+
+# Homework
+
+### Wrap-up this lesson
+
+* Complete exercises
+
+### For next class meeting
+
+* Read [R4DS Ch. 13](https://r4ds.had.co.nz/relational-data.html)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "tomorrow-night-eighties",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

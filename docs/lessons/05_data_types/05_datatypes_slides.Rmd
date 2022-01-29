@@ -1,0 +1,888 @@
+---
+title: "Data types and structures"
+subtitle: "Data science and visualization in R"
+author: "Jeff Stevens"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "dsvr.css", "xaringan-themer.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: tomorrow-night-eighties
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+```{r xaringan-extras, echo=FALSE}
+xaringanExtra::use_tile_view()
+# xaringanExtra::use_share_again()
+xaringanExtra::use_tachyons()
+xaringanExtra::use_scribble(pen_color = "#035AA6")
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE
+)
+```
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#035AA6", secondary_color = "#03A696",
+  link_color = "#03A696",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono"),
+  text_font_size = "1.35rem"
+)
+```
+
+# Notes
+
+* Probably no more pre-presentations except for Memorial Day
+
+* Visual Markdown
+
+* R code in presentations exported to `docs/inclass_demos`
+
+---
+
+# Review
+
+### Literate programming
+
+### File types (plain text vs. binary)
+
+### Markdown basics
+
+### R Markdown basics
+
+### `{papaja}`
+
+### Other documents
+
+### Presentations
+
+---
+
+# Data 
+
+```{r echo = FALSE}
+mydf <- data.frame(
+  datetime = as.Date(c("2021-04-21 11:56:12", "2021-04-21 14:57:44", "2021-04-22 03:09:56", "2021-04-22 12:39:22")),
+  session_complete = as.logical(c("TRUE", "TRUE", "TRUE", "FALSE")),
+  condition = as.factor(c("control", "control", "experimental", "experimental")),
+  mean_response = c(17.53, 24.45, 19.82, NA),
+  age = c(19, 20, 19, NA),
+  comments = c("none", "Great study", "toooo long", NA)
+  )
+knitr::kable(mydf)
+```
+
+---
+
+# Outline
+
+### Data types
+
+### Data structures
+
+
+---
+
+# Data types
+
+### Formats of individual elements
+
+* Double
+
+* Integer
+
+* Character
+
+* Logical
+
+#### Check with `typeof()` and `class()`
+
+---
+
+# Numeric data
+
+### Doubles
+
+#### Floating-point numbers with decimals (though the decimal can be 0)
+
+--
+
+.pull-left[
+```{r}
+(a <- 7.2)
+```
+]
+
+.pull-right[
+```{r}
+typeof(a)
+class(a)
+```
+]
+
+---
+
+# Numeric data
+
+### Integers
+
+#### Numbers without decimals
+
+--
+
+.pull-left[
+```{r}
+(b <- 7)
+```
+]
+
+.pull-right[
+```{r}
+typeof(b)
+class(b)
+```
+]
+
+
+---
+
+# Numeric data
+
+### Integers
+
+#### Numbers without decimals (specified with `L`)
+
+--
+
+.pull-left[
+```{r}
+(c <- 7L)
+```
+]
+
+.pull-right[
+```{r}
+typeof(c)
+class(c)
+```
+]
+
+---
+
+# Character data
+
+#### Must be surrounded by `""`
+
+--
+
+.pull-left[
+```{r}
+(d <- "Hello, world")
+(e <- "7")
+```
+]
+
+.pull-right[
+```{r}
+typeof(e)
+class(e)
+```
+]
+
+--
+
+#### Type `b`, `c`, and `e` into the console separately. What do you see?
+
+---
+
+# Logical
+
+#### Logical operators: `>`, `>=`, `<`, `<=`, `==`, `!=`, `%in%` and results in `TRUE` or `FALSE`
+
+--
+
+.pull-left[
+```{r}
+a
+(mytest <- a > 5)
+d
+(mytest2 <- d == "Good-bye, world")
+```
+]
+
+.pull-right[
+```{r}
+typeof(mytest2)
+class(mytest2)
+```
+]
+
+---
+
+# Factors
+
+#### Augmented integers with 'levels'
+
+.pull-left[
+```{r}
+(i <- factor("ab", levels = c("ab", "cd")))
+```
+]
+
+.pull-right[
+```{r}
+typeof(i)
+class(i)
+```
+]
+
+---
+
+# Dates and times
+
+#### Augmented numerics based on number of days/seconds since 1970-01-01
+
+.pull-left[
+```{r}
+(j <- as.Date("1970-01-01"))
+typeof(j)
+class(j)
+```
+]
+
+--
+.pull-right[
+```{r}
+(k <- as.Date("2021-05-26"))
+k-j
+```
+]
+
+---
+
+# Converting between data types (coercion)
+
+#### Use `as.<type>()` functions: `as.logical()`, `as.numeric()`, `as.character()`
+
+.pull-left[
+```{r}
+e
+typeof(e)
+(l <- as.numeric(e))
+typeof(l)
+```
+]
+
+--
+
+.pull-right[
+```{r}
+(m <- "TRUE")
+typeof(m)
+(n <- as.logical(m))
+typeof(n)
+```
+]
+
+---
+
+# Converting between data types (coercion)
+
+.pull-left[
+#### Factors to numerics is tricky
+
+```{r}
+(o <- factor(0, levels = c("1", "0")))
+as.numeric(o)
+```
+]
+
+--
+
+.pull-right[
+#### First coerce to character
+
+```{r}
+as.character(o)
+as.numeric(as.character(o))
+```
+]
+
+---
+
+# Special values
+
+#### `NA` represents missing values
+
+* Each data type has its own type of `NA`
+
+--
+
+#### `NaN` means "not a number" (undefined)
+
+* `0 / 0 = NaN`
+
+--
+
+#### `Inf` and `-Inf` represent infinity and negative infinity
+
+* `1 / 0 = Inf`
+
+* `-1 / 0 = -Inf`
+---
+
+# Data structures
+
+### Organizations of multiple elements
+
+* Vector
+
+* Matrix
+
+* List
+
+* Data frame
+
+#### Check with `str()`
+
+---
+
+# Vectors
+
+#### Actually, everything in R is a vector
+
+<img src="../images/data-structures-overview.png", width = 50%, style = "position:absolute; top: 15%; left: 49%"></img>
+
+--
+
+.pull-left[
+We'll use 'vector' to refer to 'atomic vector' (elements all of the same data type) with a single dimension
+]
+
+---
+
+# Creating vectors
+
+### Add elements
+
+.pull-left[
+```{r}
+c
+c[1]
+c[2]
+```
+]
+
+--
+
+.pull-right[
+```{r}
+c[2] <- 3
+c
+c[3] <- 8
+c
+c[2] <- NA
+c
+```
+]
+
+---
+
+# Creating vectors
+
+### Combining elements with `c()`
+
+```{r}
+(myvec1 <- c(1, 5, 3, 6))
+(myvec2 <- c(11, 14, 18, 12))
+
+```
+
+--
+
+```{r}
+c(myvec1, myvec2)
+```
+
+---
+
+# Creating vectors
+
+### Combining elements with `c()`
+
+```{r}
+(myvec3 <- c("a", "b", "c"))
+```
+
+---
+
+# Creating vectors
+
+### Combining elements with `c()`
+
+
+#### What happens if you combine `myvec2` and `myvec3`?
+
+```{r}
+myvec2
+myvec3
+```
+
+--
+
+```{r}
+c(myvec2, myvec3)
+```
+
+#### Numeric vector `myvec2` converts to character vector to combine with `myvec3`
+
+---
+
+# Creating vectors
+
+### Making sequences with `seq()`
+
+```{r}
+seq(from = 0, to = 20, by = 5)
+seq(from = 20, to = 0, by = -5)
+seq(0, 1, 0.2)
+```
+
+---
+
+# Creating vectors
+
+### Use `:` for sequences with increments of 1
+
+```{r}
+4:9
+9:4
+```
+
+--
+
+#### Make a sequence from 0 to 100 in steps of 10.
+
+---
+
+# Creating vectors
+
+### Creating repetitions with `rep()`
+
+#### Repeat single numbers
+
+```{r}
+rep(0, times = 10)
+```
+
+---
+
+# Creating vectors
+
+### Creating repetitions with `rep()`
+
+#### Repeat vectors
+
+```{r}
+rep(myvec3, times = 3)
+rep(c("d", "e", "f"), times = 3)
+```
+
+---
+
+# Creating vectors
+
+### Creating repetitions with `rep()`
+
+#### Repeat sequences
+
+```{r}
+rep(1:4, times = 3)
+```
+
+--
+
+```{r}
+rep(1:4, each = 3)
+```
+
+--
+
+#### Create a repetition of "yes" and "no" with 10 instance of each, alternating between the two.
+
+---
+
+# Working with vectors
+
+### Find vector length with `length()`
+
+```{r}
+myvec3
+length(myvec3)
+```
+
+--
+
+#### How long is the combined vector of `myvec1` and `myvec2`?
+
+---
+
+# Working with vectors
+
+### Checking `typeof()` and `str()`
+
+.pull-left[
+```{r}
+myvec2
+typeof(myvec2)
+str(myvec2)
+```
+]
+
+--
+
+.pull-right[
+```{r}
+myvec3
+typeof(myvec3)
+str(myvec3)
+```
+]
+
+---
+
+# Working with vectors
+
+### Index with `[]`
+
+```{r}
+myvec2
+myvec2[2:4]
+myvec2[c(1, 2, 4)]
+myvec2[c(4, 1, 3)]
+```
+
+---
+
+# Matrices
+
+#### Two dimensional, rectangular vectors
+
+```{r echo = FALSE}
+matrix(rnorm(20, mean = 0, sd = 1), nrow = 4)
+```
+(in this case, 4 rows and 5 columns)
+
+---
+
+# Creating matrices
+
+```{r}
+(mymat1 <- matrix(1:20, nrow = 4))
+```
+
+--
+
+```{r}
+(mymat2 <- matrix(letters[1:12], nrow = 2, byrow = TRUE, dimnames = list(c("Low", "High"), NULL)))
+```
+
+---
+
+# Working with matrices
+
+### Find matrix dimensions with `dim()`
+
+```{r}
+mymat1
+dim(mymat1)
+```
+
+---
+
+# Working with matrices
+
+### View type and structure
+
+```{r}
+typeof(mymat2)
+str(mymat1)
+str(mymat2)
+```
+
+---
+
+# Working with matrices
+
+### Index with `[row, column]`
+
+.pull-left[
+```{r}
+mymat1
+mymat1[2, 4]
+mymat1[1:3, 2]
+```
+]
+
+--
+
+.pull-right[
+```{r}
+mymat1[1, 3:5]
+mymat1[, 3]
+mymat1[4, ]
+```
+]
+
+---
+
+# Lists
+
+#### Recursive vectors (vectors of vectors) potentially with different data types
+
+```{r}
+(mylist <- list(a = 1:4, b = c(4, 3, 8, 5), c = LETTERS[10:15], d = c("yes", "yes")))
+```
+
+---
+
+# Working with lists
+
+```{r}
+typeof(mylist)
+typeof(mylist$b)
+str(mylist)
+```
+
+--
+
+#### Why is `mylist$a` an integer and `mylist$b` a double?
+
+---
+
+# Data frames
+
+#### List of named vectors of the same length (rectangular)
+
+```{r echo = FALSE}
+mydf
+```
+
+--
+
+```{r}
+typeof(mydf)
+str(mydf)
+```
+
+---
+
+# Creating data frames
+
+```{r}
+(mydf1 <- data.frame(1:3, 8:6))
+```
+
+--
+
+```{r}
+names(mydf1) <- c("subject", "response")
+mydf1
+```
+
+
+---
+
+# Creating data frames
+
+.pull-left[
+```{r}
+(mydf1 <- data.frame(1:3, 8:6))
+```
+
+```{r}
+names(mydf1) <- c("subject", "response")
+mydf1
+```
+]
+
+.pull-right[
+```{r}
+var1 <- c(1:6)
+var2 <- c(6:1)
+var3 <- c(21:26)
+mydf2 <- data.frame(var1, var2, resp = var3)
+mydf2
+```
+]
+
+---
+
+# Working with data frames
+
+### Index with `[row, column]`
+
+.pull-left[
+```{r}
+mydf1
+mydf1[2, 2] 
+mydf1[2, 2] <- 6
+mydf1[2, 2] 
+
+```
+]
+
+--
+
+.pull-right[
+```{r}
+mydf1[2, ] 
+mydf1[, 2] 
+mydf1[2:3, 2]
+```
+]
+
+---
+
+# Working with data frames
+
+### But you should extract columns by name with `$`
+
+```{r}
+mydf1$response 
+mydf1$response[2] 
+mydf1$response[2:3] 
+```
+
+--
+
+#### Why should you use column names rather than number?
+
+---
+
+# Working with data frames
+
+### View first rows with `head()`
+
+```{r}
+head(mtcars)
+```
+
+---
+
+# Working with data frames
+
+### Or use .package[{dplyr}]'s `glimpse()`
+
+```{r}
+dplyr::glimpse(mtcars)
+```
+
+---
+
+# Working with data frames
+
+### View last rows with `tail()`
+
+```{r}
+tail(mtcars, n = 3)
+```
+
+---
+
+# Working with data frames
+
+### View and change column names
+
+```{r}
+names(mydf2)
+names(mydf2) <- c("subject", "order", "response")
+```
+
+---
+
+# Working with data frames
+
+### View dimensions
+
+```{r}
+dim(mtcars)
+nrow(mtcars)
+ncol(mtcars)
+```
+
+---
+
+# Tibbles
+
+#### Data frames generated by .package[{tidyverse}] functions
+
+.pull-left[
+```{r}
+mydf2
+```
+]
+
+.pull-right[
+```{r}
+(mytibble <- tibble::tibble(mydf2))
+```
+]
+
+---
+
+# Summary
+
+.pull-left[
+## Data types
+* Characters
+
+* Integers (numeric)
+
+* Doubles (numeric)
+
+* Logicals
+
+* Factors (augmented)
+
+* Dates (augmented)
+]
+
+--
+
+.pull-right[
+## Data structures
+* Vectors (atomic vectors)
+
+* Matrices (2D atomic vectors)
+
+* Lists (recursive vectors)
+
+* Data frames (rectangular lists)
+
+* Tibbles (special data frames)
+]
+
+---
+
+# Resources
+
+* [Software Carpentry Data Types and Structures](https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/)
+
+* [Tibbles](https://r4ds.had.co.nz/tibbles.html)
+
+---
+
+# Homework
+
+### Wrap-up this lesson
+
+* Complete exercises
+
+### For next class meeting
+
+* Read [R4DS Ch. 11](https://r4ds.had.co.nz/data-import.html)

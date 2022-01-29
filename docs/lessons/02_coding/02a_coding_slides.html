@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Coding in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Coding in R
+## Data science and visualization in R
+### Jeff Stevens
+### 2022-01-29
+
+---
+
+
+
+
+# Outline
+
+## Terminology
+## Running commands
+## Assigning values
+## Coding style
+## Naming things
+
+
+---
+background-image: url("../images/coding_wordcloud.png")
+background-size: contain
+
+
+
+---
+
+# Terminology
+
+## R session
+
+&lt;img src="../images/r_console.png", width = 75%, style = "position:absolute; top: 20%; left: 22%"&gt;&lt;/img&gt;
+
+
+---
+
+# Terminology
+
+## Functions
+
+#### Take input, process it, and create output
+
+
+```r
+read_csv("mypath/myfile.csv")
+```
+
+
+```r
+filter(mydata, mycolumn == "Sophomore")
+```
+
+
+```r
+plot(x, y)
+```
+
+
+```r
+write_csv(mydata, "mypath/myfile.csv")
+```
+
+
+---
+
+# Terminology
+
+## Arguments
+
+#### Specifications for information needed by functions
+
+
+```r
+read_csv(file = "mypath/myfile.csv")
+```
+
+
+```r
+filter(.data = mydata, mycolumn == "Sophomore")
+```
+
+
+```r
+plot(x = x, y = y)
+```
+
+
+```r
+write_csv(x = mydata, file = "mypath/myfile.csv")
+```
+
+
+
+---
+
+# Terminology
+
+## Objects
+
+#### Variables created to store information
+
+
+```r
+mydata &lt;- read_csv(file = "mypath/myfile.csv")
+```
+
+
+```r
+trimmed_data &lt;- filter(.data = mydata, mycolumn == "Sophomore")
+```
+
+
+```r
+myplot &lt;- plot(x = x, y = y)
+```
+
+
+
+---
+
+# Running commands
+
+## Console
+
+&lt;img src="../images/r_console.png", width = 75%, style = "position:absolute; top: 20%; left: 22%"&gt;&lt;/img&gt;
+
+
+
+---
+
+# Running commands
+
+## Console
+
+### Error: stops a function from completing
+
+&lt;img src="../images/error.png", width = 75%, style = "position:absolute; top: 50%; left: 12%"&gt;&lt;/img&gt;
+
+---
+
+# Running commands
+
+## Console
+
+### Warning: does not stop a function from completing
+
+&lt;img src="../images/warning.png", width = 75%, style = "position:absolute; top: 50%; left: 12%"&gt;&lt;/img&gt;
+
+---
+
+# Running commands
+
+## Scripts
+
+&lt;img src="../images/r_script.png", width = 75%, style = "position:absolute; top: 30%; left: 18%"&gt;&lt;/img&gt;
+
+
+
+---
+
+# Running commands
+
+## Scripts
+
+### Line-by-line or selected chunks
+
+.keybutton[`Ctrl/Cmd`]+.keybutton[`Enter`]
+
+
+
+--
+
+### All code above cursor
+
+.keybutton[`Ctrl/Cmd`]+.keybutton[`Alt/Opt`]+.keybutton[`B`]
+
+
+---
+
+# Running commands
+
+## Scripts
+
+### Sourcing
+
+.keybutton[`Ctrl/Cmd`]+.keybutton[`Shift`]+.keybutton[`S`]
+
+
+
+
+---
+
+# Running commands
+
+## Comments
+
+#### Comments are not executed by R
+
+
+```r
+2+2 # this is a comment--I can say stuff that isn't run. use me often!
+# this is also a comment--I can be on my own line!
+```
+
+
+
+---
+
+# Running commands
+
+## Comments
+
+#### Comments can be used to create sections in your scripts in RStudio
+
+.keybutton[`Ctrl/Cmd`]+.keybutton[`Shift`]+.keybutton[`R`]
+
+
+```r
+# This is a section ------
+
+## This is a subsection ------
+
+### This is a subsubsection ------
+```
+
+---
+
+# Assignment
+
+## Assignment operators
+
+#### Assign a value or set of values to an object
+
+
+```r
+# the best way
+x &lt;- 9
+
+# avoid this
+y = 10
+
+# definitely don't do this
+11 -&gt; z
+```
+
+---
+
+# Assignment
+
+## Multiple assignment
+
+### Simultaneous
+
+
+```r
+# chain assignments of the same value to different objects
+a &lt;- b &lt;- c &lt;- 0
+```
+
+--
+
+### Sequential
+
+```r
+# while you can do this
+a &lt;- 1; b &lt;- 2; c &lt;- 3
+
+# do this instead
+a &lt;- 1
+b &lt;- 2
+c &lt;- 3
+```
+
+---
+
+# Coding style
+
+
+
+---
+background-image: url("../images/drake_meme.jpg")
+background-size: 62%
+background-position: 71% 75%
+
+# Coding style
+
+## Spacing
+
+.drake-upper[
+
+```r
+mean(x[1,4:10],na.rm=TRUE)+0.5
+```
+]
+.drake-lower[
+
+```r
+mean(x[1, 4:10], na.rm = TRUE) + 0.5
+```
+]
+
+
+
+---
+background-image: url("../images/drake_meme.jpg")
+background-size: 62%
+background-position: 71% 75%
+
+# Coding style
+
+## Clarity
+
+.drake-upper[
+
+```r
+mean(x, na.rm = T)
+```
+]
+.drake-lower[
+
+```r
+mean(x, na.rm = TRUE)
+```
+]
+
+
+
+---
+background-image: url("../images/drake_meme.jpg")
+background-size: 62%
+background-position: 71% 75%
+
+# Coding style
+
+## Indenting
+
+.drake-upper[
+
+```r
+for(i in 1:10) {
+for(j in 1:5) {
+print(x[i, j])
+}
+}
+```
+]
+.drake-lower[
+
+```r
+for(i in 1:10) {
+  for(j in 1:5) {
+    print(x[i, j])
+  }
+}
+```
+]
+
+
+
+---
+background-image: url("../images/drake_meme.jpg")
+background-size: 62%
+background-position: 71% 75%
+
+# Coding style
+
+## Line breaks
+
+.drake-upper[
+
+```r
+if (x &gt; 5) {print("Too big!")}
+```
+]
+.drake-lower[
+
+```r
+if (x &gt; 5) {
+  print("Too big!")
+}
+```
+]
+
+
+
+---
+
+# Coding style
+
+[The tidyverse style guide](https://style.tidyverse.org/)
+
+* Use `&lt;-` as assignment operator
+
+* Use space between most operators (`*`, `=`, `==`) and after all commas
+
+* Write out `TRUE` and `FALSE`
+
+* Do not use space between function and parentheses (except for `if ()`)
+
+* Use indents to separate nested components
+
+* Use `"`, not `'`, for quoting text unless it already contains double quotes
+
+* Start new line after `%&gt;%`
+
+---
+
+# Coding style
+
+## Package help
+
+[.package[{lintr}]](https://github.com/jimhester/lintr)
+
+
+[.package[{styler}]](https://styler.r-lib.org/)
+
+---
+
+# Naming things
+
+## Core principles
+
+* Be nice to machines
+
+* Be nice to humans
+
+* Make sorting and searching easy
+
+.footnote[Sources: [Naming things: Jenny Bryan](https://speakerdeck.com/jennybc/how-to-name-files), [Project structure: Danille Navarro](https://slides.djnavarro.net/project-structure)]
+
+---
+
+# Naming objects
+
+.pull-left[
+* be descriptive (not `x`) but not too descriptive (`this_is_my_object`)
+
+* separate words (preferably using snake_case)
+
+* avoid capital letters (case matters: `abc != ABC`)
+
+* don't use existing functions (e.g., `mean`)
+
+* can't start with a number
+
+]
+
+&lt;img src="../images/coding_cases_allisonhorst.png", width = 52%, style = "position:absolute; top: 20%; left: 47%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: 0.5rem; position:absolute; top: 95%; left: 70%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+
+
+---
+
+# Naming data columns
+
+* same principles as naming objects
+
+* to clean unwieldy column names, try `clean_names()` from [.package[{janitor}]](https://github.com/sfirke/janitor)
+
+---
+
+# Naming files and folders
+
+## Be nice to machines
+
+* avoid spaces, special characters, and accented characters
+
+  * `my_file.R` not `My filé$.R`
+  
+--
+
+* avoid case sensitivity
+  * `foo.R` and `Foo.R`
+
+--
+
+* use consistent, searchable text chunks
+  * `expt1_cond2_subj114.csv`
+
+--
+
+* use snake_case or other delimiters 
+
+---
+
+# Naming files and folders
+
+## Be nice to humans
+
+* use human readable names that contain **content** (slugs)
+
+  * `prelim_analysis_expt1.R`
+
+---
+
+# Naming files and folders
+
+## Make sorting and searching easy
+
+* use ISO 8601 standard for date `YYYY-MM-DD`
+
+--
+
+* no, really---always use ISO 8601 standard for date `YYYY-MM-DD`
+
+--
+
+* use ISO 8601 dates before **slugs**
+  * `2021-04-06_prelim-analysis-expt1.Rmd`
+
+--
+
+* use padded numbers as prefixes
+  * `01_preface.Rmd`
+  * `02_introduction.Rmd`
+  * `03_methods.Rmd`
+
+---
+
+# Homework
+
+### For next class meeting
+
+* Read [R4DS](https://r4ds.had.co.nz/) Chs. 1, 4, 6, 8
+
+* Bring questions to class
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

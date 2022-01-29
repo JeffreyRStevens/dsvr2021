@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Using R Markdown</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Using R Markdown
+## Data science and visualization in R
+### Jeff Stevens
+### 2022-01-29
+
+---
+
+
+
+
+# R Markdown
+
+&lt;img src="../images/rmarkdown_wizards_allisonhorst.png", width = 70%, style = "position:absolute; top: 20%; left: 15%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 97%; left: 48%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+
+---
+
+# Review
+
+### Literate programming
+
+### File types (plain text vs. binary)
+
+### Markdown basics
+
+### R Markdown basics
+
+### LaTeX
+
+---
+
+# Outline
+
+### Review compiling docs, YAML headers, embedding R code
+
+### R Markdown templates
+
+### `{papaja}`
+
+### Other documents
+
+### Presentations
+
+---
+
+# Compiling documents
+
+#### Open temporary session, then 
+
+&lt;img src="../images/rmarkdownflow.png", width = 90%, style = "position:absolute; top: 35%; left: 5%"&gt;&lt;/img&gt;
+
+---
+
+# YAML headers
+
+---
+
+# Embedding R code
+
+## Inline R code
+
+&lt;code&gt;&amp;#96;r mean(x)&amp;#96;&lt;/code&gt;
+
+## R code chunks
+
+&lt;code&gt;&amp;#96;&amp;#96;&amp;#96;{r}&lt;br&gt;mean(x)&lt;br&gt;&amp;#96;&amp;#96;&amp;#96;&lt;/code&gt;
+
+
+---
+
+# R Markdown templates
+
+## Documents
+
+* HTML
+
+* PDF (LaTeX)
+
+* DOCX
+
+
+
+
+---
+
+# {papaja} documents
+
+---
+
+# Other documents
+
+* .package[{papaja}] revision letters
+
+* [.package[{prereg}]](https://github.com/crsh/prereg) pre-registration files
+
+* [.package[{rticles}]](https://github.com/rstudio/rticles) journal articles formatted for non-APA journals
+
+---
+
+# Presentations
+
+* HTML
+    - ioslides
+    - Slidy
+    - Xaringan
+
+* PDF (Beamer/LaTeX)
+
+* PowerPoint
+
+---
+
+# Other things
+
+## References/bibliographies
+
+* Zotero → BibTeX (preferably with Better BibTeX)
+
+* Code: `Tidyverse rocks [@Wickham.Grolemund.2017].` 
+
+* In-text citation: Tidyverse rocks (Wickham &amp; Grolemund, 2017).
+
+* References: Wickham, H., &amp; Grolemund, G. (2017). R for data science. O’Reilly Media.
+
+* CLS files format in-text citations and reference entries.
+
+---
+
+# Other things
+
+## Cross-references
+
+&lt;code&gt;&amp;#96;&amp;#96;&amp;#96;{r myfig1}&lt;br&gt;plot(x)&lt;br&gt;&amp;#96;&amp;#96;&amp;#96;&lt;/code&gt;
+
+
+
+
+* Code: `My results are available in Figure \@ref(fig:myfig1).`
+
+* Text: My results are available in Figure 1.
+
+---
+
+# Resources
+
+### R Markdown
+
+* [Website](https://rmarkdown.rstudio.com/)
+* [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+* [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)
+* [Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/rmarkdown-2.0.pdf)
+* [Reference guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
+* [R Markdown for Scientists](https://rmd4sci.njtierney.com/)
+* [Writing Reproducible Research Papers with R Markdown](https://resulumit.com/teaching/rmd_workshop.html)
+
+### .package[{papaja}]
+* [GitHub](https://github.com/crsh/papaja)
+* [Manual](http://frederikaust.com/papaja_man/)
+
+---
+
+# Homework
+
+### Wrap-up this lesson
+
+* Complete exercises
+
+* Complete module check-in
+
+### For next class meeting
+
+* Read [R4DS Ch. 20](https://r4ds.had.co.nz/vectors.html)
+
+* No presentation to watch
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "tomorrow-night-eighties",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data science and R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens (he/him)" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data science and R
+## Data science and visualization in R
+### Jeff Stevens (he/him)
+### 2022-01-29
+
+---
+
+
+
+
+
+# Data science
+
+.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
+the process of formulating a quantitative question that can be answered with data, collecting and cleaning the data, analyzing the data, and communicating the answer to the question to a relevant audience
+
+.right[
+— Jeff Leek, [Advanced Data Science](http://jtleek.com/ads2020/)
+]
+]
+
+--
+
+1. Define the question of interest
+2. Get the data
+3. Clean the data
+4. Explore the data
+5. Fit statistical models
+6. Communicate the results
+7. Make your analysis reproducible
+
+
+---
+background-image: url("../images/code_hero_allisonhorst.jpg")
+background-size: contain
+
+# Course goal
+
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 97%; left: 45%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+
+
+---
+
+# Course information
+
+* Course structure
+
+
+--
+
+* Assignments
+
+
+--
+
+&lt;img src = "../images/r-packages.png", width = 25%, style = "position:absolute; top: 15%; left: 35%"&gt;&lt;/img&gt;
+
+&lt;img src = "../images/rstats_meme2.jpg", width = 25%, style = "position:absolute; top: 0%; left: 65%; box-shadow: 1px 1px 1px 1px #00000080;"&gt;&lt;/img&gt;
+&lt;img src = "../images/rstats_meme3.jpg", width = 25%, style = "position:absolute; top: 32%; left: 65%; box-shadow: 1px 1px 1px 1px #00000080;"&gt;&lt;/img&gt;
+
+&lt;a href="https://www.data-imaginist.com/art"&gt;&lt;img src = "../images/generativeart1.png", width = 20%, style = "position:absolute; top: 45%; left: 0%; box-shadow: 1px 1px 1px 1px #00000080;"&gt;&lt;/img&gt;&lt;/a&gt;
+&lt;a href="https://www.data-imaginist.com/art"&gt;&lt;img src = "../images/generativeart2.png", width = 20%, style = "position:absolute; top: 72%; left: 0%; box-shadow: 1px 1px 1px 1px #00000080;"&gt;&lt;/img&gt;&lt;/a&gt;
+&lt;a href="https://www.data-imaginist.com/art"&gt;&lt;img src = "../images/generativeart4.jpg", width = 18%, style = "position:absolute; top: 48%; left: 21%; box-shadow: 1px 1px 1px 1px #00000080;"&gt;&lt;/img&gt;&lt;/a&gt;
+
+&lt;img src = "../images/r_pancakes.jpg", width = 35%, style = "position:absolute; top: 65%; left: 50%; box-shadow: 1px 1px 1px 1px #00000080;"&gt;&lt;/img&gt;
+
+
+
+---
+
+# Course information
+
+* Course structure
+
+* Assignments
+
+* Diversity, inclusion, wellness
+
+
+
+---
+
+# Course information
+
+* Course structure
+
+* Assignments
+
+* Diversity, inclusion, wellness
+
+* Course materials
+    - https://github.com/JeffreyRStevens/dsvr2021/
+
+
+
+---
+
+# Conventions
+
+* All `code` is in monospace font with grey box
+
+* R functions end with parentheses: `function()`
+
+* Directory names end with slash: `home/`
+
+* Package names are surrounded by curly braces: .package[{tidyverse}]
+
+* Keyboard buttons have a border and  a plus: .keybutton[`Ctrl`]+.keybutton[`S`]
+
+* These are parentheses `()`, brackets `[]`, and braces `{}`
+
+* Links are in [green text](https://github.com/jstevens5/dsvr2021)
+
+* Many images are linked to source or documentation
+
+---
+
+# Review
+
+## What is R? (history, installing, upgrading)
+
+## Packages (CRAN, installing, updating, loading)
+
+## Getting help in the console (`?` and `??`)
+
+## RStudio and tidyverse principles
+
+---
+
+# Tour of RStudio Desktop
+
+&lt;img src = "../images/interrupt_meme.png", width = 35%, style = "position:absolute; top: 25%; left: 35%"&gt;&lt;/img&gt;
+
+---
+
+# Keyboard shortcuts
+
+Here are some of my favorite things!
+
+| Function | Keyboard shortcut |
+| -------- | ----------------- |
+| Run current line/chunk of code | .keybutton[`Ctrl/Cmd`]+.keybutton[`Enter/Return`]|
+| Source entire script | .keybutton[`Ctrl/Cmd`]+.keybutton[`Shift`]+.keybutton[`S`]|
+| Run from document beginning to current line | .keybutton[`Ctrl/Cmd`]+.keybutton[`Alt/Opt`]+.keybutton[`B`]|
+| Insert assignment operator `&lt;-` | .keybutton[`Alt/Opt`]+.keybutton[`-`] |
+| Insert tidyverse pipe `%&gt;%` | .keybutton[`Ctrl/Cmd`]+.keybutton[`Shift`]+.keybutton[`M`]|
+| Insert code section | .keybutton[`Ctrl/Cmd`]+.keybutton[`Shift`]+.keybutton[`R`]|
+| Restart R session | .keybutton[`Ctrl/Cmd`]+.keybutton[`Shift`]+.keybutton[`F10`]|
+
+---
+
+# Installing packages
+
+
+[![reprex](../images/reprex_hex.png#  imgcenter)](https://reprex.tidyverse.org/)
+
+---
+
+# Getting help
+
+[Cheatsheets](https://rstudio.com/resources/cheatsheets/)
+
+---
+
+# Search
+
+
+---
+
+# Tips
+
+* Learn to use keyboard shortcuts
+
+* You can remap keyboard shortcuts (I've remapped *Insert assignment operator* to .keybutton[`Ctrl/Cmd`]+.keybutton[`Shift`]+.keybutton[`,`])
+
+* Restart R often
+
+
+---
+
+# Homework
+
+### Wrap-up this lesson
+
+* Complete the exercises on shinyapps.io
+
+--
+
+### For next class meeting
+
+* Troubleshoot any installation or login issues (contact me if needed)
+
+* Install course R packages
+
+* Read [R4DS](https://r4ds.had.co.nz/) Chs. 1, 4, 6, 8
+
+* View Coding in R presentation
+
+&lt;img src = "../images/heartyr_allisonhorst.gif", width = 25%, style = "position:absolute; top: 55%; left: 65%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 95%; left: 73%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

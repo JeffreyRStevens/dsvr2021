@@ -1,0 +1,110 @@
+---
+title: "Character strings"
+subtitle: "Data science and visualization in R"
+author: "Jeff Stevens"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "dsvr.css", "xaringan-themer.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: tomorrow-night-eighties
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+```{r xaringan-extras, echo=FALSE}
+xaringanExtra::use_tile_view()
+# xaringanExtra::use_share_again()
+xaringanExtra::use_tachyons()
+xaringanExtra::use_scribble(pen_color = "#035AA6")
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE
+)
+```
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#035AA6", secondary_color = "#03A696",
+  link_color = "#03A696",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono"),
+  text_font_size = "1.35rem"
+)
+```
+
+# Review
+
+.pull-left[
+### Adding rows and columns
+* `add_row()`
+* `bind_cols()`, `bind_rows()`
+
+### Mutating joins
+* `inner_join()`
+* `left_join()`, `right_join()`, `full_join()`
+]
+
+.pull-right[
+### Filtering joins
+* `semi_join()`, `anti_join()`
+
+### Set operations
+* `intersect()`, `union()`, `setdiff()`
+]
+
+---
+
+# Today
+
+### Working with character strings
+
+### Matching strings
+
+### Combining strings with output
+
+
+---
+
+# Strings
+
+### [.package[{stringr}]](https://stringr.tidyverse.org/) from .package[{tidyverse}]
+
+### Demo file
+
+`docs/inclass_demos/11_strings.R`
+
+<img src="../images/stringr_hex.png", width = 15%, style = "position:absolute; top: 2%; left: 80%"></img>
+
+---
+
+# Summary
+
+### Working with character strings
+
+### Matching strings
+
+### Combining strings with output
+
+---
+
+# Resources
+
+* [Handling Strings with R](https://www.gastonsanchez.com/r4strings)
+
+* [.package[{glue}]](https://glue.tidyverse.org/)
+
+* [Regular expressions cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/regex.pdf)
+
+---
+
+# Homework
+
+### Wrap-up this lesson
+
+* Complete exercises
+
+### For next class meeting
+
+* Read [R4DS Ch. 15](https://r4ds.had.co.nz/factors.html), [16](https://r4ds.had.co.nz/dates-and-times.html)

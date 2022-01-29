@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Importing and exporting data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Importing and exporting data
+## Data science and visualization in R
+### Jeff Stevens
+### 2022-01-29
+
+---
+
+
+
+
+# Notes
+
+* Check-in
+
+* Exercise
+
+* Create new column with `df$newcolumn &lt;- vector` 
+    - e.g., `df$condition &lt;- rep(c("control", "experimental"), times = 10))`
+    
+* Early evaluation: [course feedback form](https://ssp.qualtrics.com/jfe/form/SV_a5DosbUb4FsimJU)
+
+---
+
+# Review
+
+.pull-left[
+### Data types
+* Characters
+
+* Integers (numeric)
+
+* Doubles (numeric)
+
+* Logicals
+
+* Factors (augmented)
+
+* Dates (augmented)
+]
+
+.pull-right[
+### Data structures
+* Vectors (atomic vectors)
+
+* Matrices (2D atomic vectors)
+
+* Lists (recursive vectors)
+
+* Data frames (rectangular lists)
+
+* Tibbles (special data frames)
+]
+
+---
+
+# Outline
+
+### Importing data
+
+### Exporting data
+
+### Data validation
+
+### Data dictionaries
+
+---
+
+# Importing data
+
+### File types
+
+* Excel (`.xls`/`.xlsx`): Binary matrix file with formatting, formulas, multiple sheets
+
+--
+
+* Comma-separated values (`.csv`): Plain text matrix file without formatting, etc. (also TSV)
+
+--
+
+* Other program-specific files: SPSS, SAS, etc.
+
+--
+
+* Text files (`.txt`): Plain text file of raw text
+
+--
+
+* Start saving CSVs and convert other formats to CSVs
+
+---
+
+# Importing data
+
+## Controling working directories and paths
+
+### [.package[{here}]](https://here.r-lib.org/) 
+
+--
+
+* Uses project-relative paths
+
+
+
+
+```r
+library(here)
+knitr::include_graphics("docs/meetings/images/tidyverse_hex.png")
+knitr::include_graphics(here("docs/meetings/images/tidyverse_hex.png"))
+```
+
+---
+
+# CSV
+
+### Base R: `read.csv()`
+
+#### Wrapper around `read.table()`
+
+#### Defaults
+* Header row (turn off with `header = FALSE`)
+
+* Comma separated (change with `sep=";"` or use `read.csv2()`)
+
+* Outputs data frame
+
+--
+
+#### Usage: `read.csv(file = "path/to/file.csv")`
+
+
+```r
+mydf &lt;- read.csv(here("data/penguins.csv"))
+```
+
+
+---
+
+# CSV
+
+### .package[{readr}] from .package[{tidyverse}]: `read_csv()`
+
+&lt;img src="../images/readr_hex.png", width = 15%, style = "position:absolute; top: 2%; left: 80%"&gt;&lt;/img&gt;
+
+--
+
+* Control column names with `col_names` (including renaming)
+
+* Control column types with `col_types`
+
+* Control missing values with `na` and `quoted_na`
+
+* Can skip rows before reading data with `skip` or cut off with `n_max`
+
+* Outputs tibble
+
+--
+
+#### Usage: `read_csv(file = "path/to/file.csv")`
+
+
+```r
+library(readr)
+mydf2 &lt;- read_csv(here("data/penguins.csv"))
+```
+
+```
+## Rows: 344 Columns: 8
+```
+
+```
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (3): species, island, sex
+## dbl (5): bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, year
+```
+
+```
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+---
+
+# CSV
+
+## URLs
+
+You can use both `read.csv()` and `read_csv()` to import CSV files available online by using the URL as the path.
+
+
+```r
+mydf3 &lt;- read.csv("https://decisionslab.unl.edu/data/stevens_etal_2020_obed_data1.csv")
+mydf4 &lt;- read_csv("https://decisionslab.unl.edu/data/stevens_etal_2020_obed_data1.csv")
+```
+
+---
+
+# Excel data
+
+## Import Excel data with [.package[{readxl}]](https://readxl.tidyverse.org/)
+
+&lt;img src="../images/readxl_hex.png", width = 15%, style = "position:absolute; top: 2%; left: 80%"&gt;&lt;/img&gt;
+
+--
+
+* Functions: `read_xls()`, `read_xlsx()`, `read_excel()`
+
+* Specify sheets with `sheets` argument
+
+* Specify subset of cells with `range` argument
+
+* Like `read_csv()`, has `col_names`, `col_types`, `na`, `skip`, `n_max`
+
+--
+
+#### Usage: `read_excel(path = "path/to/file.csv")`
+
+
+```r
+library(readxl)
+mydf5 &lt;- read_excel(here("data/penguins.xlsx"), sheet = "Sheet2")
+```
+
+
+---
+
+# Other stats packages
+
+## Import data from SPSS, SAS, &amp; Stata with [.package[{haven}]](https://haven.tidyverse.org/)
+
+&lt;img src="../images/haven_hex.png", width = 10%, style = "position:absolute; top: 2%; left: 85%"&gt;&lt;/img&gt;
+--
+
+### SPSS
+`read_sav("mtcars.sav")`
+
+### SAS
+`read_sas("mtcars.sas7bdat")`
+
+### Stata
+`read_dta("mtcars.dta")`
+
+---
+
+# Qualtrics data
+
+## Import Qualtrics data directly with [.package[{qualtRics}]](https://docs.ropensci.org/qualtRics/)
+
+--
+
+1. Register your Qualtrics credentials with `qualtrics_api_credentials()`&lt;sup&gt;*&lt;/sup&gt;
+
+1. Get survey ID by viewing `all_surveys()`
+
+1. Import data with `fetch_survey()`
+
+1. Never have to download Qualtrics data again!
+
+.footnote[*Be cautious with using API credentials! I'm not responsible for the security of packages that I describe.]
+
+---
+
+# Qualtrics data
+
+## Import Qualtrics data directly with [.package[{qualtRics}]](https://docs.ropensci.org/qualtRics/)
+
+* Save an RDS version of data with `save_dir`
+
+* Download choice text by default or numeric values with `label = FALSE`
+
+* Force rewrite of existing file with `force_request = TRUE`
+
+* Set time zone with `time_zone = "America/Chicago"`
+
+* Turn off sublabels with `add_var_labels = FALSE`
+
+--
+
+#### Usage
+
+
+```r
+mydf6 &lt;- fetch_survey("SV_xxxxxxxxxxxxx", save_dir = "data", label = FALSE, convert = FALSE, 
+             force_request = TRUE, time_zone = "America/Chicago")
+```
+
+---
+
+# Cloud storage
+
+## Import data directly from cloud storage
+* OneDrive [.package[{Microsoft365R}]](https://github.com/Azure/Microsoft365R)&lt;sup&gt;*&lt;/sup&gt;
+
+* Google sheets [.package[{googlesheets4}]](https://googlesheets4.tidyverse.org/)&lt;sup&gt;*&lt;/sup&gt;
+
+* Box [.package[{boxr}]](https://r-box.github.io/boxr/)&lt;sup&gt;*&lt;/sup&gt;
+
+.footnote[*Be cautious with using API credentials! I'm not responsible for the security of packages that I describe.]
+
+&lt;img src="../images/googlesheets4_hex.png", width = 15%, style = "position:absolute; top: 30%; left: 80%"&gt;&lt;/img&gt;
+
+---
+
+# Exporting data
+
+### `write.csv()`
+
+* Character/factor columns in quotes with `quote = TRUE`
+
+* Remove row/column names with `row.names = FALSE` or `col.names = FALSE`
+
+--
+
+### `write_csv()`
+
+* Characters are only quoted if they contain a comma, quote, or new line
+
+--
+
+#### Usage
+
+
+```r
+write.csv(mydf, here("data/newdata.csv"))
+write_csv(mydf, here("data/newdata2.csv"))
+```
+
+---
+
+# Working with native R data
+
+* Fast to restore
+
+* Maintains R-specific information
+
+--
+
+## Data files
+
+* `.rds` binary files with single object
+
+* Read/write with `readRDS` and `saveRDS`
+
+---
+
+# Working with native R data
+
+* Fast to restore
+
+* Maintains R-specific information
+
+## Workspaces
+
+* `.Rdata` binary files contain multiple objects or entire workspace
+
+* Save objects with `save(object1, object2, file = "filename.Rdata")`
+
+* Save workspace with `save.image("filename.Rdata")`
+
+* Open with `load("filename.Rdata")`
+
+---
+
+# Data validation
+
+#### You need to check that your imported data are correct/valid/reasonable
+
+--
+
+* Dimensions
+
+* Data types
+
+* Ranges and constraints
+
+* Allowed values (code lists)
+
+* Column dependencies
+
+* Completeness/uniqueness
+
+* Missing values
+
+--
+
+#### Hadley says that if you get a bug once, write in a test for it!
+
+---
+
+# Data validation
+
+## [.package[{skimr}]](https://docs.ropensci.org/skimr/)
+
+#### View info about your data
+
+
+```r
+library(skimr)
+skim(mydf2)
+```
+
+
+Table: Data summary
+
+|                         |      |
+|:------------------------|:-----|
+|Name                     |mydf2 |
+|Number of rows           |344   |
+|Number of columns        |8     |
+|_______________________  |      |
+|Column type frequency:   |      |
+|character                |3     |
+|numeric                  |5     |
+|________________________ |      |
+|Group variables          |None  |
+
+
+**Variable type: character**
+
+|skim_variable | n_missing| complete_rate| min| max| empty| n_unique| whitespace|
+|:-------------|---------:|-------------:|---:|---:|-----:|--------:|----------:|
+|species       |         0|          1.00|   6|   9|     0|        3|          0|
+|island        |         0|          1.00|   5|   9|     0|        3|          0|
+|sex           |        11|          0.97|   4|   6|     0|        2|          0|
+
+
+**Variable type: numeric**
+
+|skim_variable     | n_missing| complete_rate|    mean|     sd|     p0|     p25|     p50|    p75|   p100|hist  |
+|:-----------------|---------:|-------------:|-------:|------:|------:|-------:|-------:|------:|------:|:-----|
+|bill_length_mm    |         2|          0.99|   43.92|   5.46|   32.1|   39.23|   44.45|   48.5|   59.6|▃▇▇▆▁ |
+|bill_depth_mm     |         2|          0.99|   17.15|   1.97|   13.1|   15.60|   17.30|   18.7|   21.5|▅▅▇▇▂ |
+|flipper_length_mm |         2|          0.99|  200.92|  14.06|  172.0|  190.00|  197.00|  213.0|  231.0|▂▇▃▅▂ |
+|body_mass_g       |         2|          0.99| 4201.75| 801.95| 2700.0| 3550.00| 4050.00| 4750.0| 6300.0|▃▇▆▃▂ |
+|year              |         0|          1.00| 2008.03|   0.82| 2007.0| 2007.00| 2008.00| 2009.0| 2009.0|▇▁▇▁▇ |
+
+
+---
+
+# Data validation
+
+## [.package[{validate}]](https://github.com/data-cleaning/validate)
+
+.pull-left[
+* Create **rules** about dimensions, data types, ranges, code lists, etc.
+
+* Confront your data with the rules
+
+* Summarize/visualize validation
+]
+
+&lt;img src="../images/validate.png", width = 40%, style = "position:absolute; top: 10%; left: 55%"&gt;&lt;/img&gt;
+
+
+---
+
+# Testing
+
+--
+
+## Assertions: tests of data embedded in functions
+
+### [.package[{assertr}]](https://cran.r-project.org/web/packages/assertr/vignettes/assertr.html)
+### [.package[{assertthat}]](https://github.com/hadley/assertthat)
+
+--
+
+## Unit testing: separate test of function functionality
+### [.package[{testthat}]](https://github.com/hadley/testthat)
+
+&lt;img src="../images/testthat_hex.png", width = 10%, style = "position:absolute; top: 65%; left: 80%"&gt;&lt;/img&gt;
+
+---
+
+# Data dictionaries
+
+--
+
+## [.package[{dataReporter}]](https://github.com/ekstroem/dataReporter)
+
+--
+
+&lt;img src="../images/codebook.png", width = 65%, style = "position:absolute; top: 31%; left: 20%"&gt;&lt;/img&gt;
+
+---
+
+# Data dictionaries
+
+## [.package[{dataReporter}]](https://github.com/ekstroem/dataReporter)
+
+&lt;img src="../images/codebook2.png", width = 65%, style = "position:absolute; top: 31%; left: 20%"&gt;&lt;/img&gt;
+
+---
+
+# Data dictionaries
+
+## [.package[{dataReporter}]](https://github.com/ekstroem/dataReporter)
+
+
+```r
+dataReporter::makeCodebook(mydf3, file = here("docs/inclass_demos/06_codebook.Rmd"))
+```
+
+---
+
+# Summary
+
+### Importing data
+
+### Exporting data
+
+### Data validation
+
+### Data dictionaries
+
+---
+
+# Resources
+
+* [The Data Validation Cookbook](https://data-cleaning.github.io/validate/)
+
+* [Data import cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+
+---
+
+# Homework
+
+### Wrap-up this lesson
+
+* Complete exercises
+
+* Complete module check-in
+
+### For next class meeting
+
+* Read [R4DS Ch. 5.1, 5.4, 5.5](https://r4ds.had.co.nz/transform.html) (note slightly out of order)
+
+* Watch cleaning columns presentation
+
+* I will be on Zoom for office hours during our scheduled class meeting on 2021-05-31. I will not present material but will answer questions/work through problems.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "tomorrow-night-eighties",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

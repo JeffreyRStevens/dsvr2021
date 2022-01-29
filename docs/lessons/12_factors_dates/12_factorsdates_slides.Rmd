@@ -1,0 +1,151 @@
+---
+title: "Factors, dates, and times"
+subtitle: "Data science and visualization in R"
+author: "Jeff Stevens"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "dsvr.css", "xaringan-themer.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: tomorrow-night-eighties
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+```{r xaringan-extras, echo=FALSE}
+xaringanExtra::use_tile_view()
+# xaringanExtra::use_share_again()
+xaringanExtra::use_tachyons()
+xaringanExtra::use_scribble(pen_color = "#035AA6")
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE
+)
+```
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#035AA6", secondary_color = "#03A696",
+  link_color = "#03A696",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono"),
+  text_font_size = "1.35rem"
+)
+```
+
+# Review
+
+### Working with character strings
+
+### Matching strings
+
+### Combining strings with output
+
+---
+
+# Today
+
+### Working with factors
+
+* Creating factors
+
+* Recoding factors
+
+* Reordering factors
+
+### Working with dates and times
+
+* Creating dates and times
+
+* Converting between dates and times
+
+* Doing math with dates and times
+
+---
+
+# Reviewing factors
+
+#### Factors are augmented integers vectors
+
+---
+
+# Working with factors
+
+### [.package[{forcats}]](https://forcats.tidyverse.org/index.html) from .package[{tidyverse}]
+
+### Demo file
+
+`docs/inclass_demos/12_factorsdates.R`
+
+<img src="../images/forcats_hex.png", width = 15%, style = "position:absolute; top: 2%; left: 80%"></img>
+
+---
+
+# Reviewing dates
+
+#### Dates are augmented numerics 
+
+#### Based on number of days/seconds since 1970-01-01
+
+#### Best to use/convert to ISO 8601 standard YYYY-MM-DD
+
+---
+
+# Working with dates and times
+
+### [.package[{lubridate}]](https://lubridate.tidyverse.org/index.html) from .package[{tidyverse}]
+
+### Demo file
+
+`docs/inclass_demos/12_factorsdates.R`
+
+<img src="../images/lubridate_hex.png", width = 15%, style = "position:absolute; top: 2%; left: 80%"></img>
+
+---
+
+# Summary
+
+### Working with factors
+
+* Creating factors
+
+* Recoding factors
+
+* Reordering factors
+
+### Working with dates and times
+
+* Creating dates and times
+
+* Converting between dates and times
+
+* Doing math with dates and times
+
+---
+
+# Resources
+
+### Factors
+
+* [Wrangling Categorial Data in R](https://peerj.com/preprints/3163/)
+
+* [.package[{forcats}] cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/factors.pdf)
+
+
+### Dates and times
+
+* [.package[{lubridate}] cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf)
+
+
+---
+
+# Homework
+
+### Wrap-up this lesson
+
+* Complete exercises
+
+### For next class meeting
+
+* Read [R4DS Ch. 15](https://r4ds.had.co.nz/factors.html), [16](https://r4ds.had.co.nz/dates-and-times.html)

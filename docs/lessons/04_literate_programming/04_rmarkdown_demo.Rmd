@@ -1,0 +1,143 @@
+---
+title: "Palmer penguin data analysis"
+author: "Jeff Stevens"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(here)
+source(here("docs/inclass_demos/04_rmarkdown.R"))
+```
+
+# Bill length means
+
+Penguins have bills. Do Adelie, Chinstrap, and Gentoo penguins have different bill sizes? Adelie penguins have bills on average `r adelie_means$bill_length_mm` mm long. Chinstraps are `r round(chinstrap_means$bill_length_mm, 2)` mm and Gentoos are `r round(gentoo_means$bill_length_mm, 2)` mm.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+# Bill length/depth correlations
+
+```{r bill_length_depth_corr}
+bill_length_depth_corr <- cor.test(mydata$bill_length_mm, mydata$bill_depth_mm)
+```
+
+Penguin bills also have depths (or heights). We wanted to know if the bill length and depth were correlated. We found that they were correlated (r = `r round(bill_length_depth_corr$estimate, 2)`, 95% CI [`r round(bill_length_depth_corr$conf.int, 2)`]).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+# Plot objects
+
+```{r warning = FALSE}
+bill_length_depth_plot
+```
+
+\newpage
+
+# Plot on the fly
+
+```{r warning = FALSE}
+ggplot(mydata, aes(x = bill_length_mm, y = flipper_length_mm)) +
+  geom_point()
+```
+
+
+\newpage
+
+# Include external image files
+
+```{r out.width = "50%", fig.align='center'}
+knitr::include_graphics(here("docs/meetings/images/palmerpenguins_allisonhorst.png"))
+```
+
+
+
+\newpage
+
+# Code chunk options
+
+## echo = FALSE
+```{r echo = FALSE}
+x <- 2 + 2
+```
+
+x = `r x`
+
+
+## echo = TRUE
+```{r echo = TRUE}
+y <- 3 + 3
+```
+
+y = `r y`
+
+
+
+
+
+
+
+\newpage
+
+## warning = TRUE (default)
+```{r warning = TRUE}
+ggplot(mydata, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point()
+```
+
+## warning = FALSE
+```{r warning = FALSE}
+ggplot(mydata, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point()
+```
+
+
+
+
+
+\newpage
+
+## include = TRUE (default)
+```{r include = TRUE, warning = FALSE}
+ggplot(mydata, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point()
+```
+
+## include = FALSE
+```{r include = FALSE, warning = FALSE}
+ggplot(mydata, aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point()
+```
+
+

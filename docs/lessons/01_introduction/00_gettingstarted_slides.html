@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Getting started with R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens (he/him)" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Getting started with R
+## Data science and visualization in R
+### Jeff Stevens (he/him)
+### 2022-01-29
+
+---
+
+
+
+
+# What is R?
+
+R is a statistical programming language.
+
+--
+
+&lt;figure&gt;
+&lt;img src="../images/r_first_then_allisonhorst.png", width = 45%, style = "position:absolute; top: 2%; left: 45%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 92%; left: 65%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+---
+
+# What is R?
+
+R is a statistical programming language.
+
+&lt;figure&gt;
+&lt;img src="../images/r_rollercoaster_allisonhorst.png", width = 70%, style = "position:absolute; top: 28%; left: 18%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 95%; left: 50%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+---
+
+# What is R?
+
+
+R is a statistical programming language.
+
+It allows you to  flexibly
+
+* wrangle
+
+&lt;img src="../images/data_cowboy_allisonhorst.png", width = 45%, style = "position:absolute; top: 2%; left: 45%"&gt;&lt;/img&gt;
+
+
+* analyze
+
+* visualize your data.
+
+&lt;figure&gt;
+&lt;img src="../images/data_visualization.png", width = 45%, style = "position:absolute; top: 50%; left: 45%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 95%; left: 63%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+---
+
+# What is R?
+
+
+It can even integrate into your documents and presentations to provide a reproducible way to communicate your findings to others.
+
+
+&lt;figure&gt;
+&lt;img src="../images/rmarkdown_wizards_allisonhorst.png", width = 55%, style = "position:absolute; top: 32%; left: 20%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 95%; left: 45%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+---
+
+# What is R?
+
+It is built on the S programming language developed in Bell Labs that was updated to S+ and ported to the open source version called R.
+
+---
+
+# Conventions
+
+* All `code` is in monospace font with grey box
+
+* R functions end with parentheses: `function()`
+
+* Directory names end with slash: `home/`
+
+* Package names are surrounded by curly braces: .package[{tidyverse}]
+
+* Keyboard buttons have a border and a plus: .keybutton[`Ctrl`]+.keybutton[`S`]
+
+* These are parentheses `()`, brackets `[]`, and braces `{}`
+
+* Links are in [green text](https://github.com/jstevens5/dsvr2021)
+
+* When I want you to run code, I will put it on it's own line:
+
+```r
+2+2
+```
+
+* User-specific code will be in `&lt;&gt;`: `my_name &lt;- "&lt;your name&gt;"`
+
+---
+# Getting started
+
+## Installing R
+Download at https://r-project.org.
+
+R is command-line-driven software that works in the **terminal**. Spin up terminal to start R.
+* Windows: Press .keybutton[&amp;#8862; `Win`] then type `cmd`.
+
+* MacOS: Press .keybutton[`Cmd`]+.keybutton[`Space`] then type `terminal`.
+
+* Linux: Press .keybutton[`Control`]+.keybutton[`T`].
+
+Once the terminal opens, type `R`.
+
+---
+
+# Getting started
+
+## Upgrading R
+* Linux: use Linux package manager (installs over old version)
+
+* Windows and MacOS: go back to  https://r-project.org and install new version (installs along side old version)
+
+* For Windows, check out the [.package[{installr}]](https://talgalili.github.io/installr/) to help with installing and upgrading R and its packages
+
+* For MacOS, check out [.package[{updateR}]](https://github.com/AndreaCirilloAC/updateR)
+
+--
+
+.bg-washed-red.b--dark-red.ba.bw2.br3.shadow-5.ph4.mt5[
+**Warning:** By mentioning and/or recommending packages, I am not guaranteeing they they will work or are safe to use. Use at your own risk!]
+
+---
+
+# Packages
+
+
+Base R is the core, default software needed to run R maintained by the R Development Team&lt;sup&gt;*&lt;/sup&gt;.
+
+.footnote[*Actually, there are also some packages installed when you install base R.]
+
+--
+
+But other people can contribute packages, or collections of data and functions.
+
+--
+
+The official repository for R packages is the Comprehensive R Archive Network or [CRAN](https://cloud.r-project.org/web/packages/index.html). There are more than 17,000 packages on CRAN!
+
+--
+
+Packages can also be stored at other locations such as [GitHub](https://github.com), especially during development.
+
+---
+
+# Packages
+
+## Installing
+
+In the console type `install.packages("&lt;package_name&gt;")` where `&lt;package_name&gt;` is the name of the package.
+
+Try installing the [.package[{devtools}]](https://devtools.r-lib.org) package.
+
+```r
+install.packages("devtools")
+```
+
+You can install multiple packages simultaneously by wrapping them with `c()`. For example, 
+
+```r
+install.packages(c("remotes", "here"))
+```
+
+
+---
+
+# Packages
+
+## Updating
+
+Installing packages copies them in their state at download onto your local computer. As bugs are fixed and functions are enhanced or removed, the packages change.
+
+To update a package, type `update.package("&lt;package_name&gt;")`.
+
+
+---
+
+# Packages
+
+## Loading and unloading
+
+Installing packages just means that you have copies of them on your computer. You have to load them for R to have access to their functionality. To load packages, use the `library()` function.
+
+Load the [.package[{here}]](https://here.r-lib.org/) package, which provides functions for using projects in R.
+
+
+```r
+library("here")
+```
+Every time to close your R session, you'll have to reload the packages you were using. If you want to unload a package, use `detach()`.
+
+---
+
+# Packages
+
+## Using
+
+Once you load a package, you have access to all of its functions for that R session. But if it is not loaded, you won't have access.
+
+Try this:
+
+```r
+session_info()
+```
+
+--
+
+You should receive an error that R .errorcode[`could not find the function "session_info"`].
+
+---
+
+# Packages
+
+But you can either load the [.package[{devtools}]](https://devtools.r-lib.org) package, or use this trick to call a specific function from a specific package.
+
+```r
+devtools::session_info()
+```
+
+```
+## ─ Session info ───────────────────────────────────────────────────────────────
+##  setting  value
+##  version  R version 4.1.2 (2021-11-01)
+##  os       Ubuntu 20.04.3 LTS
+##  system   x86_64, linux-gnu
+##  ui       X11
+##  language (EN)
+##  collate  en_US.UTF-8
+##  ctype    en_US.UTF-8
+##  tz       America/Chicago
+##  date     2022-01-29
+##  pandoc   2.14.2 @ /usr/bin/ (via rmarkdown)
+## 
+## ─ Packages ───────────────────────────────────────────────────────────────────
+##  package        * version date (UTC) lib source
+##  bslib            0.3.1   2021-10-06 [3] CRAN (R 4.1.1)
+##  cachem           1.0.6   2021-08-19 [3] CRAN (R 4.1.1)
+##  callr            3.7.0   2021-04-20 [3] CRAN (R 4.0.5)
+##  cli              3.1.0   2021-10-27 [3] CRAN (R 4.1.1)
+##  crayon           1.4.2   2021-10-29 [3] CRAN (R 4.1.1)
+##  desc             1.4.0   2021-09-28 [1] CRAN (R 4.1.1)
+##  devtools         2.4.3   2021-11-30 [3] CRAN (R 4.1.2)
+##  digest           0.6.29  2021-12-01 [3] CRAN (R 4.1.2)
+##  ellipsis         0.3.2   2021-04-29 [3] CRAN (R 4.0.5)
+##  evaluate         0.14    2019-05-28 [3] CRAN (R 4.0.0)
+##  fastmap          1.1.0   2021-01-25 [3] CRAN (R 4.0.3)
+##  fs               1.5.2   2021-12-08 [3] CRAN (R 4.1.2)
+##  glue             1.6.0   2021-12-17 [3] CRAN (R 4.1.2)
+##  htmltools        0.5.2   2021-08-25 [1] CRAN (R 4.1.1)
+##  jquerylib        0.1.4   2021-04-26 [1] CRAN (R 4.0.5)
+##  jsonlite         1.7.2   2020-12-09 [3] CRAN (R 4.0.3)
+##  knitr            1.37    2021-12-16 [3] CRAN (R 4.1.2)
+##  lifecycle        1.0.1   2021-09-24 [3] CRAN (R 4.1.1)
+##  magrittr         2.0.1   2020-11-17 [3] CRAN (R 4.0.3)
+##  memoise          2.0.1   2021-11-26 [3] CRAN (R 4.1.2)
+##  pkgbuild         1.3.1   2021-12-20 [3] CRAN (R 4.1.2)
+##  pkgload          1.2.4   2021-11-30 [3] CRAN (R 4.1.2)
+##  prettyunits      1.1.1   2020-01-24 [3] CRAN (R 4.0.0)
+##  processx         3.5.2   2021-04-30 [3] CRAN (R 4.0.5)
+##  ps               1.6.0   2021-02-28 [3] CRAN (R 4.0.4)
+##  purrr            0.3.4   2020-04-17 [3] CRAN (R 4.0.0)
+##  R6               2.5.1   2021-08-19 [3] CRAN (R 4.1.1)
+##  remotes          2.4.2   2021-11-30 [3] CRAN (R 4.1.2)
+##  rlang            0.4.12  2021-10-18 [3] CRAN (R 4.1.1)
+##  rmarkdown        2.11    2021-09-14 [3] CRAN (R 4.1.1)
+##  rprojroot        2.0.2   2020-11-15 [3] CRAN (R 4.0.3)
+##  rstudioapi       0.13    2020-11-12 [3] CRAN (R 4.0.3)
+##  sass             0.4.0   2021-05-12 [3] CRAN (R 4.0.5)
+##  sessioninfo      1.2.2   2021-12-06 [3] CRAN (R 4.1.2)
+##  showtext         0.9-4   2021-08-14 [1] CRAN (R 4.1.1)
+##  showtextdb       3.0     2020-06-04 [1] CRAN (R 4.0.4)
+##  stringi          1.7.6   2021-11-29 [3] CRAN (R 4.1.2)
+##  stringr          1.4.0   2019-02-10 [3] CRAN (R 4.0.0)
+##  sysfonts         0.8.5   2021-08-09 [1] CRAN (R 4.1.1)
+##  testthat         3.1.1   2021-12-03 [3] CRAN (R 4.1.2)
+##  usethis          2.1.5   2021-12-09 [3] CRAN (R 4.1.2)
+##  whisker          0.4     2019-08-28 [3] CRAN (R 4.0.0)
+##  withr            2.4.3   2021-11-30 [3] CRAN (R 4.1.2)
+##  xaringan         0.22    2021-06-23 [3] CRAN (R 4.1.0)
+##  xaringanExtra    0.3.0   2021-03-09 [1] Github (gadenbuie/xaringanExtra@81a7b22)
+##  xaringanthemer * 0.4.1   2021-11-21 [1] CRAN (R 4.1.2)
+##  xfun             0.29    2021-12-14 [3] CRAN (R 4.1.2)
+##  yaml             2.2.1   2020-02-01 [3] CRAN (R 4.0.0)
+## 
+##  [1] /home/jstevens/R/library
+##  [2] /usr/local/lib/R/site-library
+##  [3] /usr/lib/R/site-library
+##  [4] /usr/lib/R/library
+## 
+## ──────────────────────────────────────────────────────────────────────────────
+```
+
+
+---
+
+# Getting help
+
+## Help with functions
+
+To get help with functions, use `?` and `??` to open function documentation in RStudio.
+
+* `?` is for function in loaded packages
+
+* `??` is for all installed functions (even if package is not loaded)
+
+* CRAN is for non-installed packages
+
+---
+
+# Getting help
+
+## Help documentation
+
+Standard documentation includes
+
+* Description---short description of function purpose
+
+* Usage---complete list of function arguments and default values
+
+* Arguments---description of each argument
+
+* Details---more detailed description of functionality
+
+* Value---description of output returned by function
+
+* See Also---related functions
+
+* Examples---example code of function usage
+
+
+---
+
+# Getting help
+
+## Help documentation
+
+Vignettes are short tutorials on specific topics within a function
+
+* View vignettes for all *installed* packages with `vignette()`
+
+* View vignettes for all *loaded* packages with `vignette(all = FALSE)`
+
+* View vignettes for a particular package with `vignette(package = "package_name")`
+
+* Run a vignette with `vignette("vignette_name", package = "package_name")`
+
+
+---
+
+# Getting help
+
+## Help documentation
+
+To see package information, type `?package_name`.
+
+
+```r
+?devtools
+```
+
+This includes an index of all of the functions in that package.
+
+
+---
+
+# Getting help
+
+## Online forums
+
+* [RStudio Community](https://community.rstudio.com)--RStudio-specific forum (e.g., tidyverse, devtools, shiny)
+
+* [Stack Overflow](https://stackoverflow.com)--Coding-related questions (e.g., about non-tidyverse R functionality)
+
+* [Cross Validated](https://stats.stackexchange.com/)--Statistics questions (not R-specific)
+
+## Online portals/books
+
+* [Tidyverse](https://www.tidyverse.org/)
+
+* [RStudio books](https://rstudio.com/resources/books/)
+
+
+---
+
+# Getting help
+
+## Last stop: GitHub
+
+Much of the code for R packages is stored on GitHub. So the *Issues* part of a GitHub repo is a good place to find answers to your problems.
+
+--
+
+*Issues* is where you submit bug reports and feature requests.
+
+
+---
+
+# RStudio
+
+R is just a statistics engine with a minimal interface. The best way to work with R is through RStudio, which is an Integrated Desktop Environment (IDE) for R. It includes:
+* R console
+
+* operating system terminal
+
+* text editor
+
+* file manager
+
+* plot display
+
+* package manager
+
+* documentation
+
+* version control
+
+
+---
+
+# tidyverse
+
+## Core tidyverse packages
+*  .package[{ggplot2}], for data visualisation
+
+*  .package[{dplyr}], for data manipulation
+
+*  .package[{tidyr}], for data tidying
+
+*  .package[{readr}], for data import
+
+*  .package[{purrr}], for functional programming
+
+*  .package[{tibble}], for tibbles, a modern re-imagining of data frames
+
+*  .package[{stringr}], for strings
+
+*  .package[{forcats}], for factors
+
+
+---
+
+# tidyverse
+
+## Principles of tidy tools
+
+1. Reuse existing data structures.
+
+1.  Compose simple functions with the pipe.
+
+1.  Embrace functional programming.
+
+1.  Design for humans.
+
+
+---
+background-image: url("images/hadley_wickham.jpg")
+background-size: 600px
+background-position: 65% 8%
+
+# tidyverse
+
+## Meet Hadley Wickham!
+
+
+---
+
+# RStudio values
+
+.pull-left[
+* RStudio is a [Certified B Corporation](https://bcorporation.net/directory/rstudio) 
+]
+
+.pull-right[
+[![RStudio](../images/rstudio_logo.png# medwidth)](https://rstudio.com)
+]
+
+
+---
+
+# RStudio values
+
+.pull-left[
+* RStudio is a [Certified B Corporation](https://bcorporation.net/directory/rstudio) 
+
+* RStudio develops open-source software
+]
+
+.pull-right[
+![RStudio packages](../images/r-packages.png# medwidth)
+]
+
+
+---
+
+# RStudio  values
+
+.pull-left[
+* RStudio is a [Certified B Corporation](https://bcorporation.net/directory/rstudio) 
+
+* RStudio develops open-source software
+
+* RStudio emphasizes reproducible data science
+]
+
+.pull-right[
+[![rmarkdown](../images/rmarkdown_hex.png)](https://rmarkdown.rstudio.com/)
+]
+
+
+---
+
+# RStudio values
+
+.pull-left[
+* RStudio is a [Certified B Corporation](https://bcorporation.net/directory/rstudio) 
+
+* RStudio develops open-source software
+
+* RStudio emphasizes reproducible data science
+
+* RStudio makes a commitment to the community
+
+  - education
+]
+
+.pull-right[
+[![RStudio Community](../images/rstudio_community.png)](https://community.rstudio.com/)
+]
+
+
+---
+
+# RStudio values
+
+.pull-left[
+* RStudio is a [Certified B Corporation](https://bcorporation.net/directory/rstudio) 
+
+* RStudio develops open-source software
+
+* RStudio emphasizes reproducible data science
+
+* RStudio makes a commitment to the community
+
+  - education
+  
+  - conferences
+]
+
+.pull-right[
+[![rstudio::global](../images/rstudio_global_black.png)](https://rstudio.com/resources/rstudioglobal-2021/)
+]
+
+
+---
+
+# RStudio values
+
+.pull-left[
+* RStudio is a [Certified B Corporation](https://bcorporation.net/directory/rstudio) 
+
+* RStudio develops open-source software
+
+* RStudio emphasizes reproducible data science
+
+* RStudio makes a commitment to the community
+
+  - education
+  
+  - conferences
+  
+  - inclusion
+]
+&lt;figure&gt;
+&lt;img src="../images/welcome_to_rstats_twitter_allisonhorst.png", width = 50%, style = "position:absolute; top: 12%; left: 48%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 92%; left: 72%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+
+---
+
+# Homework
+
+### Before the first class period
+
+* Install R from https://r-project.org
+
+* Install RStudio from https://rstudio.com
+
+* Create an account at RStudio Cloud: https://rstudio.cloud
+
+* Create an account at GitHub: https://github.com
+
+* Complete course introduction form
+
+* Read the syllabus
+
+* Read readings in syllabus schedule
+
+&lt;figure&gt;
+&lt;img src="../images/rainbowr_allisonhorst.gif", width = 35%, style = "position:absolute; top: 30%; left: 63%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 82%; left: 77%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

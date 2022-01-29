@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Directories and workflows</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Directories and workflows
+## Data science visualization in and R
+### Jeff Stevens
+### 2022-01-29
+
+---
+
+
+
+
+# Review
+
+### Terminology (functions, arguments, objects)
+
+### Executing commands (console, scripts, comments)
+
+### Assignment (&lt;-, assignment chaining)
+
+### Coding style (spacing, indenting)
+
+### Naming things (objects, columns, files, folders)
+
+
+
+---
+
+# Directories/folders
+
+## File system
+
+#### Structure of directories and files stored on your computer
+
+
+```
+## ~/OneDrive/active_sync/teach/psyc_971--data_science_visualization_in_r/dsvr_2021
+## ├── DESCRIPTION
+## ├── LICENSE
+## ├── NAMESPACE
+## ├── README.Rmd
+## ├── README.md
+## ├── admin
+## │   ├── github_roster.csv
+## │   ├── names.csv
+## │   ├── names_test.csv
+## │   └── pending_students.csv
+## ├── data
+## │   ├── penguins.csv
+## │   └── penguins.xlsx
+## ├── docs
+## │   ├── checkins
+## │   │   ├── answers1.Rmd
+## │   │   ├── answers1.pdf
+## │   │   ├── answers2.Rmd
+## │   │   ├── answers2.log
+## │   │   ├── answers2.pdf
+## │   │   ├── answers3.Rmd
+## │   │   ├── answers3.pdf
+## │   │   ├── answers4.Rmd
+## │   │   ├── answers4.pdf
+## │   │   ├── answers5.Rmd
+## │   │   ├── answers5.pdf
+## │   │   ├── checkin1.Rmd
+## │   │   ├── checkin1.pdf
+## │   │   ├── checkin2.Rmd
+## │   │   ├── checkin2.pdf
+## │   │   ├── checkin3.Rmd
+## │   │   ├── checkin3.pdf
+## │   │   ├── checkin4.Rmd
+## │   │   ├── checkin4.pdf
+## │   │   ├── checkin5.Rmd
+## │   │   └── checkin5.pdf
+## │   ├── functions.Rmd
+## │   ├── functions.pdf
+## │   ├── inclass_demos
+## │   │   ├── 02_coding.R
+## │   │   ├── 02a_coding.R
+## │   │   ├── 04_rmarkdown.R
+## │   │   ├── 04_rmarkdown.Rmd
+## │   │   ├── 04_rmarkdown.pdf
+## │   │   ├── 04_visualeditor.Rmd
+## │   │   ├── 04a_rmarkdown.R
+## │   │   ├── 05_datatypes.R
+## │   │   ├── 06_codebook.Rmd
+## │   │   ├── 06_codebook.pdf
+## │   │   ├── 06_import.R
+## │   │   ├── 07.8_datawrangling.R
+## │   │   ├── 07.8_datawrangling_answers.R
+## │   │   ├── 07_cleancolumns.R
+## │   │   ├── 08_wranglerows.R
+## │   │   ├── 09_tidydata.R
+## │   │   ├── 09_tidydata_answers.R
+## │   │   ├── 09_tidydata_presentation.R
+## │   │   ├── 10_merging.R
+## │   │   ├── 10_merging_answers.R
+## │   │   ├── 11_strings.R
+## │   │   ├── 11_strings_answers.R
+## │   │   ├── 12_factorsdates.R
+## │   │   ├── 12_factorsdates_answers.R
+## │   │   ├── 12_factorsdates_presentation.R
+## │   │   ├── 13_functions.R
+## │   │   ├── 13_functions_answers.R
+## │   │   ├── 13_functions_presentation.R
+## │   │   ├── 14_grammargraphics.R
+## │   │   ├── 14_grammargraphics_answers.R
+## │   │   ├── 14_grammargraphics_presentation.R
+## │   │   ├── 17_distributions.R
+## │   │   ├── 17_distributions_answers.R
+## │   │   ├── 18_amountsproportions.R
+## │   │   ├── 18_amountsproportions_answers.R
+## │   │   ├── 19_xydata.R
+## │   │   ├── 19_xydata_answers.R
+## │   │   ├── 20_finessingplots.R
+## │   │   ├── 20_finessingplots_answers.R
+## │   │   ├── 21_adorningplots.R
+## │   │   ├── 21_adorningplots_answers.R
+## │   │   ├── 22_extensions.R
+## │   │   ├── 22_themes.R
+## │   │   ├── 23_tables.Rmd
+## │   │   ├── 23_tables.pdf
+## │   │   ├── 23_tables.tex
+## │   │   ├── 24_statistics.R
+## │   │   └── r-references.bib
+## │   ├── meetings
+## │   │   ├── 00_gettingstarted.Rmd
+## │   │   ├── 00_gettingstarted.html
+## │   │   ├── 00_gettingstarted_files
+## │   │   │   └── figure-html
+## │   │   │       └── cars-1.svg
+## │   │   ├── 01_introduction.Rmd
+## │   │   ├── 01_introduction.html
+## │   │   ├── 01_introduction_files
+## │   │   │   └── figure-html
+## │   │   │       ├── cars-1.svg
+## │   │   │       ├── unnamed-chunk-2-1.png
+## │   │   │       └── unnamed-chunk-3-1.png
+## │   │   ├── 02a_coding.Rmd
+## │   │   ├── 02a_coding.html
+## │   │   ├── 02b_workflows.Rmd
+## │   │   ├── 02b_workflows.html
+## │   │   ├── 03a_versioncontrol.Rmd
+## │   │   ├── 03a_versioncontrol.html
+## │   │   ├── 03b_versioncontrol.Rmd
+## │   │   ├── 03b_versioncontrol.html
+## │   │   ├── 04a_rmarkdown.Rmd
+## │   │   ├── 04a_rmarkdown.html
+## │   │   ├── 04a_rmarkdown_files
+## │   │   │   └── figure-html
+## │   │   │       └── unnamed-chunk-1-1.png
+## │   │   ├── 04b_rmarkdown.Rmd
+## │   │   ├── 04b_rmarkdown.html
+## │   │   ├── 04b_rmarkdown_files
+## │   │   │   └── figure-html
+## │   │   │       └── myfig1-1.png
+## │   │   ├── 05_datatypes.Rmd
+## │   │   ├── 05_datatypes.html
+## │   │   ├── 06_import.Rmd
+## │   │   ├── 06_import.html
+## │   │   ├── 07_cleancolumns.Rmd
+## │   │   ├── 07_cleancolumns.html
+## │   │   ├── 08_wranglerows.Rmd
+## │   │   ├── 08_wranglerows.html
+## │   │   ├── 09_tidydata.Rmd
+## │   │   ├── 09_tidydata.html
+## │   │   ├── 10_merging.Rmd
+## │   │   ├── 10_merging.html
+## │   │   ├── 11_strings.Rmd
+## │   │   ├── 11_strings.html
+## │   │   ├── 12_factorsdates.Rmd
+## │   │   ├── 12_factorsdates.html
+## │   │   ├── dsvr.css
+## │   │   ├── images
+## │   │   │   ├── binary1s0s.jpg
+## │   │   │   ├── cantfindfile.png
+## │   │   │   ├── code_hero_allisonhorst.jpg
+## │   │   │   ├── codebook.png
+## │   │   │   ├── codebook2.png
+## │   │   │   ├── coding_cases_allisonhorst.png
+## │   │   │   ├── coding_wordcloud.png
+## │   │   │   ├── continuous_discrete_allisonhorst.png
+## │   │   │   ├── data-structures-overview.png
+## │   │   │   ├── data_cowboy_allisonhorst.png
+## │   │   │   ├── data_visualization.png
+## │   │   │   ├── debugging_allisonhorst.jpg
+## │   │   │   ├── devtools_hex.png
+## │   │   │   ├── directory.png
+## │   │   │   ├── directory_structure.png
+## │   │   │   ├── dog_coding.jpg
+## │   │   │   ├── dplyr_across_allisonhorst.png
+## │   │   │   ├── dplyr_arrange.png
+## │   │   │   ├── dplyr_arrange.svg
+## │   │   │   ├── dplyr_case_when_allisonhorst.png
+## │   │   │   ├── dplyr_df.svg
+## │   │   │   ├── dplyr_filter.png
+## │   │   │   ├── dplyr_filter.svg
+## │   │   │   ├── dplyr_filter_allisonhorst.jpg
+## │   │   │   ├── dplyr_hex.png
+## │   │   │   ├── dplyr_mutate.png
+## │   │   │   ├── dplyr_mutate.svg
+## │   │   │   ├── dplyr_mutate_allisonhorst.png
+## │   │   │   ├── dplyr_relocate.png
+## │   │   │   ├── dplyr_relocate.svg
+## │   │   │   ├── dplyr_relocate_allisonhorst.png
+## │   │   │   ├── dplyr_rename.png
+## │   │   │   ├── dplyr_rename.svg
+## │   │   │   ├── dplyr_select.png
+## │   │   │   ├── dplyr_select.svg
+## │   │   │   ├── dplyr_select_move.png
+## │   │   │   ├── dplyr_select_move.svg
+## │   │   │   ├── dplyr_summarise.png
+## │   │   │   ├── dplyr_summarise.svg
+## │   │   │   ├── dplyr_summary.png
+## │   │   │   ├── dplyr_wrangling_allisonhorst.png
+## │   │   │   ├── drake_meme.jpg
+## │   │   │   ├── error.png
+## │   │   │   ├── final_docs.gif
+## │   │   │   ├── forcats_hex.png
+## │   │   │   ├── generativeart1.png
+## │   │   │   ├── generativeart2.png
+## │   │   │   ├── generativeart3.jpg
+## │   │   │   ├── generativeart4.jpg
+## │   │   │   ├── ggplot2_exploratory_allisonhorst.png
+## │   │   │   ├── ggplot2_hex.png
+## │   │   │   ├── ggplot2_masterpiece_allisonhorst.png
+## │   │   │   ├── git_branch_merge.png
+## │   │   │   ├── git_branches.png
+## │   │   │   ├── git_commands.jpg
+## │   │   │   ├── git_commit_xkcd.png
+## │   │   │   ├── git_disaster_xkcd.png
+## │   │   │   ├── git_logo.png
+## │   │   │   ├── git_out.png
+## │   │   │   ├── git_overview.png
+## │   │   │   ├── git_pull_push_stories_freepik.png
+## │   │   │   ├── git_pull_push_stories_freepik.svg
+## │   │   │   ├── git_pull_stories_freepik.png
+## │   │   │   ├── git_pull_stories_freepik.svg
+## │   │   │   ├── git_push_stories_freepik.png
+## │   │   │   ├── git_push_stories_freepik.svg
+## │   │   │   ├── git_status.png
+## │   │   │   ├── github_desktop.png
+## │   │   │   ├── github_logo.png
+## │   │   │   ├── github_new_repo.png
+## │   │   │   ├── gitignore.png
+## │   │   │   ├── googlesheets4_hex.png
+## │   │   │   ├── hadley_wickham.jpg
+## │   │   │   ├── haven_hex.png
+## │   │   │   ├── heartyr_allisonhorst.gif
+## │   │   │   ├── here_allisonhorst.png
+## │   │   │   ├── interrupt_meme.png
+## │   │   │   ├── janitor_clean_names_allisonhorst.png
+## │   │   │   ├── jesus-version-control.jpg
+## │   │   │   ├── join-anti.png
+## │   │   │   ├── join-full.png
+## │   │   │   ├── join-inner.png
+## │   │   │   ├── join-left.png
+## │   │   │   ├── join-many-to-many.png
+## │   │   │   ├── join-one-to-many.png
+## │   │   │   ├── join-outer.png
+## │   │   │   ├── join-right.png
+## │   │   │   ├── join-semi-many.png
+## │   │   │   ├── join-semi.png
+## │   │   │   ├── join-setup.png
+## │   │   │   ├── join-setup2.png
+## │   │   │   ├── join-venn.png
+## │   │   │   ├── joins_anti.gif
+## │   │   │   ├── joins_df.png
+## │   │   │   ├── joins_full.gif
+## │   │   │   ├── joins_inner.gif
+## │   │   │   ├── joins_left.gif
+## │   │   │   ├── joins_left2.gif
+## │   │   │   ├── joins_right.gif
+## │   │   │   ├── joins_semi.gif
+## │   │   │   ├── knitr_hex.png
+## │   │   │   ├── latex_logo.png
+## │   │   │   ├── lets-just-take-a-break.jpg
+## │   │   │   ├── literate_programming.jpg
+## │   │   │   ├── lubridate_allisonhorst.png
+## │   │   │   ├── lubridate_hex.png
+## │   │   │   ├── lubridate_ymd_allisonhorst.png
+## │   │   │   ├── macos_finder.png
+## │   │   │   ├── markdown.png
+## │   │   │   ├── monster_support_allisonhorst.jpg
+## │   │   │   ├── myrmarkdown.png
+## │   │   │   ├── nominal_ordinal_binary_allisonhorst.png
+## │   │   │   ├── not_normal_allisonhorst.png
+## │   │   │   ├── octocat.png
+## │   │   │   ├── palmerpenguins_allisonhorst.png
+## │   │   │   ├── parse_number_allisonhorst.png
+## │   │   │   ├── patchwork_allisonhorst.jpg
+## │   │   │   ├── plaintext_binary.gif
+## │   │   │   ├── presenting_monster_allisonhorst.png
+## │   │   │   ├── r-packages.png
+## │   │   │   ├── r_breakfast.jpg
+## │   │   │   ├── r_console.png
+## │   │   │   ├── r_first_then_allisonhorst.png
+## │   │   │   ├── r_pancakes.jpg
+## │   │   │   ├── r_rollercoaster_allisonhorst.png
+## │   │   │   ├── r_script.png
+## │   │   │   ├── rainbowr_allisonhorst.gif
+## │   │   │   ├── readr_hex.png
+## │   │   │   ├── readxl_hex.png
+## │   │   │   ├── relational-nycflights.png
+## │   │   │   ├── reprex_allisonhorst.png
+## │   │   │   ├── reprex_hex.png
+## │   │   │   ├── reproducibility_court_allisonhorst.png
+## │   │   │   ├── rmarkdown_allisonhorst.png
+## │   │   │   ├── rmarkdown_code_chunk.png
+## │   │   │   ├── rmarkdown_hex.png
+## │   │   │   ├── rmarkdown_inline_code.png
+## │   │   │   ├── rmarkdown_latex_allisonhorst.png
+## │   │   │   ├── rmarkdown_latex_allisonhorst.svg
+## │   │   │   ├── rmarkdown_rockstar_allisonhorst.png
+## │   │   │   ├── rmarkdown_wizards_allisonhorst.png
+## │   │   │   ├── rmarkdownflow.png
+## │   │   │   ├── rstats_meme.jpg
+## │   │   │   ├── rstats_meme2.jpg
+## │   │   │   ├── rstats_meme3.jpg
+## │   │   │   ├── rstudio_cloud_black.png
+## │   │   │   ├── rstudio_cloud_blue.png
+## │   │   │   ├── rstudio_community.png
+## │   │   │   ├── rstudio_file_manager.png
+## │   │   │   ├── rstudio_git.png
+## │   │   │   ├── rstudio_global.png
+## │   │   │   ├── rstudio_global_black.png
+## │   │   │   ├── rstudio_global_black.svg
+## │   │   │   ├── rstudio_logo.png
+## │   │   │   ├── setop_df.png
+## │   │   │   ├── setop_intersect.gif
+## │   │   │   ├── setop_setdiff.gif
+## │   │   │   ├── setop_setdiff2.gif
+## │   │   │   ├── setop_union.gif
+## │   │   │   ├── str_squish_allisonhorst.png
+## │   │   │   ├── stringr_hex.png
+## │   │   │   ├── summary_statistics_allisonhorst.png
+## │   │   │   ├── terminal_file_system.png
+## │   │   │   ├── testthat_hex.png
+## │   │   │   ├── tibble_hex.png
+## │   │   │   ├── tidy_data.png
+## │   │   │   ├── tidy_data2.png
+## │   │   │   ├── tidy_pivoting.png
+## │   │   │   ├── tidyr-spread-gather.gif
+## │   │   │   ├── tidyr_hex.png
+## │   │   │   ├── tidyr_pivot_longer.png
+## │   │   │   ├── tidyr_pivot_wider.png
+## │   │   │   ├── tidyr_pivotlonger.png
+## │   │   │   ├── tidyr_separate.png
+## │   │   │   ├── tidyr_spread_gather_allisonhorst.png
+## │   │   │   ├── tidyr_unite.png
+## │   │   │   ├── tidyverse_celestial_allisonhorst.png
+## │   │   │   ├── tidyverse_hex.png
+## │   │   │   ├── validate.png
+## │   │   │   ├── version_control_art.jpeg
+## │   │   │   ├── warning.png
+## │   │   │   ├── welcome_to_rstats_twitter_allisonhorst.png
+## │   │   │   ├── white_bar.png
+## │   │   │   ├── white_bar.svg
+## │   │   │   ├── windows_file_explorer.png
+## │   │   │   ├── workflow.png
+## │   │   │   └── xaringan_hex.png
+## │   │   ├── libs
+## │   │   │   ├── Proj4Leaflet
+## │   │   │   │   └── proj4leaflet.js
+## │   │   │   ├── Proj4Leaflet-1.0.1
+## │   │   │   │   └── proj4leaflet.js
+## │   │   │   ├── clipboard-2.0.6
+## │   │   │   ├── crosstalk
+## │   │   │   │   ├── css
+## │   │   │   │   │   └── crosstalk.css
+## │   │   │   │   └── js
+## │   │   │   │       ├── crosstalk.js
+## │   │   │   │       ├── crosstalk.js.map
+## │   │   │   │       ├── crosstalk.min.js
+## │   │   │   │       └── crosstalk.min.js.map
+## │   │   │   ├── crosstalk-1.1.1
+## │   │   │   │   ├── css
+## │   │   │   │   │   └── crosstalk.css
+## │   │   │   │   └── js
+## │   │   │   │       ├── crosstalk.js
+## │   │   │   │       ├── crosstalk.js.map
+## │   │   │   │       ├── crosstalk.min.js
+## │   │   │   │       └── crosstalk.min.js.map
+## │   │   │   ├── datatables-binding
+## │   │   │   │   └── datatables.js
+## │   │   │   ├── datatables-binding-0.17
+## │   │   │   │   └── datatables.js
+## │   │   │   ├── datatables-css
+## │   │   │   │   └── datatables-crosstalk.css
+## │   │   │   ├── datatables-css-0.0.0
+## │   │   │   │   └── datatables-crosstalk.css
+## │   │   │   ├── dt-core
+## │   │   │   │   ├── css
+## │   │   │   │   │   ├── jquery.dataTables.extra.css
+## │   │   │   │   │   └── jquery.dataTables.min.css
+## │   │   │   │   └── js
+## │   │   │   │       └── jquery.dataTables.min.js
+## │   │   │   ├── dt-core-1.10.20
+## │   │   │   │   ├── css
+## │   │   │   │   │   ├── jquery.dataTables.extra.css
+## │   │   │   │   │   └── jquery.dataTables.min.css
+## │   │   │   │   └── js
+## │   │   │   │       └── jquery.dataTables.min.js
+## │   │   │   ├── fabric-4.3.1
+## │   │   │   ├── header-attrs
+## │   │   │   │   └── header-attrs.js
+## │   │   │   ├── header-attrs-2.8
+## │   │   │   ├── htmlwidgets
+## │   │   │   │   └── htmlwidgets.js
+## │   │   │   ├── htmlwidgets-1.5.3
+## │   │   │   │   └── htmlwidgets.js
+## │   │   │   ├── jquery
+## │   │   │   │   ├── jquery-AUTHORS.txt
+## │   │   │   │   ├── jquery.js
+## │   │   │   │   ├── jquery.min.js
+## │   │   │   │   └── jquery.min.map
+## │   │   │   ├── jquery-3.5.1
+## │   │   │   │   ├── jquery-AUTHORS.txt
+## │   │   │   │   ├── jquery.js
+## │   │   │   │   ├── jquery.min.js
+## │   │   │   │   └── jquery.min.map
+## │   │   │   ├── leaflet
+## │   │   │   │   ├── images
+## │   │   │   │   │   ├── layers-2x.png
+## │   │   │   │   │   ├── layers.png
+## │   │   │   │   │   ├── marker-icon-2x.png
+## │   │   │   │   │   ├── marker-icon.png
+## │   │   │   │   │   └── marker-shadow.png
+## │   │   │   │   ├── leaflet.css
+## │   │   │   │   └── leaflet.js
+## │   │   │   ├── leaflet-1.3.1
+## │   │   │   │   ├── images
+## │   │   │   │   │   ├── layers-2x.png
+## │   │   │   │   │   ├── layers.png
+## │   │   │   │   │   ├── marker-icon-2x.png
+## │   │   │   │   │   ├── marker-icon.png
+## │   │   │   │   │   └── marker-shadow.png
+## │   │   │   │   ├── leaflet.css
+## │   │   │   │   └── leaflet.js
+## │   │   │   ├── leaflet-binding
+## │   │   │   │   └── leaflet.js
+## │   │   │   ├── leaflet-binding-2.0.4.1
+## │   │   │   │   └── leaflet.js
+## │   │   │   ├── leafletfix
+## │   │   │   │   └── leafletfix.css
+## │   │   │   ├── leafletfix-1.0.0
+## │   │   │   │   └── leafletfix.css
+## │   │   │   ├── proj4
+## │   │   │   │   └── proj4.min.js
+## │   │   │   ├── proj4-2.6.2
+## │   │   │   │   └── proj4.min.js
+## │   │   │   ├── remark-css
+## │   │   │   │   ├── default-fonts.css
+## │   │   │   │   └── default.css
+## │   │   │   ├── remark-css-0.0.1
+## │   │   │   │   ├── default-fonts.css
+## │   │   │   │   └── default.css
+## │   │   │   ├── rstudio_leaflet
+## │   │   │   │   ├── images
+## │   │   │   │   │   └── 1px.png
+## │   │   │   │   └── rstudio_leaflet.css
+## │   │   │   ├── rstudio_leaflet-1.3.1
+## │   │   │   │   ├── images
+## │   │   │   │   │   └── 1px.png
+## │   │   │   │   └── rstudio_leaflet.css
+## │   │   │   ├── shareon-1.4.1
+## │   │   │   │   ├── shareon.min.css
+## │   │   │   │   └── shareon.min.js
+## │   │   │   ├── tachyons
+## │   │   │   │   └── tachyons.min.css
+## │   │   │   ├── tachyons-4.12.0
+## │   │   │   │   └── tachyons.min.css
+## │   │   │   ├── tile-view-0.2.6
+## │   │   │   │   └── tile-view.js
+## │   │   │   ├── xaringanExtra-extra-styles-0.2.6
+## │   │   │   │   └── xaringanExtra-extra-styles.css
+## │   │   │   ├── xaringanExtra-scribble-0.0.1
+## │   │   │   └── xaringanExtra-shareagain-0.2.6
+## │   │   └── xaringan-themer.css
+## │   ├── packages.html
+## │   ├── packages.md
+## │   ├── project_data_plotting.md
+## │   ├── project_data_wrangling.md
+## │   ├── syllabus.Rmd
+## │   ├── syllabus.pdf
+## │   └── tips.md
+## ├── dsvr_2021.Rproj
+## ├── figures
+## │   ├── figure_adorning.png
+## │   ├── figure_amountsproportions.png
+## │   ├── figure_xydata.png
+## │   ├── figures_finessing.png
+## │   ├── patchwork1.png
+## │   ├── patchwork2.png
+## │   └── patchwork3.png
+## ├── inst
+## │   └── tutorials
+## │       ├── 01_introduction
+## │       │   ├── 01_introduction.Rmd
+## │       │   ├── 01_introduction.html
+## │       │   ├── images
+## │       │   │   └── search_help.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 01_introduction.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise01_introduction.dcf
+## │       ├── 02_coding
+## │       │   ├── 02_coding.Rmd
+## │       │   ├── 02_coding.html
+## │       │   ├── images
+## │       │   │   └── directory.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 02_coding.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise02_coding.dcf
+## │       ├── 04_rmarkdown
+## │       │   ├── 04_rmarkdown.Rmd
+## │       │   ├── 04_rmarkdown.html
+## │       │   ├── images
+## │       │   │   └── rmarkdownflow.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 04_rmarkdown.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise04_rmarkdown.dcf
+## │       ├── 05_datatypes
+## │       │   ├── 05_datatypes.Rmd
+## │       │   ├── 05_datatypes.html
+## │       │   ├── images
+## │       │   │   ├── data-structures-overview.png
+## │       │   │   └── data-structures.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 05_datatypes.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise05_datatypes.dcf
+## │       ├── 06_importing
+## │       │   ├── 06_importing.Rmd
+## │       │   ├── 06_importing.html
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 06_importing.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise06_importing.dcf
+## │       ├── 07_cleancolumns
+## │       │   ├── 07_cleancolumns.Rmd
+## │       │   ├── 07_cleancolumns.html
+## │       │   ├── names.csv
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 07_cleancolumns.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise07_cleancolumns.dcf
+## │       ├── 08_wranglerows
+## │       │   ├── 08_wranglerows.Rmd
+## │       │   ├── 08_wranglerows.html
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 08_wranglerows.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise08_wranglerows.dcf
+## │       ├── 09_tidydata
+## │       │   ├── 09_tidydata.Rmd
+## │       │   ├── 09_tidydata.html
+## │       │   ├── images
+## │       │   │   ├── tidy_data.png
+## │       │   │   ├── tidy_data2.png
+## │       │   │   └── tidy_data2_small.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 09_tidydata.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise09_tidydata.dcf
+## │       ├── 10_mergingdata
+## │       │   ├── 10_mergingdata.Rmd
+## │       │   ├── 10_mergingdata.html
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 10_mergingdata.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise10_mergingdata.dcf
+## │       ├── 11_strings
+## │       │   ├── 11_strings.Rmd
+## │       │   ├── 11_strings.html
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 11_strings.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise11_strings.dcf
+## │       ├── 12_factorsdates
+## │       │   ├── 12_factorsdates.Rmd
+## │       │   ├── 12_factorsdates.html
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 12_factorsdates.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise12_factorsdates.dcf
+## │       ├── 13_functions
+## │       │   ├── 13_functions.Rmd
+## │       │   ├── 13_functions.html
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 13_functions.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise13_functions.dcf
+## │       ├── 14_grammargraphics
+## │       │   ├── 14_grammargraphics.Rmd
+## │       │   ├── 14_grammargraphics.html
+## │       │   ├── 14_grammargraphics_files
+## │       │   │   └── figure-html
+## │       │   │       ├── color-all-1.png
+## │       │   │       ├── color-all2-1.png
+## │       │   │       ├── color-shape-species-1.png
+## │       │   │       ├── color-species-1.png
+## │       │   │       ├── color-species-smooth-1.png
+## │       │   │       ├── color-species-smooth2-1.png
+## │       │   │       ├── filter-1.png
+## │       │   │       ├── group-smooth-1.png
+## │       │   │       ├── group-smooth2-1.png
+## │       │   │       ├── point-1.png
+## │       │   │       ├── point-color-1.png
+## │       │   │       ├── point-shape-size-alpha-1.png
+## │       │   │       ├── point-smooth-1.png
+## │       │   │       ├── point2-1.png
+## │       │   │       └── smooth-point-1.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 14_grammargraphics.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise14_grammargraphics.dcf
+## │       ├── 16_color
+## │       │   ├── 16_color.Rmd
+## │       │   ├── 16_color.html
+## │       │   ├── 16_color_files
+## │       │   │   └── figure-html
+## │       │   │       ├── color-brewer-1.png
+## │       │   │       ├── color-brewer2-1.png
+## │       │   │       ├── color-diverging-1.png
+## │       │   │       ├── color-fill-1.png
+## │       │   │       ├── color-fill2-1.png
+## │       │   │       ├── color-gradient-1.png
+## │       │   │       ├── color-gradient-viridis-1.png
+## │       │   │       ├── color-gradient-viridis2-1.png
+## │       │   │       ├── color-gradient2-1.png
+## │       │   │       ├── color-manual-1.png
+## │       │   │       ├── color-manual2-1.png
+## │       │   │       ├── color-manual3-1.png
+## │       │   │       ├── cvd-safe-1.png
+## │       │   │       ├── ggplot-defaults-1.png
+## │       │   │       ├── ggplot-defaults-2.png
+## │       │   │       ├── ggplot-defaults-3.png
+## │       │   │       └── ggplot-defaults-4.png
+## │       │   ├── images
+## │       │   │   └── okabe-ito_palette.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 16_color.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise16_color.dcf
+## │       ├── 17_distributions
+## │       │   ├── 17_distributions.Rmd
+## │       │   ├── 17_distributions.html
+## │       │   ├── 17_distributions_files
+## │       │   │   └── figure-html
+## │       │   │       ├── box-width-1.png
+## │       │   │       ├── boxplot-1.png
+## │       │   │       ├── boxplot-coef-1.png
+## │       │   │       ├── boxplot-notched-1.png
+## │       │   │       ├── boxplot-outlier-1.png
+## │       │   │       ├── density-1.png
+## │       │   │       ├── density-fill-1.png
+## │       │   │       ├── density-species-1.png
+## │       │   │       ├── density-transparency-1.png
+## │       │   │       ├── hist-1.png
+## │       │   │       ├── hist-bin-1.png
+## │       │   │       ├── hist-color-1.png
+## │       │   │       ├── notch-width-1.png
+## │       │   │       ├── violin-1.png
+## │       │   │       ├── violin-color-1.png
+## │       │   │       └── violin-statsummary-1.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           ├── 15_distributions.Rmd
+## │       │           │   └── shinyapps.io
+## │       │           │       └── jeffreyrstevens
+## │       │           │           └── dsvr2021_exercise15_distributions.dcf
+## │       │           └── 17_distributions.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise17_distributions.dcf
+## │       ├── 18_amountsproportions
+## │       │   ├── 18_amountsproportions.Rmd
+## │       │   ├── 18_amountsproportions.html
+## │       │   ├── 18_amountsproportions_files
+## │       │   │   └── figure-html
+## │       │   │       ├── bar-dodge-1.png
+## │       │   │       ├── bar-dodge2-1.png
+## │       │   │       ├── bar-fill-1.png
+## │       │   │       ├── bar-stack-1.png
+## │       │   │       ├── barplot-1.png
+## │       │   │       ├── barplot565-1.png
+## │       │   │       ├── dot-reorder-1.png
+## │       │   │       ├── dotplot-1.png
+## │       │   │       ├── dotplot-cleveland-1.png
+## │       │   │       ├── dotplot-coord-flip-1.png
+## │       │   │       └── dotplot-line-1.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 18_amountsproportions.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       ├── dsvr20201_exercise18_amountsproportions.dcf
+## │       │                       └── dsvr2021_exercise18_amountsproportions.dcf
+## │       ├── 19_xydata
+## │       │   ├── 19_xydata.Rmd
+## │       │   ├── 19_xydata.html
+## │       │   ├── 19_xydata_files
+## │       │   │   └── figure-html
+## │       │   │       ├── bubble1-1.png
+## │       │   │       ├── bubble2-1.png
+## │       │   │       ├── bubble3-1.png
+## │       │   │       ├── bubble4-1.png
+## │       │   │       ├── pairs-1.png
+## │       │   │       ├── scatter-1.png
+## │       │   │       ├── scatter-line-1.png
+## │       │   │       ├── scatter-lm-1.png
+## │       │   │       ├── scatter-lm2-1.png
+## │       │   │       ├── slopegraph1-1.png
+## │       │   │       ├── slopegraph2-1.png
+## │       │   │       ├── time-line-1.png
+## │       │   │       ├── time-multiple-1.png
+## │       │   │       ├── time-multiple2-1.png
+## │       │   │       ├── time-point-1.png
+## │       │   │       ├── trend-1.png
+## │       │   │       └── trend-nose-1.png
+## │       │   ├── lincoln_weather.csv
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 19_xydata.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise19_xydata.dcf
+## │       ├── 20_finessingplots
+## │       │   ├── 20_finessingplots.Rmd
+## │       │   ├── 20_finessingplots.html
+## │       │   ├── 20_finessingplots_files
+## │       │   │   └── figure-html
+## │       │   │       ├── beeswarm-1.png
+## │       │   │       ├── beeswarm-means-1.png
+## │       │   │       ├── compound-1.png
+## │       │   │       ├── compound-2.png
+## │       │   │       ├── compound-3.png
+## │       │   │       ├── compound-4.png
+## │       │   │       ├── compound2-1.png
+## │       │   │       ├── compound3-1.png
+## │       │   │       ├── facet-grid-1.png
+## │       │   │       ├── facet-scale-free-1.png
+## │       │   │       ├── facet-wrap-1.png
+## │       │   │       ├── facet-wrap2-1.png
+## │       │   │       ├── interaction-1.png
+## │       │   │       ├── jitter-1.png
+## │       │   │       ├── jitter-width-1.png
+## │       │   │       ├── mass-flipper-1.png
+## │       │   │       ├── mass-flipper2-1.png
+## │       │   │       ├── overplotting-1.png
+## │       │   │       ├── scale-comparison-1.png
+## │       │   │       ├── scale-coord-1.png
+## │       │   │       ├── scale-limits-1.png
+## │       │   │       ├── setup-1.png
+## │       │   │       ├── setup-2.png
+## │       │   │       ├── setup-3.png
+## │       │   │       ├── species-flipper-1.png
+## │       │   │       └── year-flipper-1.png
+## │       │   ├── images
+## │       │   │   └── overlapping.png
+## │       │   └── rsconnect
+## │       │       └── documents
+## │       │           └── 20_finessingplots.Rmd
+## │       │               └── shinyapps.io
+## │       │                   └── jeffreyrstevens
+## │       │                       └── dsvr2021_exercise20_finessingplots.dcf
+## │       └── 21_adorningplots
+## │           ├── 21_adorningplots.Rmd
+## │           ├── 21_adorningplots.html
+## │           ├── 21_adorningplots_files
+## │           │   └── figure-html
+## │           │       ├── counts-1.png
+## │           │       ├── ellipse-1.png
+## │           │       ├── hvlines-1.png
+## │           │       ├── labels-1.png
+## │           │       ├── labels2-1.png
+## │           │       ├── rect-1.png
+## │           │       ├── segment-1.png
+## │           │       ├── text-1.png
+## │           │       └── text2-1.png
+## │           └── rsconnect
+## │               └── documents
+## │                   └── 21_adorningplots.Rmd
+## │                       └── shinyapps.io
+## │                           └── jeffreyrstevens
+## │                               └── dsvr2021_exercise21_adorningplots.dcf
+## └── xaringan-themer.css
+```
+
+
+---
+
+# Directories/folders
+
+## File managers
+
+* OS
+  * Windows File Explorer (N = 25)
+  * MacOS Finder (N = 21)
+  * Linux Nautilus, Dolphin, Nemo (N = 3)
+
+&lt;img src="../images/windows_file_explorer.png", width = 35%, style = "position:absolute; top: 10%; left: 60%"&gt;&lt;/img&gt;
+&lt;img src="../images/macos_finder.png", width = 50%, style = "position:absolute; top: 60%; left: 10%"&gt;&lt;/img&gt;
+&lt;img src="../images/directory.png", width = 215, style = "position:absolute; top: 52%; left: 70%"&gt;&lt;/img&gt;
+
+---
+
+# Directories/folders
+
+## File managers
+
+* RStudio
+
+&lt;img src="../images/rstudio_file_manager.png", width = 50%, style = "position:absolute; top: 35%; left: 30%"&gt;&lt;/img&gt;
+
+---
+
+# Directories/folders
+
+## Terminals
+
+&lt;img src="../images/terminal_file_system.png", width = 80%, style = "position:absolute; top: 45%; left: 10%"&gt;&lt;/img&gt;
+
+--
+
+* If not familiar with terminal, read primer for [Windows](https://www.computerhope.com/issues/chusedos.htm) or [MacOS](https://developer.apple.com/library/archive/documentation/OpenSource/Conceptual/ShellScripting/CommandLInePrimer/CommandLine.html)
+  
+
+---
+
+# Directories/folders
+
+## Paths
+
+#### Convert hierarchical/tree structure to character string
+
+&lt;img src="../images/directory.png", width = 20%, style = "position:absolute; top: 0%; left: 70%"&gt;&lt;/img&gt;
+
+--
+
+* Absolute path (starts with drive letter or `/`)
+
+  * Windows: `C:\users\jeff\Documents\projects\dog_telepathy\R`
+  
+  * Linux and MacOS: `/home/jeff/projects/dog_telepathy/R/`
+
+--
+
+* Relative path (starts with first subdirectory name)
+
+  * If in `projects/`, relative path to `R/` is `dog_telepathy/R`
+  
+  * Can go backwards (up the tree) with `..`
+
+---
+
+# Directories/folders
+
+
+## Change directories from command line with `cd`
+
+* `/home/jeff/projects/dog_telepathy/R/`
+
+* To move from `projects/` to `R/`, type `cd dog_telepathy/R`
+
+&lt;img src="../images/directory.png", width = 20%, style = "position:absolute; top: 35%; left: 75%"&gt;&lt;/img&gt;
+
+--
+
+## Move backwards with `cd ..`
+
+* To move from `R/` to `raw_data/`, type `cd ../data/raw_data`
+
+* To move from `raw_data/` to `jeff/`, type `cd ../../../..`
+
+---
+
+# Directories/folders
+
+## Hidden files and directories
+
+Start with `.` (e.g., `.gitignore`)
+
+Toggle view of hidden files with
+
+* Windows and Linux: .keybutton[`Ctrl`]+.keybutton[`H`]
+    
+* MacOS: .keybutton[`Cmd`]+.keybutton[`Shift`]+.keybutton[`.`]
+
+---
+
+# Directories/folders
+
+## Working directories
+
+#### Base directory for R session
+
+--
+
+### Viewing your working directory
+
+* Console: `getwd()`
+* RStudio: top of Console
+
+--
+
+### Setting your working directory
+
+* Console: `setwd()`
+* RStudio: *Session → Set Working Directory*
+
+---
+
+# Directories/folders
+
+## Working directories
+
+#### If you have problems importing or saving files, it is probably because of your working directory
+
+&lt;img src="../images/cantfindfile.png", width = 50%, style = "position:absolute; top: 55%; left: 25%"&gt;&lt;/img&gt;
+
+---
+
+# Questions about terminals or directories?
+
+&lt;img src="../images/dog_coding.jpg", width = 40%, style = "position:absolute; top: 25%; left: 30%"&gt;&lt;/img&gt;
+---
+
+# Workflows
+
+&gt; a workflow describes what a researcher does to make advances on scientific questions: developing hypotheses, wrangling data, writing code, and interpreting results
+&gt; 
+&gt; — [Stoudt et al. (2021) PLOS Computational Biology](https://doi.org/10.1371/journal.pcbi.1008770)
+
+--
+
+&lt;img src="../images/workflow.png", width = 55%, style = "position:absolute; top: 45%; left: 25%"&gt;&lt;/img&gt;
+
+---
+
+# Workflows
+
+## Project directory structure
+
+&lt;img src="../images/directory_structure.png", width = 25%, style = "position:absolute; top: 30%; left: 50%"&gt;&lt;/img&gt;
+
+--
+
+.pull-left[
+* Adapt structure to your needs or lab requirements
+
+* Make a template directory
+
+]
+
+---
+
+# Workflows
+
+## R Projects
+
+#### Convenient system to:
+
+* Set working directory
+
+* Open files you had open before closing RStudio
+
+* Focus on relative paths
+
+* Enable version control (next class meeting)
+
+#### Use them! Always!
+
+
+---
+
+# Workflows
+
+.pull-left[
+[.package[{here}]](https://here.r-lib.org/): The package that sets your working directory to the R Project root directory
+
+* `read_csv(here("data/a.csv"))`
+
+]
+&lt;img src="../images/here_allisonhorst.png", width = 53%, style = "position:absolute; top: 9%; left: 47%"&gt;&lt;/img&gt;
+
+&lt;figcaption, style = "font-size: 0.5rem; position:absolute; top: 95%; left: 70%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+
+
+---
+
+# Summary
+
+### Directory structures
+
+### Paths (relative, absolute)
+
+### Changing directories
+
+### Workflows
+
+### R Projects
+
+---
+
+# Homework
+
+.pull-left[
+### Wrap-up this lesson
+
+* Complete exercises
+
+* If not familiar with terminal, read primer for [Windows](https://www.computerhope.com/issues/chusedos.htm) or [MacOS](https://developer.apple.com/library/archive/documentation/OpenSource/Conceptual/ShellScripting/CommandLInePrimer/CommandLine.html)
+]
+
+.pull-right[
+### For next class meeting
+
+* Read [Bryan 2017](https://doi.org/10.7287/peerj.preprints.3159v2)
+
+* Install Git
+  - Windows: https://git-scm.com/download/win
+  - Mac: https://git-scm.com/download/mac
+
+* Install [GitHub Desktop](https://desktop.github.com/)
+
+* View Version Control presentation
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "tomorrow-night-eighties",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

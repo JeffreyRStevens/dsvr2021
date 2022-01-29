@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data types and structures</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data types and structures
+## Data science and visualization in R
+### Jeff Stevens
+### 2022-01-29
+
+---
+
+
+
+
+# Notes
+
+* Probably no more pre-presentations except for Memorial Day
+
+* Visual Markdown
+
+* R code in presentations exported to `docs/inclass_demos`
+
+---
+
+# Review
+
+### Literate programming
+
+### File types (plain text vs. binary)
+
+### Markdown basics
+
+### R Markdown basics
+
+### `{papaja}`
+
+### Other documents
+
+### Presentations
+
+---
+
+# Data 
+
+
+|datetime   |session_complete |condition    | mean_response| age|comments    |
+|:----------|:----------------|:------------|-------------:|---:|:-----------|
+|2021-04-21 |TRUE             |control      |         17.53|  19|none        |
+|2021-04-21 |TRUE             |control      |         24.45|  20|Great study |
+|2021-04-22 |TRUE             |experimental |         19.82|  19|toooo long  |
+|2021-04-22 |FALSE            |experimental |            NA|  NA|NA          |
+
+---
+
+# Outline
+
+### Data types
+
+### Data structures
+
+
+---
+
+# Data types
+
+### Formats of individual elements
+
+* Double
+
+* Integer
+
+* Character
+
+* Logical
+
+#### Check with `typeof()` and `class()`
+
+---
+
+# Numeric data
+
+### Doubles
+
+#### Floating-point numbers with decimals (though the decimal can be 0)
+
+--
+
+.pull-left[
+
+```r
+(a &lt;- 7.2)
+```
+
+```
+## [1] 7.2
+```
+]
+
+.pull-right[
+
+```r
+typeof(a)
+```
+
+```
+## [1] "double"
+```
+
+```r
+class(a)
+```
+
+```
+## [1] "numeric"
+```
+]
+
+---
+
+# Numeric data
+
+### Integers
+
+#### Numbers without decimals
+
+--
+
+.pull-left[
+
+```r
+(b &lt;- 7)
+```
+
+```
+## [1] 7
+```
+]
+
+.pull-right[
+
+```r
+typeof(b)
+```
+
+```
+## [1] "double"
+```
+
+```r
+class(b)
+```
+
+```
+## [1] "numeric"
+```
+]
+
+
+---
+
+# Numeric data
+
+### Integers
+
+#### Numbers without decimals (specified with `L`)
+
+--
+
+.pull-left[
+
+```r
+(c &lt;- 7L)
+```
+
+```
+## [1] 7
+```
+]
+
+.pull-right[
+
+```r
+typeof(c)
+```
+
+```
+## [1] "integer"
+```
+
+```r
+class(c)
+```
+
+```
+## [1] "integer"
+```
+]
+
+---
+
+# Character data
+
+#### Must be surrounded by `""`
+
+--
+
+.pull-left[
+
+```r
+(d &lt;- "Hello, world")
+```
+
+```
+## [1] "Hello, world"
+```
+
+```r
+(e &lt;- "7")
+```
+
+```
+## [1] "7"
+```
+]
+
+.pull-right[
+
+```r
+typeof(e)
+```
+
+```
+## [1] "character"
+```
+
+```r
+class(e)
+```
+
+```
+## [1] "character"
+```
+]
+
+--
+
+#### Type `b`, `c`, and `e` into the console separately. What do you see?
+
+---
+
+# Logical
+
+#### Logical operators: `&gt;`, `&gt;=`, `&lt;`, `&lt;=`, `==`, `!=`, `%in%` and results in `TRUE` or `FALSE`
+
+--
+
+.pull-left[
+
+```r
+a
+```
+
+```
+## [1] 7.2
+```
+
+```r
+(mytest &lt;- a &gt; 5)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+d
+```
+
+```
+## [1] "Hello, world"
+```
+
+```r
+(mytest2 &lt;- d == "Good-bye, world")
+```
+
+```
+## [1] FALSE
+```
+]
+
+.pull-right[
+
+```r
+typeof(mytest2)
+```
+
+```
+## [1] "logical"
+```
+
+```r
+class(mytest2)
+```
+
+```
+## [1] "logical"
+```
+]
+
+---
+
+# Factors
+
+#### Augmented integers with 'levels'
+
+.pull-left[
+
+```r
+(i &lt;- factor("ab", levels = c("ab", "cd")))
+```
+
+```
+## [1] ab
+## Levels: ab cd
+```
+]
+
+.pull-right[
+
+```r
+typeof(i)
+```
+
+```
+## [1] "integer"
+```
+
+```r
+class(i)
+```
+
+```
+## [1] "factor"
+```
+]
+
+---
+
+# Dates and times
+
+#### Augmented numerics based on number of days/seconds since 1970-01-01
+
+.pull-left[
+
+```r
+(j &lt;- as.Date("1970-01-01"))
+```
+
+```
+## [1] "1970-01-01"
+```
+
+```r
+typeof(j)
+```
+
+```
+## [1] "double"
+```
+
+```r
+class(j)
+```
+
+```
+## [1] "Date"
+```
+]
+
+--
+.pull-right[
+
+```r
+(k &lt;- as.Date("2021-05-26"))
+```
+
+```
+## [1] "2021-05-26"
+```
+
+```r
+k-j
+```
+
+```
+## Time difference of 18773 days
+```
+]
+
+---
+
+# Converting between data types (coercion)
+
+#### Use `as.&lt;type&gt;()` functions: `as.logical()`, `as.numeric()`, `as.character()`
+
+.pull-left[
+
+```r
+e
+```
+
+```
+## [1] "7"
+```
+
+```r
+typeof(e)
+```
+
+```
+## [1] "character"
+```
+
+```r
+(l &lt;- as.numeric(e))
+```
+
+```
+## [1] 7
+```
+
+```r
+typeof(l)
+```
+
+```
+## [1] "double"
+```
+]
+
+--
+
+.pull-right[
+
+```r
+(m &lt;- "TRUE")
+```
+
+```
+## [1] "TRUE"
+```
+
+```r
+typeof(m)
+```
+
+```
+## [1] "character"
+```
+
+```r
+(n &lt;- as.logical(m))
+```
+
+```
+## [1] TRUE
+```
+
+```r
+typeof(n)
+```
+
+```
+## [1] "logical"
+```
+]
+
+---
+
+# Converting between data types (coercion)
+
+.pull-left[
+#### Factors to numerics is tricky
+
+
+```r
+(o &lt;- factor(0, levels = c("1", "0")))
+```
+
+```
+## [1] 0
+## Levels: 1 0
+```
+
+```r
+as.numeric(o)
+```
+
+```
+## [1] 2
+```
+]
+
+--
+
+.pull-right[
+#### First coerce to character
+
+
+```r
+as.character(o)
+```
+
+```
+## [1] "0"
+```
+
+```r
+as.numeric(as.character(o))
+```
+
+```
+## [1] 0
+```
+]
+
+---
+
+# Special values
+
+#### `NA` represents missing values
+
+* Each data type has its own type of `NA`
+
+--
+
+#### `NaN` means "not a number" (undefined)
+
+* `0 / 0 = NaN`
+
+--
+
+#### `Inf` and `-Inf` represent infinity and negative infinity
+
+* `1 / 0 = Inf`
+
+* `-1 / 0 = -Inf`
+---
+
+# Data structures
+
+### Organizations of multiple elements
+
+* Vector
+
+* Matrix
+
+* List
+
+* Data frame
+
+#### Check with `str()`
+
+---
+
+# Vectors
+
+#### Actually, everything in R is a vector
+
+&lt;img src="../images/data-structures-overview.png", width = 50%, style = "position:absolute; top: 15%; left: 49%"&gt;&lt;/img&gt;
+
+--
+
+.pull-left[
+We'll use 'vector' to refer to 'atomic vector' (elements all of the same data type) with a single dimension
+]
+
+---
+
+# Creating vectors
+
+### Add elements
+
+.pull-left[
+
+```r
+c
+```
+
+```
+## [1] 7
+```
+
+```r
+c[1]
+```
+
+```
+## [1] 7
+```
+
+```r
+c[2]
+```
+
+```
+## [1] NA
+```
+]
+
+--
+
+.pull-right[
+
+```r
+c[2] &lt;- 3
+c
+```
+
+```
+## [1] 7 3
+```
+
+```r
+c[3] &lt;- 8
+c
+```
+
+```
+## [1] 7 3 8
+```
+
+```r
+c[2] &lt;- NA
+c
+```
+
+```
+## [1]  7 NA  8
+```
+]
+
+---
+
+# Creating vectors
+
+### Combining elements with `c()`
+
+
+```r
+(myvec1 &lt;- c(1, 5, 3, 6))
+```
+
+```
+## [1] 1 5 3 6
+```
+
+```r
+(myvec2 &lt;- c(11, 14, 18, 12))
+```
+
+```
+## [1] 11 14 18 12
+```
+
+--
+
+
+```r
+c(myvec1, myvec2)
+```
+
+```
+## [1]  1  5  3  6 11 14 18 12
+```
+
+---
+
+# Creating vectors
+
+### Combining elements with `c()`
+
+
+```r
+(myvec3 &lt;- c("a", "b", "c"))
+```
+
+```
+## [1] "a" "b" "c"
+```
+
+---
+
+# Creating vectors
+
+### Combining elements with `c()`
+
+
+#### What happens if you combine `myvec2` and `myvec3`?
+
+
+```r
+myvec2
+```
+
+```
+## [1] 11 14 18 12
+```
+
+```r
+myvec3
+```
+
+```
+## [1] "a" "b" "c"
+```
+
+--
+
+
+```r
+c(myvec2, myvec3)
+```
+
+```
+## [1] "11" "14" "18" "12" "a"  "b"  "c"
+```
+
+#### Numeric vector `myvec2` converts to character vector to combine with `myvec3`
+
+---
+
+# Creating vectors
+
+### Making sequences with `seq()`
+
+
+```r
+seq(from = 0, to = 20, by = 5)
+```
+
+```
+## [1]  0  5 10 15 20
+```
+
+```r
+seq(from = 20, to = 0, by = -5)
+```
+
+```
+## [1] 20 15 10  5  0
+```
+
+```r
+seq(0, 1, 0.2)
+```
+
+```
+## [1] 0.0 0.2 0.4 0.6 0.8 1.0
+```
+
+---
+
+# Creating vectors
+
+### Use `:` for sequences with increments of 1
+
+
+```r
+4:9
+```
+
+```
+## [1] 4 5 6 7 8 9
+```
+
+```r
+9:4
+```
+
+```
+## [1] 9 8 7 6 5 4
+```
+
+--
+
+#### Make a sequence from 0 to 100 in steps of 10.
+
+---
+
+# Creating vectors
+
+### Creating repetitions with `rep()`
+
+#### Repeat single numbers
+
+
+```r
+rep(0, times = 10)
+```
+
+```
+##  [1] 0 0 0 0 0 0 0 0 0 0
+```
+
+---
+
+# Creating vectors
+
+### Creating repetitions with `rep()`
+
+#### Repeat vectors
+
+
+```r
+rep(myvec3, times = 3)
+```
+
+```
+## [1] "a" "b" "c" "a" "b" "c" "a" "b" "c"
+```
+
+```r
+rep(c("d", "e", "f"), times = 3)
+```
+
+```
+## [1] "d" "e" "f" "d" "e" "f" "d" "e" "f"
+```
+
+---
+
+# Creating vectors
+
+### Creating repetitions with `rep()`
+
+#### Repeat sequences
+
+
+```r
+rep(1:4, times = 3)
+```
+
+```
+##  [1] 1 2 3 4 1 2 3 4 1 2 3 4
+```
+
+--
+
+
+```r
+rep(1:4, each = 3)
+```
+
+```
+##  [1] 1 1 1 2 2 2 3 3 3 4 4 4
+```
+
+--
+
+#### Create a repetition of "yes" and "no" with 10 instance of each, alternating between the two.
+
+---
+
+# Working with vectors
+
+### Find vector length with `length()`
+
+
+```r
+myvec3
+```
+
+```
+## [1] "a" "b" "c"
+```
+
+```r
+length(myvec3)
+```
+
+```
+## [1] 3
+```
+
+--
+
+#### How long is the combined vector of `myvec1` and `myvec2`?
+
+---
+
+# Working with vectors
+
+### Checking `typeof()` and `str()`
+
+.pull-left[
+
+```r
+myvec2
+```
+
+```
+## [1] 11 14 18 12
+```
+
+```r
+typeof(myvec2)
+```
+
+```
+## [1] "double"
+```
+
+```r
+str(myvec2)
+```
+
+```
+##  num [1:4] 11 14 18 12
+```
+]
+
+--
+
+.pull-right[
+
+```r
+myvec3
+```
+
+```
+## [1] "a" "b" "c"
+```
+
+```r
+typeof(myvec3)
+```
+
+```
+## [1] "character"
+```
+
+```r
+str(myvec3)
+```
+
+```
+##  chr [1:3] "a" "b" "c"
+```
+]
+
+---
+
+# Working with vectors
+
+### Index with `[]`
+
+
+```r
+myvec2
+```
+
+```
+## [1] 11 14 18 12
+```
+
+```r
+myvec2[2:4]
+```
+
+```
+## [1] 14 18 12
+```
+
+```r
+myvec2[c(1, 2, 4)]
+```
+
+```
+## [1] 11 14 12
+```
+
+```r
+myvec2[c(4, 1, 3)]
+```
+
+```
+## [1] 12 11 18
+```
+
+---
+
+# Matrices
+
+#### Two dimensional, rectangular vectors
+
+
+```
+##             [,1]       [,2]       [,3]       [,4]      [,5]
+## [1,] -3.10566602 -0.7452890 -1.2360884 -0.9907991 1.9019321
+## [2,] -0.22889783  1.0976567  0.1514874  1.6517470 0.7380850
+## [3,]  0.04956727  0.7748213 -0.8919150  1.3334628 0.4717963
+## [4,]  0.87806912 -0.1065985 -0.8034004  0.1794837 1.7758413
+```
+(in this case, 4 rows and 5 columns)
+
+---
+
+# Creating matrices
+
+
+```r
+(mymat1 &lt;- matrix(1:20, nrow = 4))
+```
+
+```
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    5    9   13   17
+## [2,]    2    6   10   14   18
+## [3,]    3    7   11   15   19
+## [4,]    4    8   12   16   20
+```
+
+--
+
+
+```r
+(mymat2 &lt;- matrix(letters[1:12], nrow = 2, byrow = TRUE, dimnames = list(c("Low", "High"), NULL)))
+```
+
+```
+##      [,1] [,2] [,3] [,4] [,5] [,6]
+## Low  "a"  "b"  "c"  "d"  "e"  "f" 
+## High "g"  "h"  "i"  "j"  "k"  "l"
+```
+
+---
+
+# Working with matrices
+
+### Find matrix dimensions with `dim()`
+
+
+```r
+mymat1
+```
+
+```
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    5    9   13   17
+## [2,]    2    6   10   14   18
+## [3,]    3    7   11   15   19
+## [4,]    4    8   12   16   20
+```
+
+```r
+dim(mymat1)
+```
+
+```
+## [1] 4 5
+```
+
+---
+
+# Working with matrices
+
+### View type and structure
+
+
+```r
+typeof(mymat2)
+```
+
+```
+## [1] "character"
+```
+
+```r
+str(mymat1)
+```
+
+```
+##  int [1:4, 1:5] 1 2 3 4 5 6 7 8 9 10 ...
+```
+
+```r
+str(mymat2)
+```
+
+```
+##  chr [1:2, 1:6] "a" "g" "b" "h" "c" "i" "d" "j" "e" "k" "f" "l"
+##  - attr(*, "dimnames")=List of 2
+##   ..$ : chr [1:2] "Low" "High"
+##   ..$ : NULL
+```
+
+---
+
+# Working with matrices
+
+### Index with `[row, column]`
+
+.pull-left[
+
+```r
+mymat1
+```
+
+```
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    5    9   13   17
+## [2,]    2    6   10   14   18
+## [3,]    3    7   11   15   19
+## [4,]    4    8   12   16   20
+```
+
+```r
+mymat1[2, 4]
+```
+
+```
+## [1] 14
+```
+
+```r
+mymat1[1:3, 2]
+```
+
+```
+## [1] 5 6 7
+```
+]
+
+--
+
+.pull-right[
+
+```r
+mymat1[1, 3:5]
+```
+
+```
+## [1]  9 13 17
+```
+
+```r
+mymat1[, 3]
+```
+
+```
+## [1]  9 10 11 12
+```
+
+```r
+mymat1[4, ]
+```
+
+```
+## [1]  4  8 12 16 20
+```
+]
+
+---
+
+# Lists
+
+#### Recursive vectors (vectors of vectors) potentially with different data types
+
+
+```r
+(mylist &lt;- list(a = 1:4, b = c(4, 3, 8, 5), c = LETTERS[10:15], d = c("yes", "yes")))
+```
+
+```
+## $a
+## [1] 1 2 3 4
+## 
+## $b
+## [1] 4 3 8 5
+## 
+## $c
+## [1] "J" "K" "L" "M" "N" "O"
+## 
+## $d
+## [1] "yes" "yes"
+```
+
+---
+
+# Working with lists
+
+
+```r
+typeof(mylist)
+```
+
+```
+## [1] "list"
+```
+
+```r
+typeof(mylist$b)
+```
+
+```
+## [1] "double"
+```
+
+```r
+str(mylist)
+```
+
+```
+## List of 4
+##  $ a: int [1:4] 1 2 3 4
+##  $ b: num [1:4] 4 3 8 5
+##  $ c: chr [1:6] "J" "K" "L" "M" ...
+##  $ d: chr [1:2] "yes" "yes"
+```
+
+--
+
+#### Why is `mylist$a` an integer and `mylist$b` a double?
+
+---
+
+# Data frames
+
+#### List of named vectors of the same length (rectangular)
+
+
+```
+##     datetime session_complete    condition mean_response age    comments
+## 1 2021-04-21             TRUE      control         17.53  19        none
+## 2 2021-04-21             TRUE      control         24.45  20 Great study
+## 3 2021-04-22             TRUE experimental         19.82  19  toooo long
+## 4 2021-04-22            FALSE experimental            NA  NA        &lt;NA&gt;
+```
+
+--
+
+
+```r
+typeof(mydf)
+```
+
+```
+## [1] "list"
+```
+
+```r
+str(mydf)
+```
+
+```
+## 'data.frame':	4 obs. of  6 variables:
+##  $ datetime        : Date, format: "2021-04-21" "2021-04-21" ...
+##  $ session_complete: logi  TRUE TRUE TRUE FALSE
+##  $ condition       : Factor w/ 2 levels "control","experimental": 1 1 2 2
+##  $ mean_response   : num  17.5 24.4 19.8 NA
+##  $ age             : num  19 20 19 NA
+##  $ comments        : chr  "none" "Great study" "toooo long" NA
+```
+
+---
+
+# Creating data frames
+
+
+```r
+(mydf1 &lt;- data.frame(1:3, 8:6))
+```
+
+```
+##   X1.3 X8.6
+## 1    1    8
+## 2    2    7
+## 3    3    6
+```
+
+--
+
+
+```r
+names(mydf1) &lt;- c("subject", "response")
+mydf1
+```
+
+```
+##   subject response
+## 1       1        8
+## 2       2        7
+## 3       3        6
+```
+
+
+---
+
+# Creating data frames
+
+.pull-left[
+
+```r
+(mydf1 &lt;- data.frame(1:3, 8:6))
+```
+
+```
+##   X1.3 X8.6
+## 1    1    8
+## 2    2    7
+## 3    3    6
+```
+
+
+```r
+names(mydf1) &lt;- c("subject", "response")
+mydf1
+```
+
+```
+##   subject response
+## 1       1        8
+## 2       2        7
+## 3       3        6
+```
+]
+
+.pull-right[
+
+```r
+var1 &lt;- c(1:6)
+var2 &lt;- c(6:1)
+var3 &lt;- c(21:26)
+mydf2 &lt;- data.frame(var1, var2, resp = var3)
+mydf2
+```
+
+```
+##   var1 var2 resp
+## 1    1    6   21
+## 2    2    5   22
+## 3    3    4   23
+## 4    4    3   24
+## 5    5    2   25
+## 6    6    1   26
+```
+]
+
+---
+
+# Working with data frames
+
+### Index with `[row, column]`
+
+.pull-left[
+
+```r
+mydf1
+```
+
+```
+##   subject response
+## 1       1        8
+## 2       2        7
+## 3       3        6
+```
+
+```r
+mydf1[2, 2] 
+```
+
+```
+## [1] 7
+```
+
+```r
+mydf1[2, 2] &lt;- 6
+mydf1[2, 2] 
+```
+
+```
+## [1] 6
+```
+]
+
+--
+
+.pull-right[
+
+```r
+mydf1[2, ] 
+```
+
+```
+##   subject response
+## 2       2        6
+```
+
+```r
+mydf1[, 2] 
+```
+
+```
+## [1] 8 6 6
+```
+
+```r
+mydf1[2:3, 2]
+```
+
+```
+## [1] 6 6
+```
+]
+
+---
+
+# Working with data frames
+
+### But you should extract columns by name with `$`
+
+
+```r
+mydf1$response 
+```
+
+```
+## [1] 8 6 6
+```
+
+```r
+mydf1$response[2] 
+```
+
+```
+## [1] 6
+```
+
+```r
+mydf1$response[2:3] 
+```
+
+```
+## [1] 6 6
+```
+
+--
+
+#### Why should you use column names rather than number?
+
+---
+
+# Working with data frames
+
+### View first rows with `head()`
+
+
+```r
+head(mtcars)
+```
+
+```
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+
+---
+
+# Working with data frames
+
+### Or use .package[{dplyr}]'s `glimpse()`
+
+
+```r
+dplyr::glimpse(mtcars)
+```
+
+```
+## Rows: 32
+## Columns: 11
+## $ mpg  &lt;dbl&gt; 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,…
+## $ cyl  &lt;dbl&gt; 6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8,…
+## $ disp &lt;dbl&gt; 160.0, 160.0, 108.0, 258.0, 360.0, 225.0, 360.0, 146.7, 140.8, 16…
+## $ hp   &lt;dbl&gt; 110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180…
+## $ drat &lt;dbl&gt; 3.90, 3.90, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92,…
+## $ wt   &lt;dbl&gt; 2.620, 2.875, 2.320, 3.215, 3.440, 3.460, 3.570, 3.190, 3.150, 3.…
+## $ qsec &lt;dbl&gt; 16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20.00, 22.90, 18…
+## $ vs   &lt;dbl&gt; 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0,…
+## $ am   &lt;dbl&gt; 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,…
+## $ gear &lt;dbl&gt; 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3,…
+## $ carb &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2,…
+```
+
+---
+
+# Working with data frames
+
+### View last rows with `tail()`
+
+
+```r
+tail(mtcars, n = 3)
+```
+
+```
+##                mpg cyl disp  hp drat   wt qsec vs am gear carb
+## Ferrari Dino  19.7   6  145 175 3.62 2.77 15.5  0  1    5    6
+## Maserati Bora 15.0   8  301 335 3.54 3.57 14.6  0  1    5    8
+## Volvo 142E    21.4   4  121 109 4.11 2.78 18.6  1  1    4    2
+```
+
+---
+
+# Working with data frames
+
+### View and change column names
+
+
+```r
+names(mydf2)
+```
+
+```
+## [1] "var1" "var2" "resp"
+```
+
+```r
+names(mydf2) &lt;- c("subject", "order", "response")
+```
+
+---
+
+# Working with data frames
+
+### View dimensions
+
+
+```r
+dim(mtcars)
+```
+
+```
+## [1] 32 11
+```
+
+```r
+nrow(mtcars)
+```
+
+```
+## [1] 32
+```
+
+```r
+ncol(mtcars)
+```
+
+```
+## [1] 11
+```
+
+---
+
+# Tibbles
+
+#### Data frames generated by .package[{tidyverse}] functions
+
+.pull-left[
+
+```r
+mydf2
+```
+
+```
+##   subject order response
+## 1       1     6       21
+## 2       2     5       22
+## 3       3     4       23
+## 4       4     3       24
+## 5       5     2       25
+## 6       6     1       26
+```
+]
+
+.pull-right[
+
+```r
+(mytibble &lt;- tibble::tibble(mydf2))
+```
+
+```
+## # A tibble: 6 × 3
+##   subject order response
+##     &lt;int&gt; &lt;int&gt;    &lt;int&gt;
+## 1       1     6       21
+## 2       2     5       22
+## 3       3     4       23
+## 4       4     3       24
+## 5       5     2       25
+## 6       6     1       26
+```
+]
+
+---
+
+# Summary
+
+.pull-left[
+## Data types
+* Characters
+
+* Integers (numeric)
+
+* Doubles (numeric)
+
+* Logicals
+
+* Factors (augmented)
+
+* Dates (augmented)
+]
+
+--
+
+.pull-right[
+## Data structures
+* Vectors (atomic vectors)
+
+* Matrices (2D atomic vectors)
+
+* Lists (recursive vectors)
+
+* Data frames (rectangular lists)
+
+* Tibbles (special data frames)
+]
+
+---
+
+# Resources
+
+* [Software Carpentry Data Types and Structures](https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/)
+
+* [Tibbles](https://r4ds.had.co.nz/tibbles.html)
+
+---
+
+# Homework
+
+### Wrap-up this lesson
+
+* Complete exercises
+
+### For next class meeting
+
+* Read [R4DS Ch. 11](https://r4ds.had.co.nz/data-import.html)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "tomorrow-night-eighties",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

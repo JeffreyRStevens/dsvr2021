@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Literate programming</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jeff Stevens" />
+    <meta name="date" content="2022-01-29" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#035AA6"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dsvr.css" type="text/css" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Literate programming
+## Data science and visualization in R
+### Jeff Stevens
+### 2022-01-29
+
+---
+
+
+
+
+# Literate programming
+
+.pull-left[
+&gt; An article [. . . ] in a scientific publication is not the scholarship
+itself, it is merely advertising of the scholarship. The actual
+scholarship is the complete software development environment and
+the complete set of instructions which generated the figures
+— Buckheit &amp; Donoho (1995)
+
+.footnote[Buckheit, J., &amp; Donoho, D. L. (1995). WaveLab and reproducible research. In A. Antoniadis &amp; G. Oppenheim (Eds.), *Wavelets and Statistics* (pp. 55–81). Springer-Verlag.
+]
+]
+&lt;img src="../images/literate_programming.jpg", width = 25%, style = "position:absolute; top: 7%; left: 62%"&gt;&lt;/img&gt;
+
+---
+
+# Why use literate programming?
+
+1. Direct connection between computations and presentation
+
+1. Updating presentation is a breeze
+
+1. Transparent and reproducible
+
+1. Plain text less corruptable
+
+1. Easily create different kinds of output styles and files
+
+1. Easily switch between different templates
+
+---
+
+# File/document types
+
+#### All files are collections of 1s and 0s
+
+&lt;img src="../images/binary1s0s.jpg", width = 80%, style = "position:absolute; top: 30%; left: 10%"&gt;&lt;/img&gt;
+
+---
+
+# File/document types
+
+## Plain text
+
+.pull-left[
+* Only characters with no formatting
+
+* Viewable in text editor
+
+* Used for plain text storage (`.txt`, `.csv`) and coding (`.R`, `.Rmd`, `.py`, `.m`, `.cpp`)
+]
+&lt;img src="../images/plaintext_binary.gif", width = 45%, style = "position:absolute; top: 30%; left: 50%"&gt;&lt;/img&gt;
+
+---
+
+# File/document types
+
+## Binary
+
+.pull-left[
+* 1s and 0s are converted to something besides plain text (e.g, images, audio, formatted text)
+
+* File type-specific program needed to decode file
+
+* WYSIWYG
+
+* Binary document files: `.docx`, `.xlsx`, `.pptx`, `.pdf`, `.png`, `.jpg`
+]
+
+&lt;img src="../images/plaintext_binary.gif", width = 45%, style = "position:absolute; top: 30%; left: 50%"&gt;&lt;/img&gt;
+
+---
+
+# Markdown
+
+#### Human-readable markup that can be converted to formatted file types
+
+&lt;img src="../images/markdown.png", width = 90%, style = "position:absolute; top: 40%; left: 5%"&gt;&lt;/img&gt;
+
+---
+
+# Markdown
+
+#### See [Markdown tutorial](https://commonmark.org/help/tutorial/) for Markdown syntax
+
+--
+
+### Comments
+
+Markdown uses HTML syntax for comments `&lt;!-- comment here --&gt;`
+
+--
+
+### External links
+
+* `[&lt;link text&gt;](&lt;URL&gt;)`
+* `[Markdown tutorial](https://commonmark.org/help/tutorial/)`
+
+
+
+---
+
+# R Markdown
+
+#### Human-readable markup that embeds R code and output into formatted file types
+
+&lt;img src="../images/rmarkdown_hex.png", width = 10%, style = "position:absolute; top: 2%; left: 85%"&gt;&lt;/img&gt;
+
+&lt;img src="../images/myrmarkdown.png", width = 90%, style = "position:absolute; top: 40%; left: 5%"&gt;&lt;/img&gt;
+
+---
+
+# From text to document
+
+&lt;img src="../images/rmarkdown_allisonhorst.png", width = 90%, style = "position:absolute; top: 25%; left: 5%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 95%; left: 48%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+
+---
+
+# Inline R code
+
+#### Embed R code directly within your text with &lt;code&gt;&amp;#96;r &amp;#96;&lt;/code&gt;
+
+#### Code:
+
+&lt;code&gt;The answer to 2 + 2 is &amp;#96;r 2 + 2&amp;#96;&lt;/code&gt;
+
+
+
+--
+
+#### Output:
+
+The answer to 2 + 2 is 4.
+
+
+---
+
+# R code chunks
+
+#### Write large chunks of R code outside of text
+
+&lt;code&gt;&amp;#96;&amp;#96;&amp;#96;{r}&lt;br&gt;norm &lt;- rnorm(100, mean = 0, sd = 1)&lt;br&gt;&amp;#96;&amp;#96;&amp;#96;&lt;/code&gt;
+
+---
+
+# Figures
+
+
+```r
+plot(1:10, 2:11)
+```
+
+![](04a_rmarkdown_slides_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Tables
+
+## Markdown
+
+#### Code:
+```
+| A | B | C |
+|---|---|---|
+| 3 | 7 | 2 |
+| 1 | 1 | 5 |
+```
+
+--
+
+#### Output:
+| A | B | C |
+|---|---|---|
+| 3 | 7 | 2 |
+| 1 | 1 | 5 |
+
+---
+
+# Tables 
+
+## .package[{knitr}]
+
+--
+
+
+```r
+species &lt;- c("goldfish", "rats", "cats", "dogs")
+sample_sizes &lt;- c(112, 254, 83, 128)
+species_means &lt;- c(10.5, 12.3, 11.7, 23.9)
+mydata &lt;- data.frame(species, sample_sizes, species_means)
+knitr::kable(mydata, col.names = c("Species", "N", "Means"))
+```
+
+
+
+|Species  |   N| Means|
+|:--------|---:|-----:|
+|goldfish | 112|  10.5|
+|rats     | 254|  12.3|
+|cats     |  83|  11.7|
+|dogs     | 128|  23.9|
+
+---
+
+# YAML headers
+
+#### Configures aspects of the document
+
+```
+---
+title: "Literate programming"
+subtitle: "Data science and visualization in R"
+author: "Jeff Stevens"
+date: "'r Sys.Date()'"
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts", "dsvr.css", "xaringan-themer.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: tomorrow-night-eighties
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+```
+
+
+---
+
+# LaTeX
+
+### Document preparation system
+
+&lt;img src="../images/latex_logo.png", width = 20%, style = "position:absolute; top: 12%; left: 65%"&gt;&lt;/img&gt;
+
+* Plain text file with sophisticated markup to typeset output
+
+* Developed to typeset math
+
+* Very fine control of document element formatting
+
+* Accepted as editable final manuscript type for many publishers
+
+* Includes package to make PDF presentations (Beamer)
+
+Unless you want LaTeX by itself, install [{tinytex}](https://yihui.org/tinytex/)
+
+
+---
+
+# LaTeX
+
+&lt;img src="../images/rmarkdown_latex_allisonhorst.png", width = 90%, style = "position:absolute; top: 15%; left: 5%"&gt;&lt;/img&gt;
+&lt;figcaption, style = "font-size: .5rem; position:absolute; top: 95%; left: 48%"&gt;Source: &lt;a href = "https://github.com/allisonhorst/stats-illustrations"&gt;Allison Horst&lt;/a&gt;&lt;/figcaption&gt;
+
+---
+
+# Why care about LaTeX?
+
+1. Some compilation errors are from LaTeX not R Markdown/knitr
+
+1. You can incorporate LaTeX code into R Markdown documents
+
+1. There are some LaTeX options used by .package[{knitr}]
+
+1. You can save the `.tex` file for journal publishers
+
+--
+
+#### But LaTeX code/options will not necessarily be rendered in HTML or Word document outputs
+
+---
+
+# Resources
+
+### Markdown
+
+* https://daringfireball.net/projects/markdown/
+* https://www.markdownguide.org/cheat-sheet
+
+### .package[{knitr}]
+
+* https://yihui.name/knitr/
+
+### LaTeX
+
+* https://www.latex-project.org/
+* https://www.overleaf.com/
+
+---
+
+# Homework
+
+### For next class meeting
+
+* Read [R4DS Ch. 27](https://r4ds.had.co.nz/r-markdown.html), [Markdown tutorial](https://commonmark.org/help/tutorial/)
+
+* Install [.package[{tinytex}]](https://yihui.org/tinytex/)
+
+* Install [.package[{papaja}]](https://github.com/crsh/papaja) from GitHub with `devtools::install_github("crsh/papaja")`
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "tomorrow-night-eighties",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
