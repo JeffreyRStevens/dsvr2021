@@ -1,0 +1,343 @@
+---
+title: "Data types and structures"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+gradethis::gradethis_setup()
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Data types
+
+Data types refer to the types of information that can be stored as individual elements of objects. The primary data types for our purposes are numerics (double and integer), characters, and logicals. There are also two augmentations of these types: factors and dates.
+
+### Checking data type
+
+The `typeof()` function can tell you the data type for a value or object.
+
+```{r echo = TRUE}
+typeof("hello")
+a <- 7
+typeof(a)
+```
+
+**Run the following code then modify it to return the data type as logical.**
+
+```{r exercise1, exercise = TRUE}
+typeof("TRUE")
+```
+ 
+```{r exercise1-solution}
+typeof(TRUE)
+```
+
+```{r exercise1-code-check}
+grade_code()
+```
+
+### Numerics
+
+There are two forms of numerical data in R: doubles and integers. Doubles refer to floating point numbers with decimals. Integers are positive and negative whole numbers (without decimals). Doubles can have a decimal of 0, which would make them equivalent to an integer. But R treats them as different data types even though they look the same.
+
+```{r echo = TRUE}
+# a is a double
+a <- 7
+a
+typeof(a)
+# b is an integer
+b <- 7L
+b
+typeof(b)
+```
+
+```{r integer}
+question("Test each of these with `typeof()`. Which are integers?",
+         answer("`42L`", correct = TRUE),
+         answer("`42.0L`", correct = TRUE),
+         answer("`integer(42)`", correct = TRUE),
+         answer('`42.0`'),
+         answer("`42 / 1L`"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+### Characters
+
+Character types are strings of ... characters. You can put anything in a character string---including spaces and special characters---as long as they are in quotes (e.g., `myname <- "Jeff Stévens!!"`). 
+
+Either single or double quotes can be used. In general, it is preferred to use double quotes. However, if you have a double quote inside your string, then use single quotes: `mystring <- 'They said, "No way!"'`. Alternatively, you can *escape* the internal double quotes with a `\` to treat it as the actual character: `mystring2 <- "We said, \"Way!\""`.
+
+**Write that code that would assign the character string *What do you mean by "fine"?* to the object `question` without escaping the double quote.**
+
+```{r exercise2, exercise = TRUE}
+
+```
+ 
+```{r exercise2-solution}
+question <- 'What do you mean by "fine"?'
+```
+
+```{r exercise2-code-check}
+grade_code()
+```
+
+### Coercion
+
+Sometimes we want to convert or 'coerce' an object from one data type to another. Often this occurs when numbers are stored as characters or factors and we want to do math on them (e.g., calculate a mean) or when dates or logical are stored as characters.
+
+The base R functions for conversion are the `as.*()` family of functions: `as.character()`, `as.numeric()`, `as.double()`, `as.integer()`, `as.logical()`, `as.factor()`, `as.Date()`.
+
+For the most part, these are straightforward. But converting from a factor to a numeric is a little trickier. Because factors are augmented integers, they are stored as the level number rather than the level name. So first you need to coerce the level number to a character then coerce the character to a number.
+
+```{r echo = TRUE}
+myfactor <- factor("1", levels = c("0", "1"))
+myfactor
+as.numeric(myfactor)
+as.character(myfactor)
+as.numeric(as.character(myfactor))
+```
+
+```{r coerce}
+question("Test each of these coercions. Which result in an output of `0`?",
+         answer("`as.numeric(0)`", correct = TRUE),
+         answer("`as.double(0)`", correct = TRUE),
+         answer("`as.integer(0)`", correct = TRUE),
+         answer('`as.factor(0)`', correct = TRUE),
+         answer("`as.logical(0)`"),
+         answer("`as.character(0)`"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+**On line 2, write the code that would convert the following factor to a numeric (leave line 1 intact).**
+```{r exercise3, exercise = TRUE}
+myfac <- factor(2, levels = c("1", "2", "3"))
+```
+ 
+```{r exercise3-solution}
+myfac <- factor(2, levels = c("1", "2", "3"))
+as.numeric(as.character(myfac))
+```
+
+```{r exercise3-code-check}
+grade_code()
+```
+
+## Data structures
+
+### Combining data elements
+
+Data types refer to individual elements of information. Those elements combine into different _data structures_. Technically, all elements of information (even individual ones) in R are _vectors_, and there are different forms of vectors.
+
+![](images/data-structures.png)
+
+_Atomic vectors_ are **homogeneous** meaning that they contain a single data type. _Lists_ are **heterogenous** meaning that they can contain multiple data types. We will refer to one dimensional atomic vectors as _vectors_ and two dimensional atomic vectors as _matrices_. In terms of lists, we will primarily work with _data frames_ or rectangular lists. _Tibbles_ are special forms of data frames.
+
+### Vectors
+
+Vectors can include numeric, character, or logical data, but they can only contain a single data type. The simplest way to create a vector is by using the `c()` function.
+
+**Create a vector called `stooges` that includes the words _Larry_, _Curly_, and _Moe_ in that order.**
+```{r exercise4, exercise = TRUE}
+
+```
+ 
+```{r exercise4-solution}
+stooges <- c("Larry", "Curly", "Moe")
+```
+
+```{r exercise4-code-check}
+grade_code()
+```
+
+**Combine the vectors `weekdays` and `weekend` to create a new vector called `week` that starts with _Monday_.**
+
+```{r exercise5, exercise = TRUE}
+weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+weekend <- c("Saturday", "Sunday")
+```
+ 
+```{r exercise5-solution}
+weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+weekend <- c("Saturday", "Sunday")
+week <- c(weekdays, weekend)
+```
+
+```{r exercise5-code-check}
+grade_code()
+```
+
+
+```{r vectors-quiz}
+question(
+  'If you combined vector `c(TRUE, TRUE, FALSE)` with `c("FALSE", "TRUE", "FALSE")`, what type of vector would you produce?',
+  answer('Character', correct = TRUE),
+  answer('Logical', message = "Oops, this would generate an ordered list."),
+  answer('Mixed character/logical'),
+  answer('This would fail to produce a combined vector'),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+
+### Sequences
+
+We can create sequences of numbers with `seq()` or `:`. To get quartiles, run `seq(from = 0, to = 100, by = 25)`. To get 1, 2, 3, run `1:3`. Give these examples a try.
+
+
+**Write the code to produce a sequence from 0 to 1 in increments of 0.05 (include all argument names).**
+```{r exercise6, exercise = TRUE}
+
+```
+ 
+```{r exercise6-solution}
+seq(from = 0, to = 1, by = 0.05)
+```
+
+```{r exercise6-code-check}
+grade_code()
+```
+
+
+**Write the code to produce a sequence from 10 to 0 in increments first using `seq()` (include all argument names) then using `:`.**
+```{r exercise7, exercise = TRUE}
+seq()
+:
+```
+ 
+```{r exercise7-solution}
+seq(from = 10, to = 0, by = -1)
+10:0
+```
+
+```{r exercise7-code-check}
+grade_code()
+```
+
+
+### Repetitions
+
+Sometimes, you need to create a repetition of values, e.g., when creating a column of experimental conditions. You can use the `rep()` function to either repeat single values or vectors of values. Vectors can be repeated either as a whole vector (`times` argument) or each element of the vector can be repeated (`each` argument).
+
+```{r echo = TRUE}
+conditions <- c("Control", "Treatment A", "Treatment B")
+rep(conditions, times = 3)
+rep(conditions, each = 3)
+```
+
+
+**Repeat the entire `myvector` 10 times.**
+```{r exercise8, exercise = TRUE}
+myvector <- 1:5
+  
+```
+ 
+```{r exercise8-solution}
+myvector <- 1:5
+rep(myvector, times = 10)
+```
+
+```{r exercise8-code-check}
+grade_code()
+```
+
+
+**Repeat each element of the `myvector` 10 times.**
+```{r exercise9, exercise = TRUE}
+myvector <- 1:5
+  
+```
+ 
+```{r exercise9-solution}
+myvector <- 1:5
+rep(myvector, each = 10)
+```
+
+```{r exercise9-code-check}
+grade_code()
+```
+
+### Dimensions
+
+We can use `length()` to find the length of a vector and `dim()` to get the dimensions of a matrix or data frame. We can also use `nrow()` and `ncol()` to get the number of rows and columns (respectively) for matrices and data frames.
+
+```{r dimensions}
+question("Test each of these and select which ones find the number of _rows_ for the `mtcars` dataset?",
+         answer("`dim(mtcars)[1]`", correct = TRUE),
+         answer("`nrow(mtcars)`", correct = TRUE),
+         answer("`length(mtcars$mpg)`", correct = TRUE),
+         answer("`length(mtcars[, 1])`", correct = TRUE),
+         answer('`length(mtcars[1, ])`'),
+         answer('`dim(mtcars)[2]`'),
+         answer("`length(mtcars)`"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+
+### Subsetting
+
+Extracting subsets of vectors, matrices, or data frames involves using `[]`. For matrices and data frames, the first number represents the row and the second represents the column. For instance, `mydf[2, 7]` extracts the value from the second row and the seventh column. To extract vectors or matrices, use sequences or vectors to subset multiple rows and/or columns: `mydf[1:2, c(3, 4, 7)]`. Leave the row or column empty to select the entire row or column: `mydf[, 2]`.
+
+Here, we create a data frame.
+```{r echo = TRUE}
+mydf <- data.frame(matrix(1:25, ncol = 5))
+names(mydf) <- letters[1:5]
+mydf
+```
+
+```{r markdown-quiz}
+quiz(
+question(
+  'Which of the following would subset the value 12?',
+  answer('`mydf[2, 3]`', correct = TRUE),
+  answer('`mydf[3, 2]`', message = "Oops, that reversed row and column."),
+  answer('`mydf[2, c]`', message = "Oops, you can't use `c` in this notation."),
+  answer('`mydf[c, 2]`', message = "Oops, you can't use `c` in this notation."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+question_text(
+  "Write the code that subsets the submatrix that includes the numbers 2-4, 7-9, and 12-14 (don't convert it to a matrix.",
+  answer('mydf[2:4, 1:3]', correct = TRUE),
+  answer('mydf[1:3, 2:4]', message = "Oops, that reversed rows and columns."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+question(
+  'Which of the following would subset the entire fourth column?',
+  answer('`mydf$d`', correct = TRUE),
+  answer('`mydf[, 4]`', correct = TRUE),
+  answer('`mydf[1:5, 4]`', correct = TRUE),
+  answer('`mydf[[4]]`', correct = TRUE),
+  answer('`mydf[4, ]`', message = "Oops, this subsets the fourth row."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+question(
+  'Which of the following would be the *best* way to subset the entire fourth column?',
+  answer('`mydf$d`', correct = TRUE),
+  answer('`mydf[4, ]`', message = "Oops, this subsets the fourth row."),
+  answer('`mydf[, 4]`', message = "While this does subset the fourth column, it uses numbers to do so."),
+  answer('`mydf[1:5, 4]`', message = "While this does subset the fourth column, it uses numbers to do so."),
+  answer('`mydf[[4]]`', message = "While this does subset the fourth column, it uses numbers to do so."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+)
+```
+
+### Wrap-up
+
+Congrats---you're on your way to becoming an R Markdown guru!
+

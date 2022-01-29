@@ -1,0 +1,374 @@
+---
+title: "Visualizing x-y data"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(palmerpenguins)
+gradethis::gradethis_setup()
+knitr::opts_chunk$set(echo = FALSE)
+lincoln_weather <- read_csv("lincoln_weather.csv") %>% 
+  mutate(date = as.Date(date))
+lincoln_minmax_weather <- lincoln_weather %>% 
+  pivot_longer(c("min_temp", "max_temp"), names_to = "measure", values_to = "temp")
+
+```
+
+## Introduction
+
+This exercise covers visualizing x-y data such as associations, times series, and trends.
+
+### Set-up
+
+Load `{tidyverse}` and `{palmerpenguins}`.
+
+```{r echo = TRUE, message = FALSE}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## Scatterplots
+
+###
+
+Scatterplots plot paired continuous data. Here we see (again) the penguin bill length plotted against bill depth.
+
+```{r scatter, echo = TRUE, warning = FALSE}
+penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point()
+```
+
+### Adding regression lines
+
+Just as a refresher, you can add regression lines with `geom_smooth(method = "lm")`.
+
+```{r scatter-lm, echo = TRUE, warning = FALSE, message = FALSE}
+penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+###
+
+**Now add separate regression lines for each species.**
+
+```{r scatter-lm2, warning = FALSE, message = FALSE}
+penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, color = species)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+```{r exercise1, exercise = TRUE, warning = FALSE, message = FALSE}
+penguins %>% 
+  ...
+```
+
+```{r exercise1-solution}
+penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, color = species)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+### Adding diagonal lines
+
+If you are plotting two variables that are on the same scale (e.g., pre/post, measure 1 vs. measure 2), you may want to add a diagonal line in which _x=y_. For this, we can use the `geom_abline()` function and specify the `intercept` as 0 and the `slope` as 1. Unfortunately, there are no paired variables on the same scale in the `penguins` dataset, so we'll draw a line where _2.5x=y_. That is, let's imagine that we want to plot the line showing where bill length is 2.5 times bill depth. 
+
+**Plot the bill depth and length data including a line with slope is 2.5 and y-intercept is 0.**
+
+```{r scatter-line, warning = FALSE}
+penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 2.5)
+```
+
+```{r exercise2, exercise = TRUE, warning = FALSE}
+penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm)) +
+  ...
+```
+
+```{r exercise2-solution}
+penguins %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 2.5)
+```
+
+## Correlation plots
+
+Since `{ggplot2}` does not have a built in way to easily generate a correlation plot, we're going to use base R's `pairs()` function. You can also use the `{GGally}` function `ggpairs()`.
+
+We'll plot the correlations between all of the size measurements in `penguins`.
+
+```{r pairs, echo = TRUE}
+penguins %>% 
+  select(contains("_mm") | contains("_g")) %>% 
+  pairs(upper.panel = NULL)
+```
+
+
+
+## Bubble charts
+
+### Size as a third variable
+
+Bubble charts vary the size of points to represent information and can be used in two ways. First, they can be used with continuous data in scatterplots to represent a third variable with the size of the data points. Here we plot bill depth and length of Adelie penguins as the x and y axes. Then we map the point size to body mass to generate the bubble chart.
+
+```{r bubble1, echo=TRUE, warning=FALSE}
+penguins %>% 
+  filter(species == "Adelie") %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, size = body_mass_g)) +
+  geom_point()
+```
+
+###
+
+It is difficult to see all of the individual points.
+
+**Replicate the above plot, but make the points 50% transparent.**
+
+```{r bubble2, warning=FALSE}
+penguins %>% 
+  filter(species == "Adelie") %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, size = body_mass_g)) +
+  geom_point(alpha = 0.5)
+```
+
+```{r exercise3, exercise = TRUE, warning = FALSE}
+penguins %>% 
+  filter(species == "Adelie") %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm)) +
+  ...
+```
+
+```{r exercise3-solution}
+penguins %>% 
+  filter(species == "Adelie") %>% 
+  ggplot(aes(x = bill_depth_mm, y = bill_length_mm, size = body_mass_g)) +
+  geom_point(alpha = 0.5)
+```
+
+### Size as count
+
+Bubble charts can also show the number of observations that fall within each x-y position. These can be used for both continuous and discrete data. For these plots, we use the `geom_count()` function.
+
+```{r bubble3, echo=TRUE}
+penguins %>%
+  ggplot(aes(x = island, y = year)) +
+  geom_count()
+```
+
+### 
+
+In this case, year is treated as a numeric, which creates strange y-axis values. We'll learn other ways to deal with this later, but for now, let's convert year to a factor and replot.
+
+**Coerce year to a factor and plot the above bubble chart.**
+
+```{r bubble4}
+penguins %>%
+  mutate(year = factor(year)) %>% 
+  ggplot(aes(x = island, y = year)) +
+  geom_count()
+```
+
+```{r exercise4, exercise = TRUE, warning = FALSE}
+penguins %>%
+  ...
+```
+
+```{r exercise4-solution}
+penguins %>%
+  mutate(year = factor(year)) %>% 
+  ggplot(aes(x = island, y = year)) +
+  geom_count()
+```
+
+## Slopegraphs
+
+### Plotting raw numbers
+
+Slopegraphs are a good way to show how a continuous variable for individual participants or a categorical variable change over time or another categorical variable with few levels. Here, we'll look at how mean bill length changes as a function of year and species. First, we'll calculate the mean bill lengths, then plot the species means for each year connected by lines.
+
+<!-- recall <- read_table(file = "http://personality-project.org/r/datasets/R.appendix3.data") -->
+```{r slopegraph1, echo=TRUE, message=FALSE}
+penguins %>% 
+  mutate(year = factor(year)) %>% 
+  group_by(species, year) %>% 
+  summarise(bill_length = mean(bill_length_mm, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = bill_length, group = species)) +
+  geom_point() +
+  geom_line()
+```
+
+### Calculating summary statistics
+
+Instead of calculating the means in advance, we can rely on `stat_summary()` to do the calculations in the plot.
+
+**Reproduce the above plot using `stat_summary()` instead of `group_by()` and `summarise()` to plot means and standard errors. Remember to take the year a factor to create a reasonable x axis.**
+
+```{r slopegraph2, warning=FALSE, message=FALSE}
+penguins %>% 
+  mutate(year = factor(year)) %>% 
+  ggplot(aes(x = year, y = bill_length_mm, group = species)) +
+  stat_summary(fun.data = mean_se) +
+  stat_summary(geom = "line")
+```
+
+```{r exercise5, exercise = TRUE, warning=FALSE, message=FALSE}
+penguins %>%
+  ...
+```
+
+```{r exercise5-solution}
+penguins %>% 
+  mutate(year = factor(year)) %>% 
+  ggplot(aes(x = year, y = bill_length_mm, group = species)) +
+  stat_summary(fun.data = mean_se) +
+  stat_summary(geom = "line")
+```
+
+###
+
+Note that the species lines are not labelled. We're going to ignore that here and will learn how to add text labels in the adorning plots lesson.
+
+
+## Time series
+
+###
+
+Let's explore time series data by working with the Lincoln temperature data used in _Fundamentals in Data Visualization_. First, let's import these data and convert the dates to a date format.
+
+```{r echo=TRUE, message=FALSE}
+lincoln_weather <- read_csv("lincoln_weather.csv") %>% 
+  mutate(date = as.Date(date))
+head(lincoln_weather)
+```
+
+We have maximum, minimum, and mean temperature for every day in 2016. We'll start by plotting daily mean temperatures as points.
+
+```{r time-point, echo=TRUE}
+lincoln_weather %>% 
+  ggplot(aes(x = date, y = mean_temp)) +
+  geom_point()
+```
+
+### Using lines
+
+**Change the geometric object from points to a line with `geom_line()`.**
+
+```{r time-line}
+lincoln_weather %>% 
+  ggplot(aes(x = date, y = mean_temp)) +
+  geom_line()
+```
+
+```{r exercise6, exercise = TRUE, warning=FALSE, message=FALSE}
+lincoln_weather %>% 
+  ...
+```
+
+```{r exercise6-solution}
+lincoln_weather %>% 
+  ggplot(aes(x = date, y = mean_temp)) +
+  geom_line()
+```
+
+
+### Multiple series
+
+Let's say that we want to visualize the minimum and maximum rather than the mean. We can't do this with the current data frame because they are in different columns.
+
+**Reshape the data frame to put the minimum and maximum (only) temperatures into a single column called `temp` and the names in a column called `measure`. Call the new data frame `lincoln_minmax_weather`.**
+
+```{r}
+lincoln_minmax_weather <- lincoln_weather %>% 
+  pivot_longer(c("min_temp", "max_temp"), names_to = "measure", values_to = "temp")
+```
+
+```{r exercise7, exercise = TRUE, warning=FALSE, message=FALSE}
+lincoln_minmax_weather <- 
+  ...
+```
+
+```{r exercise7-solution}
+lincoln_minmax_weather <- lincoln_weather %>% 
+  pivot_longer(c("min_temp", "max_temp"), names_to = "measure", values_to = "temp")
+```
+
+###
+
+Now plot the temperature as a function of date.
+
+**Plot the time series of temperature with different colors for minimum and maximum temperature.**
+
+```{r time-multiple}
+lincoln_minmax_weather %>% 
+  ggplot(aes(x = date, y = temp, color = measure)) +
+  geom_line()
+```
+
+```{r exercise8, exercise = TRUE, warning=FALSE, message=FALSE}
+lincoln_minmax_weather %>% 
+  ...
+```
+
+```{r exercise8-solution}
+lincoln_minmax_weather %>% 
+  ggplot(aes(x = date, y = temp, color = measure)) +
+  geom_line()
+```
+
+
+## Trends
+
+###
+
+Trends involve fitting models to capture the general patterns in data while ignoring noise. We will visualize trends with the `geom_smooth()` function, which by default uses the LOESS method of polynomial regression.
+
+Here, we'll plot the trend in daily mean temperature.
+
+```{r trend, echo=TRUE, message=FALSE}
+lincoln_weather %>% 
+  ggplot(aes(x = date, y = mean_temp)) +
+  geom_point() +
+  geom_smooth()
+```
+
+###
+
+**Replicate the above plot but remove the error band by including the argument `se = FALSE`.**
+
+```{r trend-nose, message=FALSE}
+lincoln_weather %>% 
+  ggplot(aes(x = date, y = mean_temp)) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+```
+
+```{r exercise9, exercise = TRUE, warning=FALSE, message=FALSE}
+lincoln_weather %>% 
+  ...
+```
+
+```{r exercise9-solution}
+lincoln_weather %>% 
+  ggplot(aes(x = date, y = mean_temp)) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+```
+
+
+### Wrap-up
+
+You are now a certified distribution visualization expert!
+

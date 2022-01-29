@@ -1,0 +1,277 @@
+---
+title: "Functions and flow"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(palmerpenguins)
+gradethis::gradethis_setup()
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Introduction
+
+R is a functional programming language, meaning it provides many tools for creating functions. Though mostly we rely on other people's functions, sometimes we need to write our own to automate repetitive tasks. Writing functions can be difficult, but it will save you time in the long run. Hadley's rule of thumb for when to consider writing a function is "whenever you’ve copied and pasted a block of code more than twice".
+
+### Setup
+
+Most of R's functional programming comes from base R, but we'll use a few tidyverse functions, so let's load it and the {palmerpenguins} package.
+
+```{r message = FALSE, echo = TRUE}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+
+## Functions
+
+###
+
+Functions are composed of _names_, _arguments_, and the _body_ of the function. Including arguments in functions is useful because the make the functions more flexible for your user.
+
+
+**Create a function called `divider` that takes two arguments (`dividend` and `divisor`) and divides the dividend by the divisor. Then run the function with the vector `numbers1` as the dividend and `numbers2` as the divisor.**
+```{r exercise1, exercise = TRUE}
+numbers1 <- c(19, 84, 20, 1, 7, 10)
+numbers2 <- c(5, 21, 4, 10, 7, 5)
+...
+divider(numbers1, numbers2)
+```
+
+```{r exercise1-solution}
+divider <- function(dividend, divisor) {
+  dividend / divisor
+}
+divider(numbers1, numbers2)
+```
+
+```{r exercise1-check}
+grade_result(
+  pass_if(~identical(.result, divider(numbers1, numbers2)
+  ))
+)
+```
+
+###
+
+It's often useful to set default argument values. Of course, you want to be thoughtful about what those default values are.
+
+**Copy the `divider()` function from above and paste it below. Then alter the function to set the default value of the divisor argument to 3. Run the function on the `numbers1` vector with default argument values.**
+```{r exercise2, exercise = TRUE}
+numbers1 <- c(19, 84, 20, 1, 7, 10)
+...
+divider(numbers1)
+```
+
+```{r exercise2-solution}
+divider <- function(dividend, divisor = 3) {
+  dividend / divisor
+}
+divider(numbers1)
+```
+
+```{r exercise2-check}
+grade_result(
+  pass_if(~identical(.result, divider(numbers1)
+  ))
+)
+```
+
+###
+
+Refer to the following function to answer the next questions:
+```{r echo = TRUE}
+square <- function(df) {
+  nrows <<- nrow(df)
+  ncols <- ncol(df)
+  if (nrows > ncols) {
+    square_df <- df[1:ncols, ]
+  } else if (ncols > nrows) {
+    square_df <- df[, 1:nrows]
+  } else {
+    square_df <- df
+  }
+}
+```
+
+```{r function-output}
+quiz(
+  question(
+    'What does this function do?',
+    answer('Make data frames have the same number of rows and columns', correct = TRUE),
+    answer('Draw a square'),
+    answer('Divide the number of rows by the number of columns in a data frame'),
+    answer('Take the square root of all elements in a data frame'),
+    answer('Square (\\^2) all elements in a data frame'),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question(
+    'Which of the following objects will be created in the global environment when the following command is run: `square(mtcars)`?',
+    answer('`nrows`', correct = TRUE),
+    answer('`ncols`'),
+    answer('`df`'),
+    answer('`square_df`'),
+    answer('`function`'),
+    answer('`square`'),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+## Conditional execution
+
+### Writing conditionals
+
+Often when writing functions, there are different possibilities that we want to account for, so we need to execute different code depend (conditional) on certain inputs. The `square()` function that we saw previously includes this conditional execution by assessing whether the number of rows is greater than, less than, or equal to the number of columns. In each of those three cases, we need to conduct different computations. For conditional execution, we use the `if()` and `else()` functions.
+
+**Write a function called `season_greeting()` that does the following:**
+
+1. **Takes as an argument a date written in ISO 8601 standard format.**
+1. **Uses the current date as a default if no date is entered.**
+1. **Extracts the month from the date.**
+1. **Checks which season the month falls in and assigns to the variable `season` the appropriate season.**
+1. **Prints to the console "Happy [insert season]!" for that month's season using `paste0()` and the `season` variable.**
+
+Checking custom functions in these exercises is difficult in `{learnr}`, so there is no exercise check here. Please just complete the function before continuing.
+
+### 
+
+Here's my version of this function. Yours may be different, and that is fine as long as it works.
+
+```{r echo = TRUE}
+season_greeting <- function(date = Sys.Date()) {
+  mon <- lubridate::month(date)  # extract month
+  if (mon >= 3 & mon < 6) {  # if month is between 3-5
+    season <- "spring"
+  } else if (mon >= 6 & mon < 9) {  # if month is between 6-8
+    season <- "summer"
+  } else if (mon >= 9 & mon < 12) {  # if month is between 9-11
+    season <- "fall"
+  } else {  # if month is not between 3-11
+    season <- "winter"
+  }
+  print(paste0("Happy ", season, "!"))  # paste greeting with season
+} 
+```
+
+I can think of two changes to this function that would improve it dramatically. How would you go about implementing these two changes?
+
+* What will happen if someone enters a non-ISO 8601 standard date? Try different formats of dates. Which ones work and which ones fail? How could the function help users that input invalid formats?
+
+* The seasons are really defined by certain days (equinoxes, solstices) rather than months. How could you adapt your function to use days of the year instead of months?
+
+### Conditionals inside tidyverse functions
+
+Sometimes you want to embed conditions in tidyverse functions. This is especially common when you are recoding data. The `ifelse()` function does this and, though other functions can be used to recode, `ifelse()` is very flexible. For instance, it can including multiple columns as input.
+
+**Create a new column for the `penguins` dataset called `breeding` that is based on body mass and categorizes the penguins as "breeder" (>=4000 g) or "non-breeder" (<4000 g).**
+
+```{r exercise3, exercise = TRUE}
+penguins %>% 
+  mutate(breeding = ifelse(...))
+```
+
+```{r exercise3-solution}
+penguins %>% 
+  mutate(breeding = ifelse(body_mass_g < 4000, "non-breeder", "breeder"))
+```
+
+```{r exercise3-check}
+grade_result(
+  pass_if(~identical(.result, penguins %>% 
+  mutate(breeding = ifelse(body_mass_g < 4000, "non-breeder", "breeder"))
+  ))
+)
+```
+
+###
+
+**Now let's say that we want to tweak the creation of the `breeding` column to categorize penguins weighing 5000 g or more as "super-breeder". Rewrite the code to include this third category then sort by `body_mass_g` from highest to lowest to see if it worked.**
+
+```{r exercise4, exercise = TRUE}
+penguins %>% 
+  mutate(breeding = ifelse(...))
+```
+
+```{r exercise4-solution}
+penguins %>% 
+  mutate(breeding = ifelse(body_mass_g < 4000, "non-breeder", ifelse(body_mass_g < 5000, "breeder", "super-breeder"))) %>% 
+  arrange(desc(body_mass_g))
+```
+
+```{r exercise4-check}
+grade_result(
+  pass_if(~identical(.result, penguins %>% 
+  mutate(breeding = ifelse(body_mass_g < 4000, "non-breeder", ifelse(body_mass_g < 5000, "breeder", "super-breeder"))) %>% 
+  arrange(desc(body_mass_g))
+  ))
+)
+```
+
+
+## Iteration
+
+### 
+
+Because R is a vectorized programming language, most of the time, we can apply functions to vectors to solve our coding problems. But sometimes, you need to repeat commands a certain number of times. This is where `for` statements come in. They are especially useful for repeatedly sampling.
+
+**Write the code that will generate 20 random samples of 10 numbers from the sequence 1-100 and print them to the console. Use the `sample()` function to draw the samples, and feel free to look up how to use `sample()`.**
+
+```{r exercise5, exercise = TRUE}
+set.seed(20210614)
+for (...) {
+  print(sample(...))
+}
+```
+
+```{r exercise5-solution}
+set.seed(20210614)
+for (i in 1:20) {
+  print(sample(1:100, 10))
+}
+```
+
+```{r exercise5-check}
+set.seed(20210614)
+grade_result(
+  pass_if(~identical(.result, for (i in 1:20) {
+  print(sample(1:100, 10))
+}
+  ))
+)
+```
+
+### 
+
+Because R is vectorized, we can apply functions across vectors without having to use `for` loops. While base R uses `apply()` functions, tidyverse uses `map()` functions from the `{purrr}` library.
+
+**Use one of the `map()` functions to find the maximum value for each of the numeric columns in `penguins` and return a numeric vector. You'll need to use `is.numeric` inside the `where()` function to find the numeric columns. See the `where()` documentation for more information.**
+
+```{r exercise6, exercise = TRUE}
+...
+```
+
+```{r exercise6-solution}
+map_dbl(select(penguins, where(is.numeric)), max, na.rm = TRUE)
+```
+
+```{r exercise6-check}
+set.seed(20210614)
+grade_result(
+  pass_if(~identical(.result, map_dbl(select(penguins, where(is.numeric)), max, na.rm = TRUE)
+  ))
+)
+```
+
+### Wrap-up
+
+Nice job writing your own functions!
+

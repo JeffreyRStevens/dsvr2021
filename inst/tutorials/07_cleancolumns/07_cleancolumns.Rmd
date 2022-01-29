@@ -1,0 +1,225 @@
+---
+title: "Cleaning columns"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+gradethis::gradethis_setup()
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Data wrangling
+
+### Setup
+
+Here, we're focusing on data wrangling using the core functions from `{dplyr}`. To start, let's load the `{dplyr}` package along with the `{palmerpenguins}` package to use the `penguins` data set.
+
+```{r echo = TRUE, message = FALSE}
+library(dplyr)
+library(palmerpenguins)
+head(penguins)
+```
+
+Now we'll start working with columns for this lesson.
+
+## Selecting, moving, and renaming columns
+
+
+### Selecting columns
+
+First, we'll work with columns of our data frames and start with selecting a subsample of them. Often data frames have many columns that we don't want or simply don't want to work with. We use the `select()` function to build data frames with a subset of columns.
+
+**For the `penguins` data set, select only the columns for species, body mass, sex, and year using `:`. Replace the `...` in the code below with the proper arguments.**
+
+```{r exercise1, exercise = TRUE}
+select(penguins, ...)
+```
+ 
+```{r exercise1-check}
+grade_result(
+  pass_if(~identical(.result, select(penguins, species, body_mass_g:year)))
+)
+```
+
+**Now just exclude the island column.**
+```{r exercise2, exercise = TRUE}
+select(penguins, ...)
+```
+ 
+```{r exercise2-check}
+grade_result(
+  pass_if(~identical(.result, select(penguins, -island)))
+)
+```
+
+**Using a `{dplyr}` helper, select only columns that start with `bill`.**
+```{r exercise3, exercise = TRUE}
+select(penguins, ...)
+```
+ 
+```{r exercise3-check}
+grade_result(
+  pass_if(~identical(.result, select(penguins, starts_with("bill_"))))
+)
+```
+
+**Using a `{dplyr}` helper, select only columns that include the string `length`.**
+```{r exercise4, exercise = TRUE}
+select(penguins, ...)
+```
+ 
+```{r exercise4-check}
+grade_result(
+  pass_if(~identical(.result, select(penguins, contains("length"))))
+)
+```
+
+### Moving columns
+
+There are several ways to move columns in a data frame. `select()` works fine when there are a few columns, but `relocate()` is better when there are many columns.
+
+Here's list of the column names:
+```{r echo = TRUE}
+names(penguins)
+```
+
+
+**Use `select()` and a helper function to move the _year_ after the _island_ column.**
+```{r exercise5, exercise = TRUE}
+select(penguins, ...)
+```
+ 
+```{r exercise5-check}
+grade_result(
+  pass_if(~identical(.result, select(penguins, species, island, year, everything())))
+)
+```
+
+**Now use `relocate()` to do the same thing.**
+```{r exercise6, exercise = TRUE}
+relocate(penguins, ...)
+```
+ 
+```{r exercise6-check}
+grade_result(
+  pass_if(~identical(.result, relocate(penguins, year, .after = island)))
+)
+```
+
+### Renaming columns
+
+Like moving columns, there are multiple ways to rename them. Our trusty `select()` can do this, but if you're renaming just a few columns, you have to include all of them. The `rename()` function keeps the rest of the columns intact while only renaming the columns listed.
+
+```{r echo = TRUE}
+names(penguins)
+```
+**Use `select()` to keep the data frame intact but rename `body_mass_g` to `body_mass`.**
+```{r exercise7, exercise = TRUE}
+select(penguins, ...)
+```
+ 
+```{r exercise7-check}
+grade_result(
+  pass_if(~identical(.result, select(penguins, species:flipper_length_mm, body_mass = body_mass_g, sex:year)))
+)
+```
+
+**Now use `rename`()` to do the same thing.**
+```{r exercise8, exercise = TRUE}
+rename(penguins, ...)
+```
+ 
+```{r exercise8-check}
+grade_result(
+  pass_if(~identical(.result, rename(penguins, body_mass = body_mass_g)))
+)
+```
+
+## Changing and creating columns
+
+After selecting, moving, and renaming your columns, you may need to change values in the columns or create new columns from your data. This is where the `mutate()` function comes in.
+
+### Changing columns  {data-allow-skip=TRUE}
+
+We've covered converting data types for vectors, but often we need to convert data frame columns, too, especially if they were imported incorrectly. For example, we may have a column of condition numbers that are imported as numerics, but we may want them to be factors.
+
+**Change the year column from an integer to a character while keeping the rest of the data frame the same.**
+```{r exercise9, exercise = TRUE}
+mutate(penguins, ...)
+```
+ 
+```{r exercise9-check}
+grade_result(
+  pass_if(~identical(.result, mutate(penguins, year = as.character(year))))
+)
+```
+
+We can also perform computations on the data values.
+
+**Convert the body mass of the penguins to kg by dividing by 1000 (don't change the column name for now).**
+```{r exercise10, exercise = TRUE}
+mutate(penguins, ...)
+```
+ 
+```{r exercise10-check}
+grade_result(
+  pass_if(~identical(.result, mutate(penguins, body_mass_g = body_mass_g / 1000)))
+)
+```
+
+If we want to change multiple columns at the same time, we can use the `across()` function. 
+
+**Convert all columns with `_mm` in the column names to cm by dividing by 10 (don't change column names). This is pretty advanced, so I'll give the hint that you need to use this as the function that `across()` uses: `~.x / 10`. If you can't get this one, that's fine.**
+```{r exercise11, exercise = TRUE}
+mutate(penguins, across(...))
+```
+ 
+```{r exercise11-check}
+grade_result(
+  pass_if(~identical(.result, mutate(penguins, across(contains("_mm"), ~.x / 10))))
+)
+```
+
+### Creating columns from data
+
+In addition to changing existing columns, often we need to create new columns, sometimes based on other columns.
+
+**Create a new column called `bill_area` that calculates the area of the bill by multiplying the bill length by the depth.**
+```{r exercise12, exercise = TRUE}
+mutate(penguins, ...)
+```
+ 
+```{r exercise12-check}
+grade_result(
+  pass_if(~identical(.result, mutate(penguins, bill_area = bill_length_mm * bill_depth_mm)))
+)
+```
+
+You can also create columns that aren't tied to the data. For instance, to make a column called `odd_even` that alternates between `odd` and `even`, you can do the following:
+
+```{r echo = TRUE}
+mutate(penguins, odd_even = rep(c("odd", "even"), times = nrow(penguins) / 2))
+```
+
+I often use `mutate()` to create a column for `study` with a study number when my study data sets are separate data frames that I want to later combine into a single data frame.
+
+**Create a `study` column that just has the number 1 for all rows. Hint: You don't even need to use the `rep()` function because of how vectors are recycled.**
+```{r exercise13, exercise = TRUE}
+mutate(penguins, ...)
+```
+ 
+```{r exercise13-check}
+grade_result(
+  pass_if(~identical(.result, mutate(penguins, study = 1)))
+)
+```
+
+
+### Wrap-up
+
+You now have the tools for cleaning columns of data!
+

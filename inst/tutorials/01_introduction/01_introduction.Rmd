@@ -1,0 +1,417 @@
+---
+title: "Introduction to R, RStudio, and tidyverse"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(gradethis)
+library(devtools)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Welcome
+
+### Welcome to your first R tutorial! 
+
+These tutorials will review information about R content for each class meeting and provide exercises for you to practice coding and demonstrate your knowledge. 
+
+The tutorials are set to require completion of an exercise before continuing to the next exercise. Also, if you want to clear your answers and start over, click the Start Over link below the topic menu to the left. 
+
+### Reminders
+The last exercise for each tutorial will provide the text that you need to submit to Canvas to get credit for completing the exercises. So don't forget to copy that text over to Canvas each time.
+
+If you find any typos or bugs, submit them as issues at the [GitHub repo](https://github.com/dsvr2021/dsvr_2021/issues). If you have other questions or suggestions, please email Jeff through Canvas.
+
+I hope you enjoy your first tutorial!
+
+## Packages
+
+### Installing packages from CRAN
+
+Installing packages from CRAN is super easy with RStudio, but it is helpful to know how to do it from the R console. 
+
+```{r cran_package_install}
+question("Which function do we use to install packages from CRAN?",
+         answer("`install.package()`", message = "Remember that this function allows you to install multiple packages simultaneously."),
+         answer("`installed.packages()`", message = "This function returns the packages already installed on your computer."),
+         answer("`install.packages()`", correct = TRUE),
+         answer("`install_package()`", message = "The correct function does not include an underscore."),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+
+### Installing packages from GitHub
+
+Installing from sources other than CRAN can be a little bit trickier. It is common, for example, for packages to be published on GitHub before they are available on CRAN. The `{devtools}` package has a `install_github()` function that easily installs packages from GitHub with just the user name and package name. 
+
+```{r install_github}
+question_text(
+  'Without loading the `{devtools}` package, type in the code that would use the `install_github()` function to install `"rstudio/learnr"`.',
+  answer('devtools::install_github("rstudio/learnr")', correct = TRUE),
+  answer("devtools::install_github('rstudio/learnr')", correct = TRUE),
+  answer('devtools:install_github("rstudio/learnr")', message = "Oops, you need two colons between the package and function: package_name::function."),
+  answer("devtools:install_github('rstudio/learnr')", message = "Oops, you need two colons between the package and function: package_name::function."),
+  answer('install_github("rstudio/learnr")', message = "Don't forget that, if you don't load the package, you need to prepend a function with the package name: package_name::function."),
+  answer('install_github(rstudio/learnr)', message = "Don't forget that, if you don't load the package, you need to prepend a function with the package name: package_name::function."),
+  answer('devtools::install_github(rstudio/learnr)', message = "Don't forget the quotations around the to-be-installed package."),
+  answer('devtools::install_github("rstudio", "learnr")', message = "This function requires the user name and package name to be separated by a / rather than separate arguments."),
+  answer('devtools::install_github()', message = "Oops, you need to include the information about the to-be-installed package."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+
+### Loading packages
+
+Though you can load packages through RStudio, you should know how to do it with a function, so you can include this in scripts. 
+
+```{r load_devtools}
+question_text(
+  "Type in the code that would load the `{devtools}` package. ",
+  answer('library("devtools")', correct = TRUE),
+  answer('library(devtools)', correct = TRUE),
+  answer("library('devtools')", correct = TRUE),
+  answer('require("devtools")', message = "While require() does similar things as library(), we're using library() in this course."),
+  answer('require(devtools)', message = "While require() does similar things as library(), we're using library() in this course."),
+  answer("require('devtools')", message = "While require() does similar things as library(), we're using library() in this course."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+
+## Help with functions
+
+### Getting help
+
+You will often need help when using R. Don't worry, we all do. R users are expert googlers! You'll get plenty of practice looking for help throughout your R journey, so let's figure out how to do it.
+
+We'll start with cases where you know the function you want to find out about. Maybe you don't remember which arguments to include or what the function outputs or just how to use it. You can either type `?function` or enter the function in the search box in the Help pane.
+
+![](images/search_help.png)
+
+Let's get some information about the `here()` function.
+
+```{r help_search}
+question_text(
+  'Type in the code that would open the help documetation for the `here()` function from the R console.',
+  answer("?here", correct = TRUE),
+  answer("?here::here", correct = TRUE),
+  answer("help(here)", correct = TRUE),
+  answer("help(here, here)", correct = TRUE),
+  answer("help(here)", message = "That's not quite the correct syntax for this function. Try `?help`."),
+  answer("?here()", message = "Don't include the parentheses when using `?`."),
+  answer("?here::here()", message = "Don't include the parentheses when using `?`."),
+  answer("?here:here", message = "Very close! This syntax requires two colons `::`."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+### Loaded packages
+
+This was a little bit of a trick question. If you typed `?here`, this is correct, but if you type that into your R console now, you will likely get an error. 
+
+```
+No documentation for ‘here’ in specified packages and libraries:
+you could try ‘??here’
+```
+
+Remember, `?` only works for packages that are loaded. If you know which package the function is in, you should prepend the package name (e.g., `?here::here`). Otherwise, it is usually safer to use `??` or or use the RStudio search bar. Also remember that you can't bring up documentation for functions in packages that you don't have installed on your computer.
+
+### Help documentation
+
+Most help documentation has a standard set of sections, including a description, a list of function argument usage and defaults, definitions of function arguments, extra details, returned output (Value), related functions (See Also), and examples.
+
+For extensive documentation, you can use the *Find in Topic* bar to search for text within the documentation.
+
+Find and read the documentation for the `t.test` function and answer the following questions.
+
+```{r help_documentation}
+quiz(
+  question("What is the default value for the `paired` argument?",
+           answer("`TRUE`", message = "Check under Usage in the documenation."),
+           answer("`true`", message = "Check under Usage in the documenation."),
+           answer("`FALSE`", correct = TRUE),
+           answer("`false`", message = "Don't forget that argument values are case sensitive."),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question("What is the `mu` argument?",
+           answer("a number indicating the true value of the mean", correct = TRUE),
+           answer("a function to calculate the mean value"),
+           answer("a variable for monetary units"),
+           answer("the sound a kitten makes"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question("How do you specify the hypothesis that the `x` column has a smaller mean than the `y` column?",
+           answer('`alternative = "greater"`', message = "Look at the direction carefully."),
+           answer('`alternative = "less"`', correct = TRUE),
+           answer('`alternative = "two.sided"`'),
+           answer('`alternative = "FALSE"`'),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question("Which of the following list components outputs the value for the mean or difference in means?",
+           answer("`statistic`"),
+           answer("`estimate`", correct = TRUE),
+           answer("`parameter`"),
+           answer("`method`"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  )
+)
+```
+
+
+### Find a package
+
+If you're interested in looking at the functions with a package, you can search for the package, too. 
+
+* To get a quick overview of the package, type `?package`.  This usually includes the URL to the package's website and/or GitHub page. This functionality is not available for all packages.
+* For an index of all of the functions, type `??package` or click on the *Index* link at the bottom of the package overview page or any function documentation page. 
+* To see the CRAN description, information click on the DESCRIPTION link on the index page. This usually includes the URL to the package's website and/or GitHub page (if a package overview is not available).
+* The index page also often has links to all of the package vignettes.
+
+### Explore package documentation
+
+If you have not already, install and load the `{devtools}` package. Then type `?devtools` and explore the package information.
+
+```{r package_documentation}
+quiz(
+  question("What is the `{devtools}` website?",
+           answer("https://devtools.org/"),
+           answer("https://devtools.rstudio.org/"),
+           answer("https://devtools.r-lib.org/", correct = TRUE),
+           answer("https://devtools.github.org/"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question("What are the first two numbers for the version of `{devtools}` that is installed?",
+           answer("2.4", correct = TRUE),
+           answer("0.0"),
+           answer("1.0"),
+           answer("3.2"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question("Which function parses the R CMD check log file?",
+           answer("`check_built`"),
+           answer("`check_failures`", correct = TRUE),
+           answer("`check_man`"),
+           answer("`check`"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question("How many vignettes does `{devtools}` have?",
+           answer('2'),
+           answer('1', correct = TRUE),
+           answer('3'),
+           answer('4'),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  )
+)
+```
+
+## Help with code
+
+### Help from the experts
+
+Sometimes, you know the function that you need, and you (think you) are using the function correctly, but the code generates an error or doesn't work as expected. Of course, the first thing to do is google the error message or a general description of the problem. I find that >98% of the time, that generates a solution to the problem (though it might take multiple rounds of search terms or crawling down rabbit holes of recursive help pages before landing on the solution).
+
+But for that <2% of the time, the information is just not available. Now you may need to post a question on a forum (e.g., [RStudio Community](https://community.rstudio.com) or [Stack Overflow](https://stackoverflow.com/)) or even submit a bug report to a package's GitHub repository. Keep in mind, these options should be last resorts after you've scoured the internet (and asked me!). Code developers are busy people, and personally I want them developing amazing new tools rather than answering questions that have already been answered in documentation or help forums.
+
+### Posting to forums
+
+Before you post something on a forum, you should learn [how to ask a good question](https://stackoverflow.com/help/how-to-ask). This involves writing an informative title, including relevant tags, and describing the problem, the expected behavior, and the actual behavior. But a critical piece of asking for help is including a reproducible example---that is, a minimal amount of code that someone else can use to reproduce the problem. This is such an important component of getting help that...of course...there's a [package for that: `{reprex}`](https://reprex.tidyverse.org/index.html).
+
+### Data for reproducible examples
+
+Step one of creating a reproducible example is to create the code that you want to post that demonstrates the problem with the least amount of code that you can make public. This means that you cannot post your data or the entire workflow getting to this part of your data analysis. Probably the best option here is to use an example data set loaded to base R (e.g., `mtcars`) or a data set included in a commonly used package (e.g., [`{palmerpenguins}`](https://allisonhorst.github.io/palmerpenguins/articles/intro.html)). To see the data sets included in base R, type `data()`. Alternatively, you can type a small data frame into your example.
+
+Go ahead and install and load the `{palmerpenguins}` package on your computer in RStudio, as we'll use it here and in future sessions.
+
+```
+install.packages("palmerpenguins")
+library("palmerpenguins")
+```
+
+### Creating a reproducible example
+
+Now that you have an available data set, you need to write the smallest chunk of code that generates the problem. Once you have that, you're ready to evaluate your code. Now, you need to install and load the `{reprex}` package in RStudio.
+
+```
+install.packages("reprex")
+library("reprex")
+```
+
+The `{reprex}` packages basically spins up a new R session, runs your code in it, and returns the output from that code. So the first thing that you need to do in your reproducible example is load any packages that are required for the code to run (because, remember, the people testing your code don't necessarily have the packages loaded already). If you forget to include the packages, you'll see this very quickly when you run `reprex()`. Next, you need to make sure that the data are available.
+
+Once you have your code ready, copy it to the clipboard, and run `reprex()` from the R console. This will run the copied code in a new R session. Then it will post the output to the Viewer pane in RStudio and copy it to the clipboard so you can paste it into your forum form or text document.
+
+### Testing a reprex
+
+OK, let's try it! Let's assume that for our reprex, we just want to show the first three rows of the `penguins` data set using the `head()` function. After you've installed and loaded `{reprex}`, copy the following code and then type `reprex()` in the RStudio R console. 
+
+```
+head(penguins, 3)
+```
+
+After you run the code, click Continue to see what went wrong.
+
+### Running a reprex
+
+OK, I set you up to fail there. You likely received an error. Here's what happened, if you received one of the following errors.
+
+If you received `Error in reprex() : could not find function "reprex"` in the R console, this means either you did not install or load the `{reprex}` package. Please install and load the package.
+
+If `reprex()` worked properly, you should have had this output in the Viewer tab:
+
+``` r
+head(penguins, 3)
+#> Error in head(penguins, 3): object 'penguins' not found
+```
+
+<sup>Created on 2021-03-05 by the [reprex package](https://reprex.tidyverse.org) (v1.0.0)</sup>
+
+This is the expected behavior. 
+
+```{r reprex_fail}
+question("Why did you receive this error?",
+         answer("I didn't load `{palmerpenguins}` in my RStudio session.", message = "Remember `{reprex}` spins up its own R session."),
+         answer("I didn't load the `head()` function.", message = "We load packages not functions."),
+         answer("I didn't load `{palmerpenguins}` in the reprex.", correct = TRUE),
+         answer("I don't believe penguins really exist.", message = "OK, I can't help you there."),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+### Running a reprex
+
+Remember, we need to include all packages that are required to run the reprex. Now copy the following text and run `reprex()`.
+
+```
+library("palmerpenguins")
+head(penguins, 3)
+```
+
+You should have generated the following:
+
+``` r
+library("palmerpenguins")
+head(penguins, 3)
+#> # A tibble: 3 x 8
+#>   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g sex  
+#>   <fct>   <fct>           <dbl>         <dbl>            <int>       <int> <fct>
+#> 1 Adelie  Torge…           39.1          18.7              181        3750 male 
+#> 2 Adelie  Torge…           39.5          17.4              186        3800 fema…
+#> 3 Adelie  Torge…           40.3          18                195        3250 fema…
+#> # … with 1 more variable: year <int>
+```
+
+<sup>Created on 2021-03-05 by the [reprex package](https://reprex.tidyverse.org) (v1.0.0)</sup>
+
+Congratulations, you just created your first reproducible example! Not only is this important for posting questions to forums, but I would like you to run `reprex()` before sending questions to me, too.
+
+
+## RStudio
+
+### Panels
+
+Spend some time exploring the RStudio menus and panels. While you can customize the positions of the panels, using the standard configuration will make it easier for other people (read: me) to understand what you are doing if you ask for help.
+
+Here is a list the tabs that you'll be using most often. Make sure you are familiar with them.
+ 
+* Editor
+* Console
+* Environment
+* History
+* Plots
+* Packages
+* Help
+
+```{r rstudio_tabs}
+quiz(
+  question("Where do you type up your code in scripts to save it in a file?",
+           answer("Console"),
+           answer("Help"),
+           answer("Editor", correct = TRUE),
+           answer("Microsoft Word", message = "Ugh! [shutter]"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+  ),
+  question("Where is R code executed?",
+           answer("Console", correct = TRUE),
+           answer("Editor"),
+           answer("History"),
+           answer("Terminal"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+  ),
+  question("What does the Environment tab do?",
+           answer("Shows objects available in the workspace", correct = TRUE),
+           answer("Shows the files and subdirectories in the working directory"),
+           answer("Shows a list of the previous commands that you have run in the console"),
+           answer("Shows you how to be more ecologically sustainable"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+  )
+)
+```
+
+
+### Keyboard shortcuts
+
+Using keyboard shortcuts will greatly simplify your RStudio workflow and allow you to work more quickly. There are dozens of keyboard shortcuts in RStudio. You can find them by going to the menu bar *Tools* > *Keyboard Shortcuts Help*. Explore the keyboard shortcuts and answer the following questions:
+
+```{r keyboard_shortcuts}
+quiz(
+  question("What is the keyboard shortcut for finding the keyboard shortcuts?",
+           answer("Control+Shift+K"),
+           answer("Control+Alt+K"),
+           answer("Alt+Shift+K", correct = TRUE),
+           answer("kk"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+  ),
+  question("What is the keyboard shortcut for restarting R?",
+           answer("Control+Shift+F10", correct = TRUE),
+           answer("Control+Shift+R"),
+           answer("Control+Shift+S"),
+           answer("Control+Shift+F11"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+  ),
+  question("What does Alt+- do?",
+           answer("Inserts assignment operator", correct = TRUE),
+           answer("Focuses console input"),
+           answer("Moves lines down"),
+           answer("Moves lines up"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+  ),
+  question("What does Control+Shift+M do?",
+           answer("Moves focus to terminal"),
+           answer("Inserts pipe operator", correct = TRUE),
+           answer("Commits changes"),
+           answer("Renames symbol in scope"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+  )
+)
+```
+
+### Wrap-up
+
+Congratulations, you finished your first tutorial!  Again, if you found any typos or bugs, submit an [issue](https://github.com/jsteven5/dsvr2021/issues), and email Jeff with questions and suggestions.
+

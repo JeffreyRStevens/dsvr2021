@@ -1,0 +1,239 @@
+---
+title: "Merging data"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(nycflights13)
+library(dplyr)
+gradethis::gradethis_setup()
+knitr::opts_chunk$set(echo = FALSE)
+flights13 <- flights %>% 
+  slice_sample(n = 5) %>%   # grab 5 random rows
+  select(year:day, origin, dest, tailnum, carrier)  # select the columns that we want
+flights14 <- flights %>% 
+  slice_sample(n = 5) %>%   # grab 5 random rows
+  select(year:day, origin, dest, tailnum, carrier) %>%   # select the columns that we want
+  mutate(year = 2014)  # change the year to 2014
+
+```
+
+## Introduction
+
+Often our data are spread out over different data frames, and we need to merge them together. There are several ways to do this depending on how the data are arranged.
+
+### Flight data
+
+First, we need to prepare our data for this analysis. We'll use the data from the `nycflights13` package, but the datasets are huge, so we'll trim them down a bit. So let's load the package and create a smaller dataset.
+
+```{r echo = TRUE, message = FALSE}
+library(nycflights13)
+library(dplyr)
+glimpse(flights)
+set.seed(20210518)  # set the random number generator seed
+flights13 <- flights %>% 
+  slice_sample(n = 5) %>%   # grab 5 random rows
+  select(year:day, origin, dest, tailnum, carrier)  # select the columns that we want
+flights13
+```
+
+
+## Adding rows and columns
+
+Let's say we have some data from 2014 that we want to add to the bottom of `flights13`. How would we do that? Here's the new data:
+
+```{r echo = TRUE}
+flights14 <- flights %>% 
+  slice_sample(n = 5) %>%   # grab 5 random rows
+  select(year:day, origin, dest, tailnum, carrier) %>%   # select the columns that we want
+  mutate(year = 2014)  # change the year to 2014
+flights14
+```
+
+Would we use `bind_rows()` or `bind_cols()` to do this? Type the code that would combine `flights13` and `flights14` to create an object called `flights1314`.
+
+```{r exercise1, exercise = TRUE}
+flights1314 <- bind_???(...)
+flights1314
+```
+ 
+```{r exercise1-check}
+grade_result(
+  pass_if(~identical(.result, flights1314 <- bind_rows(flights13, flights14)))
+)
+```
+
+Now create a vector called `id` that is a sequence from 1-10 and add it to the _beginning_ of `flights1314` (ensuring it is named `id`).
+
+```{r}
+id <- 1:10
+flights1314 <- bind_rows(flights13, flights14)
+```
+
+
+```{r exercise2, exercise = TRUE}
+id <- ...
+bind_???(...)
+```
+ 
+```{r exercise2-check}
+grade_result(
+  pass_if(~identical(.result, bind_cols(id = id, flights1314)))
+)
+```
+
+
+## Mutating joins
+
+Mutating joins merge columns. Inner joins keep observations that show up in both dataframes. Outer joins keep observations from one or both dataframes. Left and right joins maintain observations from the respective side, and full joins maintain all observations.
+
+### Questions
+
+Here are two dataframes:
+```{r}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3",
+     4, "x4"
+)
+y <- tribble(
+  ~key, ~val_y,
+     1, "y1",
+     2, "y2",
+     4, "y3",
+     5, "y4"
+)
+```
+```{r echo = TRUE}
+x
+y
+```
+
+**Which type of join would produce the following dataframe?**
+```{r, message = FALSE}
+z <- left_join(x, y)
+z
+```
+
+```{r left-join}
+question(
+  "",
+  answer('`left_join(x, y)`', correct = TRUE),
+  answer('`right_join(x, y)`'),
+  answer('`inner_join(x, y)`'),
+  answer('`full_join(x, y)`'),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+**Which type of join would produce the following dataframe?**
+```{r, message = FALSE}
+z <- full_join(x, y)
+z
+```
+
+```{r full-join}
+question(
+  "",
+  answer('`full_join(x, y)`', correct = TRUE),
+  answer('`right_join(x, y)`'),
+  answer('`inner_join(x, y)`'),
+  answer('`left_join(x, y)`'),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+**Which type of join would produce the following dataframe?**
+```{r, message = FALSE}
+z <- inner_join(x, y)
+z
+```
+
+```{r inner-join}
+question(
+  "",
+  answer('`inner_join(x, y)`', correct = TRUE),
+  answer('`right_join(x, y)`'),
+  answer('`left_join(x, y)`'),
+  answer('`full_join(x, y)`'),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+## Filtering joins
+
+Filtering joins merge rows. Semi joins keep all observations that match the base dataframe. Anti joins exclude observations in the base dataframe.
+
+### Questions
+
+Here are two dataframes:
+```{r}
+x <- tribble(
+  ~key, ~val_x,
+     1, "x1",
+     2, "x2",
+     3, "x3",
+     4, "x4"
+)
+y <- tribble(
+  ~key, ~val_y,
+     1, "x1",
+     2, "x2",
+     4, "x4",
+     5, "x5"
+)
+```
+```{r echo = TRUE}
+x
+y
+```
+
+**Which type of join would produce the following dataframe?**
+```{r, message = FALSE}
+z <- anti_join(x, y)
+z
+```
+
+```{r anti-join}
+question(
+  "",
+  answer('`anti_join(x, y)`', correct = TRUE),
+  answer('`left_join(x, y)`'),
+  answer('`semi_join(y, x)`'),
+  answer('`full_join(x, y)`'),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+**Which type of join would produce the following dataframe?**
+```{r, message = FALSE}
+z <- semi_join(y, x)
+z
+```
+
+```{r semi-join}
+question(
+  "",
+  answer('`anti_join(x, y)`'),
+  answer('`left_join(x, y)`'),
+  answer('`semi_join(x, y)`', correct = TRUE),
+  answer('`full_join(x, y)`'),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+### Wrap-up
+
+You've now _joined_ ranks of the `{dplyr}` elite (see what I did there?).
+

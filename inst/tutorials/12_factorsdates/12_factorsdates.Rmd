@@ -1,0 +1,290 @@
+---
+title: "Tutorial"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(palmerpenguins)
+library(lubridate)
+gradethis::gradethis_setup()
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Introduction
+
+### Factors and dates
+
+As a reminder, the four core data types are character, double, integer, and logical. Factors and dates are _augmented vectors_. Factors are augmented integers and dates are augmented doubles.
+
+## Factors
+
+### Set-up
+To work with factors, we'll use the `{forcats}` package, which is automatically loaded when you load the core tidyverse packages. We'll go ahead and load `{tidyverse}` since we'll need other tidyverse packages. We'll also load the `{palmerpenguins}` package to work with those data.
+
+```{r echo = TRUE}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+### Ordering factor levels
+The `penguins` data frame has three variables that are factors: species, island, and sex.
+
+```{r}
+penguins
+```
+
+First, let's check the levels for the `species` variable.
+
+```{r echo = TRUE}
+levels(penguins$species)
+```
+
+They seem to be in alphabetical order. Let's say that we want the levels to be in the opposite order: Gentoo, Chinstrap, Adelie.
+
+**Reverse the order of the levels by replacing the `...` with the proper `{forcats}` function. Note that since we are just working with the vector `penguins$species`, we don't need to mutate anything---we can just use one of the `{forcats}` functions to change the levels.**
+```{r exercise1, exercise = TRUE}
+penguins$species %>% 
+  ... %>% 
+  levels()
+```
+ 
+```{r exercise1-solution}
+penguins$species %>% 
+  fct_rev() %>% 
+  levels()
+```
+
+```{r exercise1-check}
+grade_result(
+  pass_if(~identical(.result, penguins$species %>% 
+  fct_rev() %>% 
+  levels()))
+)
+```
+
+**Now put the levels in the order Chinstrap, Gentoo, Adelie.**
+```{r exercise1b, exercise = TRUE}
+penguins$species %>% 
+  ... %>% 
+  levels()
+```
+ 
+```{r exercise1b-solution}
+penguins$species %>% 
+  fct_relevel("Chinstrap", "Gentoo", "Adelie") %>% 
+  levels()
+```
+
+```{r exercise1b-check}
+grade_result(
+  pass_if(~identical(.result, penguins$species %>% 
+  fct_relevel("Chinstrap", "Gentoo", "Adelie") %>% 
+  levels()
+  ))
+)
+```
+
+### Recoding factors
+
+Now we want the word "Island" to be added to each of the island names in the data frame. So we need to recode the existing factor levels.
+
+**Recode the island variable to add "Island" to each factor level (e.g., "Biscoe Island", "Dream Island", and "Torgersen Island") using a `{forcats}` function (not a `{stringr}` function).**
+```{r exercise2, exercise = TRUE}
+penguins$island %>% 
+  ... %>% 
+  levels()
+```
+ 
+```{r exercise2-solution}
+penguins$island %>% 
+  fct_recode("Biscoe Island" = "Biscoe", "Dream Island" = "Dream", "Torgersen Island" = "Torgersen") %>% 
+  levels()
+```
+
+```{r exercise2-check}
+grade_result(
+  pass_if(~identical(.result, penguins$island %>% 
+  fct_recode("Biscoe Island" = "Biscoe", "Dream Island" = "Dream", "Torgersen Island" = "Torgersen") %>% 
+  levels()))
+)
+```
+
+###
+
+Now we want to create a new column that provides each species' diet. Gentoo penguins are generalists (meaning they feed on a number of different food items) and Adelie and chinstrap penguins are specialists that feed primarily on krill. To do this, we will mutate the `species` variable into a new `diet` variable that recodes Gentoo to "generalist" and Adelie and chinstrap to "specialist".
+
+**Create a new column that recodes the species to their diets using the `fct_collapse()` function.**
+```{r exercise3, exercise = TRUE}
+penguins %>% 
+  mutate(diet = fct_collapse(...))
+```
+ 
+```{r exercise3-solution}
+penguins %>% 
+  mutate(diet = fct_collapse(species, generalist = "Gentoo", specialist = c("Adelie", "Chinstrap")))
+```
+
+```{r exercise3-check}
+grade_result(
+  pass_if(~identical(.result, penguins %>% 
+  mutate(diet = fct_collapse(species, generalist = "Gentoo", specialist = c("Adelie", "Chinstrap")))))
+)
+```
+
+## Dates
+
+### Set-up
+
+Working with dates requires the `{lubridate}` package, which is not part of the core tidyverse packages. Therefore, we need to load it separately.
+
+```{r echo = TRUE, message = FALSE}
+library(lubridate)
+```
+
+### Today's date
+
+```{r todays-date}
+question(
+  'Which of the following commands return today\'s date (and only the date)?',
+  answer('`Sys.Date()`', correct = TRUE),
+  answer('`today()`', correct = TRUE),
+  answer('`Sys.Time()`'),
+  answer('`Sys.date()`'),
+  answer('`Sys.time()`'),
+  answer('`now()`'),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+### Creating dates and times
+
+Remember the standard way to format dates is the ISO 8601 format: YYYY-MM-DD. Type the code to convert the following dates or date/times to the standard format (e.g., 2021-06-11).
+
+**11 Jun 21**
+```{r exercise4, exercise = TRUE}
+mydate <- "11 Jun 21"
+...
+```
+ 
+```{r exercise4-check}
+grade_result(
+  pass_if(~identical(.result, dmy(mydate)))
+)
+```
+
+**2021-6-11**
+```{r exercise5, exercise = TRUE}
+mydate <- "2021-6-11"
+...
+```
+ 
+```{r exercise5-check}
+grade_result(
+  pass_if(~identical(.result, ymd(mydate)))
+)
+```
+
+**June 11th 2021**
+```{r exercise6, exercise = TRUE}
+mydate <- "June 11th 2021"
+...
+```
+ 
+```{r exercise6-check}
+grade_result(
+  pass_if(~identical(.result, mdy(mydate)))
+)
+```
+
+**06/11/2021 15:00**
+```{r exercise7, exercise = TRUE}
+mydate <- "06/11/2021 15:00"
+...
+```
+ 
+```{r exercise7-check}
+grade_result(
+  pass_if(~identical(.result, mdy_hm(mydate)))
+)
+```
+
+### Extracting date/time components
+
+Once your dates and times are formatted correctly, it is easy to extract individual components with the provided functions in `{lubridate}`.
+
+**Find today's date and extract the full word for the month (no abbreviations) using a `{lubridate}` function.**
+```{r exercise8, exercise = TRUE}
+mydate <- today()
+...
+```
+ 
+```{r exercise8-check}
+grade_result(
+  pass_if(~identical(.result, month(mydate, label = TRUE, abbr = FALSE)))
+)
+```
+
+**Find today's date and extract the abbreviation for the day of the week using a `{lubridate}` function.**
+```{r exercise9, exercise = TRUE}
+mydate <- today()
+...
+```
+ 
+```{r exercise9-check}
+grade_result(
+  pass_if(~identical(.result, wday(mydate, label = TRUE)))
+)
+```
+
+**Create a character vector (not factors) of the full names of the _weekdays_ (not weekend days) using a `{lubridate}` function.**
+```{r exercise10, exercise = TRUE}
+...
+```
+ 
+```{r exercise10-solution}
+as.character(wday(2:6, label = TRUE, abbr = FALSE))
+```
+
+```{r exercise10-check}
+grade_result(
+  pass_if(~identical(.result, as.character(wday(2:6, label = TRUE, abbr = FALSE))))
+)
+```
+
+### Time spans
+
+One of the great things about working with dates is that you can use math to calculate time spans.
+
+**Calculate the number of days that have passed since the class started on May 17th, 2021.**
+```{r exercise11, exercise = TRUE}
+...
+```
+ 
+```{r exercise11-check}
+grade_result(
+  pass_if(~identical(.result, today() - ymd("2021-05-17")))
+)
+```
+
+**Find the date 123 days from now.**
+```{r exercise12, exercise = TRUE}
+...
+```
+ 
+```{r exercise12-check}
+grade_result(
+  pass_if(~identical(.result, today() + 123))
+)
+```
+
+### Wrap-up
+
+You know your factors and dates!
+
