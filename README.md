@@ -1,14 +1,14 @@
 
 # Data Science and Visualization in R
 
-Update: 2022-01-21
+Update: 2022-01-22
 
 This is the repository for PSYC 492/971 Data Science and Visualization
 in R. In it, you will find:
 
 -   [syllabus](https://github.com/JeffreyRStevens/dsvr2021/blob/main/docs/syllabus.pdf)
 -   [lesson presentations and
-    code](https://github.com/JeffreyRStevens/dsvr2021/tree/main/docs/lesson)
+    code](https://github.com/JeffreyRStevens/dsvr2021/tree/main/docs/lessons)
 -   [exercises](https://github.com/JeffreyRStevens/dsvr2021/tree/main/inst/tutorials)
 -   [module
     check-ins](https://github.com/JeffreyRStevens/dsvr2021/tree/main/docs/checkins)
