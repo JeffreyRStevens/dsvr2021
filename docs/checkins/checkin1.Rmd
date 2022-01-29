@@ -1,0 +1,67 @@
+---
+title: "Check-in 1"
+output: pdf_document
+urlcolor: blue
+---
+
+```{r global_options, include=FALSE}
+library(knitr)
+library(ggplot2)
+opts_chunk$set(fig.align="center", fig.height=4, fig.width=5.5, echo = TRUE)
+```
+
+**The check-ins will review material presented in class but will also require you to think about new concepts, integrate across topics, and search for information in R help. Some will be complex and take time to figure out. Feel free to work in groups on this. **
+
+**Please submit as a pdf file on Canvas. Insert answers within the asterisks, backticks, or code chunks unless directed otherwise.**
+
+**Problem 1: (1 pt)**  Create a new directory and R Project called `checkins`. Save this Rmd file in that directory. Type the full absolute path to this file.
+
+*Type path here.*
+
+
+**Problem 2: (1 pt)**  Create a subdirectory in your `checkins/` directory called `R`. In the `R/` directory, create an R script called `analysis.R` that just includes the command `2+2`. What code would you type to run the whole script? 
+
+```{r}
+# Replace this entire line (including the #) with the code to run script.
+```
+
+
+
+
+
+**Problem 3: (3 pts)** Imagine that you have a long script and when running your code you receive an unfamiliar error with no information about where it occurred in your script. How would you find where the error was? Note the answer to this was not presented in class. I want you to think through logically how you would solve the problem of finding an error in your script.
+
+*Your text goes here.*
+
+
+
+**Problem 4: (3 pts)**  Demonstrate basic command of Markdown by typing the code for a bulleted list with three items, a numbered list with three items, and a sentence that has one word in bold and one word in italics. Note when you knit this, the output will be the Markdown code not the formatted output.
+
+```
+Type bulleted list code here.
+```
+```
+Type numbered list code here.
+```
+```
+Type sentence here.
+```
+
+
+
+**Problem 5: (3 pts)**  Sometimes you may want to format text in sentences to look like code (e.g., monospace font) and sometimes you may want to actually run the code through R Markdown in the middle of a sentence. What is the difference between formatting text to look like code and actually running code? That is, in a R Markdown document, how would you format code in a sentence versus run the code inline? Note this is not referring to code chunks but inline code.
+
+*Your text goes here.*
+
+
+
+**Problem 6: (5 pts)**  Using the [`{reprex}`](https://reprex.tidyverse.org/), create a reproducible example that outputs only the first four rows of the `penguins` dataset from the [`{palmerpenguins}`](https://allisonhorst.github.io/palmerpenguins/) package.  *Hint: When you run the correct command, the reproducible example is automatically copied to your clipboard.*
+
+*Paste your `{reprex}` output here (but without the asterisks).*
+
+
+
+**Problem 7: (5 pts)**  Submit an issue to either the [`dsvr_2021`](https://github.com/dsvr2021/dsvr_2021) or [`git_sandbox`](https://github.com/dsvr2021/git_sandbox) repo on GitHub. The issue should be either catching typos, pointing out unclear material, reporting a bug in the code, or requesting a new feature. If you don't have any of these issues, then go to the [`dsvr_2021`](https://github.com/dsvr2021/dsvr_2021) repo and report content that was difficult for you (including this check-in!). Type the repo name, issue number, and issue content as your response to this problem.
+
+*Your text goes here.*
+

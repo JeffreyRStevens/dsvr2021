@@ -1,0 +1,54 @@
+---
+title: "Check-in 2"
+output: pdf_document
+urlcolor: blue
+---
+
+```{r global_options, include=FALSE}
+library(knitr)
+library(ggplot2)
+opts_chunk$set(fig.align="center", fig.height=4, fig.width=5.5)
+```
+
+**Please submit as a pdf file on Canvas. Insert answers within the asterisks or backticks unless directed otherwise.**
+
+**Problem 1: (1 pt)**  Save this Rmd file in the `checkins` directory. Type the full absolute path to this file.
+
+`Type path here`
+
+
+**Problem 2: (2 pt)**  Type in (and run) the code that uses `{readr}`'s function to import the data file from the following URL: `https://decisionslab.unl.edu/data/stevens_etal_2020_obed_data1.csv` and assigns it to the object `dog_data`. Do the same thing using a base R function and assign the output to the object `dog_data2`. To clarify, you should type two lines of code and import the data twice---once using `{readr}`'s import function and once using base R's import function.
+
+`Type code here.`
+
+
+
+**Problem 3: (2 pts)** Examine the data types of the columns in `dog_data` and `dog_data2`. How do they differ? That is, how do the two import functions differ in how they parse different data types? What did you use to check for differences?
+
+*Your text goes here.*
+
+
+
+**Problem 4: (3 pts)**  Type (and run) the code to subset the `dog_data` data frame to only include columns 1-8, 29, 30, and 37 and the first 20 rows and assign it to `dog_trimmed`.
+
+`Type code here.`
+
+
+
+**Problem 5: (2 pts)**  Sometimes you may want your subject ID column to be a factor for modeling purposes. Type (and run) the code to create a new column in `dog_trimmed` called `id_fac` and convert the `id` column to a factor. *Hint: Remember the `$` operator.*
+
+`Type code here.`
+
+
+
+**Problem 6: (2 pts)**  Let say that you know for a fact that you recruited only owners who identified as female for your study. While validating your data, you see that one of your participants is listed as male in the `dog_trimmed` data frame. This must be a data entry mistake. Type (and run) the code that you would use to fix the mistake by first creating a new data frame called `dog_validated` and then replacing the `Male` entry with `Female`. *Hint: This will take two lines of code.*
+
+`Type code here.`
+
+
+**Problem 7: (3 pts)**  Using the [`{dataReporter}`](https://github.com/ekstroem/dataReporter/) package, create a codebook for `dog_validated` (including the argument `file = "mycodebook.Rmd"`). If it is not already there, copy/move the codebook into the same directory as this Rmd file, and uncomment the following code (highlight the four lines and press Ctrl/Cmd+Shift+C) to append the codebook to this document.
+
+<!-- \includegraphics[page=1]{mycodebook.pdf}  -->
+<!-- \includegraphics[page=2]{mycodebook.pdf}  -->
+<!-- \includegraphics[page=3]{mycodebook.pdf}  -->
+<!-- \includegraphics[page=4]{mycodebook.pdf}  -->
