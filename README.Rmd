@@ -63,7 +63,7 @@ kable(schedule, format = "markdown") #%>%
 \vspace{-5mm}
 FDV = [Fundamentals of Data Visualization](https://clauswilke.com/dataviz), R4DS = [R for Data Science](https://r4ds.had.co.nz/), RMC = [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook), RYWM = [RYouWithMe](https://rladiessydney.org/courses/ryouwithme/), SIDS = [Statistical Inference via Data Science](https://moderndive.netlify.app/)
 
-![](docs/meetings/images/monster_support_allisonhorst.jpg)
+![](figures/monster_support_allisonhorst.jpg)
 
 
 Illustrations by [Allison Horst](https://www.allisonhorst.com/).

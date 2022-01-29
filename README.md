@@ -1,7 +1,7 @@
 
 # Data Science and Visualization in R
 
-Update: 2022-01-22
+Update: 2022-01-29
 
 This is the repository for PSYC 492/971 Data Science and Visualization
 in R. In it, you will find:
@@ -66,6 +66,6 @@ Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook), RYWM =
 [Statistical Inference via Data
 Science](https://moderndive.netlify.app/)
 
-![](docs/meetings/images/monster_support_allisonhorst.jpg)
+![](figures/monster_support_allisonhorst.jpg)
 
 Illustrations by [Allison Horst](https://www.allisonhorst.com/).
