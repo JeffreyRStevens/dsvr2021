@@ -4,6 +4,8 @@ output: github_document
 
 # Data Science and Visualization in R
 
+<img src="images/dsvr2021_hex.png" alt="DSVR 2021 hex sticker" width="200" align="right"/>
+
 Update:  `r Sys.Date()`
 
 This is the repository for PSYC 492/971 Data Science and Visualization in R. In it, you will find:
@@ -63,7 +65,7 @@ kable(schedule, format = "markdown") #%>%
 \vspace{-5mm}
 FDV = [Fundamentals of Data Visualization](https://clauswilke.com/dataviz), R4DS = [R for Data Science](https://r4ds.had.co.nz/), RMC = [R Markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook), RYWM = [RYouWithMe](https://rladiessydney.org/courses/ryouwithme/), SIDS = [Statistical Inference via Data Science](https://moderndive.netlify.app/)
 
-![](figures/monster_support_allisonhorst.jpg)
+![Remote R learners, we believe in you](images/monster_support_allisonhorst.jpg)
 
 
 Illustrations by [Allison Horst](https://www.allisonhorst.com/).

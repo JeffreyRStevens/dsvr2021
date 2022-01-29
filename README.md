@@ -1,6 +1,8 @@
 
 # Data Science and Visualization in R
 
+<img src="images/dsvr2021_hex.png" alt="DSVR 2021 hex sticker" width="200" align="right"/>
+
 Update: 2022-01-29
 
 This is the repository for PSYC 492/971 Data Science and Visualization
@@ -66,6 +68,7 @@ Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook), RYWM =
 [Statistical Inference via Data
 Science](https://moderndive.netlify.app/)
 
-![](figures/monster_support_allisonhorst.jpg)
+![Remote R learners, we believe in
+you](images/monster_support_allisonhorst.jpg)
 
 Illustrations by [Allison Horst](https://www.allisonhorst.com/).
